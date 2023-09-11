@@ -1,8 +1,8 @@
 # IsaacSocket-Mod
 这是一个《以撒的结合》的Mod，可以为《以撒的结合》提供连接WebSocket，剪贴板读写等接口
 ## 如何安装和使用
-- 安装 IsaacSocket Mod 到您的游戏  
-- 下载 IsaacSocket 连接工具 并将其启动  
+- 从 [创意工坊](https://steamcommunity.com/sharedfiles/filedetails/?id=3033763718) 订阅 Mod：IsaacSocket  
+- 下载 [IsaacSocket 连接工具](https://github.com/LanbingIce/IsaacSocket-Utility/releases) 并将其启动  
 - 进入游戏，当看到 IsaacSocket 连接工具 的窗口中出现“已连接！XXXX”的提示时，说明Mod已经正常工作
 - 启动需要 IsaacSocket 作为前置的其他Mod，或者调用 IsaacSocket 的接口，开发您的Mod
 ## 如何在您的Mod中调用 IsaacSocket 的接口
