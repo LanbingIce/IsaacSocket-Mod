@@ -143,8 +143,13 @@ local function NewSendTable()
         buffer = {}
         messages = {}
     end
+
     function object.AddNewMessage(newMessage)
+        if connectionState == ConnectionState.CONNECTED then
         table.insert(messages, newMessage)
+            return true
+        end
+        return false
     end
 
     function object.Update()
@@ -224,7 +229,7 @@ local function cw(text)
 end
 
 local function Send(channel, data)
-    sendTable.AddNewMessage(string.pack("<I1", channel) .. data)
+    return sendTable.AddNewMessage(string.pack("<I1", channel) .. data)
 end
 
 -- 更新内存连接状态，同时进行收发数据，需要每帧运行60次
@@ -304,7 +309,7 @@ end
 -- 模块回调
 local function ModuleCallback(callbackType, channel, message)
     if callbackType == CallbackType.MEMORY_MESSAGE_GENERATED and connectionState == ConnectionState.CONNECTED then
-        Send(channel, message)
+        return Send(channel, message)
     elseif callbackType == CallbackType.PRINT then
         cw("Channel " .. channel .. ":" .. message)
     end

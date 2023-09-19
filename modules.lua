@@ -142,8 +142,7 @@ local function NewWebSocketClientModule(channel, callback)
                 data = ""
             end
 
-            callback(CallbackType.MEMORY_MESSAGE_GENERATED, channel, string.pack("<I1I1", actionType, id) .. data)
-            return true
+            return callback(CallbackType.MEMORY_MESSAGE_GENERATED, channel, string.pack("<I1I1", actionType, id) .. data)
         end
 
         -- websocket操作对象方法:设置websocket状态
@@ -228,13 +227,14 @@ local function NewWebSocketClientModule(channel, callback)
         state = WebSocketState.CONNECTING
 
         if id == 0 then
-            if type(webSockets[id]) == "table" and webSockets[id].SetState(WebSocketState.CLOSED) then
-                webSockets[id].callbackOnError("Too many connections")
-            end
-        end
+            webSocketOperation.SetState(WebSocketState.CLOSED)
+            webSocketOperation.callbackOnError("Too many connections")
+        elseif webSocketOperation.Send(ActionType.CONNECT, tostring(address)) then
         webSockets[id] = webSocketOperation
-
-        webSocketOperation.Send(ActionType.CONNECT, tostring(address))
+        else
+            webSocketOperation.SetState(WebSocketState.CLOSED)
+            webSocketOperation.callbackOnError("IsaacSocket Disconnected")
+        end
 
         return webSocketInterface
     end
