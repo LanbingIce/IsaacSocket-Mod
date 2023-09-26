@@ -1,8 +1,5 @@
--- 注册Mod，暴露接口
+-- 注册Mod
 local isaacSocketMod = RegisterMod("IsaacSocket", 1)
--- 接口的具体定义在最底部
-IsaacSocket = {}
-
 ----------------------------------------------------------------
 -- 常量定义
 -- 头部长度：6字节
@@ -19,13 +16,8 @@ local ConnectionState = {
     UNLOADING = 3,
     UNLOADED = 4
 }
--- 回调类型与消息通道枚举，从common模块中引入
-local CallbackType = require("common").ModuleCallbackType
-local Channel = require("common").Channel
 ----------------------------------------------------------------
 -- 变量定义
--- 模块列表
-local modules
 -- 交换区的内存大小和最大数据体长度
 local dataSpaceSize
 local dataBodySize
@@ -35,12 +27,10 @@ local ext_receive
 -- 用于生成发送数据和用于解析接收数据的表，分别对应ext_send和ext_receive
 local sendTable
 local receiveTable
--- 心跳包计时器，每帧+1，到达300会发送心跳包，到达360会超时
-local heartbeatTimer
 -- 连接状态，取枚举型ConnectionState的值
 local connectionState
 -- debug模式
-local debugMode = false
+local debugMode = true
 ----------------------------------------------------------------
 -- 类定义
 -- 接收表
@@ -146,7 +136,7 @@ local function NewSendTable()
 
     function object.AddNewMessage(newMessage)
         if connectionState == ConnectionState.CONNECTED then
-        table.insert(messages, newMessage)
+            table.insert(messages, newMessage)
             return true
         end
         return false
@@ -191,41 +181,20 @@ local function NewSendTable()
     return object
 end
 
--- 心跳包计时器
-local function NewHeartBeatTimer(callback)
-    local timer
-    local CallbackSend
-
-    local HEARTBEAT_INTERVAL = 2 * 60
-    local HEARTBEAT_TIMEOUT = 1 * 60
-
-    local object = {}
-
-    function object.Update(received)
-        timer = timer + 1
-        if received then
-            timer = 0
-        elseif timer > HEARTBEAT_INTERVAL + HEARTBEAT_TIMEOUT then
-            return false
-        elseif timer == HEARTBEAT_INTERVAL then
-            CallbackSend(Channel.HEARTBEAT, "")
-        end
-        return true
-    end
-    CallbackSend = callback
-    timer = 0
-
-    return object
-end
-
 ----------------------------------------------------------------
 -- 普通函数定义
 -- 
 
-local function cw(text)
+local function cw(...)
     if debugMode then
-        return print("*IsaacSocket: " .. text)
+        local args = {...}
+        local text = tostring(args[1])
+        for i = 2, select("#", ...) do
+            text = text .. " " .. tostring(args[i])
+        end
+        return print("*IsaacSocket: " .. tostring(text))
     end
+    return false
 end
 
 local function Send(channel, data)
@@ -237,15 +206,14 @@ local function Update()
     if connectionState == ConnectionState.CONNECTED then
         -- 正常连接状态
         -- 解析接收变量，如果成功更新，说明有新消息，将心跳包计时器置为 0
-        if heartbeatTimer.Update(receiveTable.Update(ext_receive)) then
+        if require("modules.common").Heartbeat.Update(receiveTable.Update(ext_receive)) then
             local newMessage = receiveTable.GetMessage()
             while newMessage do
                 local messageChannel, messageOffset = string.unpack("<I1", newMessage)
-                -- 虽然这边不可能收到心跳包，但还是判断一下
-                if messageChannel ~= Channel.HEARTBEAT then
-                    local messageBody = string.sub(newMessage, messageOffset)
-                    modules[messageChannel].ReceiveMemoryMessage(messageBody)
-                end
+
+                local messageBody = string.sub(newMessage, messageOffset)
+                require("modules.common").ReceiveMemoryMessage(messageChannel, messageBody)
+
                 newMessage = receiveTable.GetMessage()
             end
 
@@ -257,9 +225,7 @@ local function Update()
             connectionState = ConnectionState.DISCONNECTED
             cw("Timeout")
             -- 触发所有模块的断开连接事件
-            for _, module in pairs(modules) do
-                module.DisConnected()
-            end
+            require("modules.common").DisConnected()
         end
     elseif connectionState == ConnectionState.CONNECTING then
         -- 未连接状态下，接收和发送变量的值都为约定好的特殊值，如果它们的值变化，说明它们的地址已被外部程序找到
@@ -271,7 +237,6 @@ local function Update()
         elseif ext_send == 1 and ext_receive >= 64 and ext_receive <= 4 * 1024 * 1024 then
             dataSpaceSize = ext_receive
             dataBodySize = dataSpaceSize - DATA_HEAD_SIZE
-            heartbeatTimer.Update(true)
             sendTable.Initialize()
             receiveTable.Initialize()
 
@@ -280,10 +245,7 @@ local function Update()
             connectionState = ConnectionState.CONNECTED
             cw("Connected[" .. dataSpaceSize .. "]")
             -- 触发所有模块的已连接事件
-            for _, module in pairs(modules) do
-                module.Connected()
-            end
-
+            require("modules.common").Connected()
         else
             connectionState = ConnectionState.DISCONNECTED
             cw("Connect Error")
@@ -308,11 +270,28 @@ end
 
 -- 模块回调
 local function ModuleCallback(callbackType, channel, message)
+    local CallbackType = require("modules.common").CallbackType
     if callbackType == CallbackType.MEMORY_MESSAGE_GENERATED and connectionState == ConnectionState.CONNECTED then
         return Send(channel, message)
     elseif callbackType == CallbackType.PRINT then
-        cw("Channel " .. channel .. ":" .. message)
+        if debugMode then
+            local channelName
+            if channel == 0 then
+                channelName = "Heartbeat"
+            elseif channel == 1 then
+                channelName = "WebSocketClient"
+            elseif channel == 2 then
+                channelName = "ClipBoard"
+            elseif channel == 3 then
+                channelName = "HttpClient"
+            else
+                channelName = channel
+            end
+            return print("*IsaacSocket." .. channelName .. ": " .. message)
+        end
+
     end
+    return false
 end
 
 -- 画面渲染
@@ -329,9 +308,7 @@ local function OnUnload(_, mod)
 
     if connectionState == ConnectionState.CONNECTED then
         connectionState = ConnectionState.DISCONNECTED
-        for _, module in pairs(modules) do
-            module.DisConnected()
-        end
+        require("modules.common").DisConnected()
     end
 
     connectionState = ConnectionState.UNLOADING
@@ -344,46 +321,47 @@ end
 connectionState = ConnectionState.UNLOADED
 Update()
 
-heartbeatTimer = NewHeartBeatTimer(Send)
 receiveTable = NewReceiveTable()
 sendTable = NewSendTable()
 
-modules = {}
-
-for _, channel in pairs(Channel) do
-    modules[channel] = require("modules").NewModule(channel, ModuleCallback)
-end
-
+require("modules.common").SetCallback(ModuleCallback)
 Update()
 
 isaacSocketMod:AddCallback(ModCallbacks.MC_POST_RENDER, OnRender)
 isaacSocketMod:AddCallback(ModCallbacks.MC_PRE_MOD_UNLOAD, OnUnload)
 ----------------------------------------------------------------
 -- 接口定义
+IsaacSocket = {}
 IsaacSocket.WebSocketClient = {}
 IsaacSocket.Clipboard = {}
+IsaacSocket.HttpClient = {}
 
 -- 获取连接状态,如果返回false，说明IsaacSocket尚未连接，暂时不可用
 function IsaacSocket.IsConnected()
     return connectionState == ConnectionState.CONNECTED
 end
+-- 模块列表
 
-IsaacSocket.WebSocketClient.State = modules[Channel.WEB_SOCKET_CLIENT].WebSocketState
-IsaacSocket.WebSocketClient.CloseStatus = modules[Channel.WEB_SOCKET_CLIENT].WebSocketCloseStatus
+-- Websocket状态枚举，已过时
+IsaacSocket.WebSocketClient.State = require("utils").CloneTable(require("modules.common").WebSocketClient.State)
 
--- 创建一个WebsocketClient对象，第一个参数是地址，例如"ws://localhost:80" ,后面四个参数是回调，请提供函数
-function IsaacSocket.WebSocketClient.New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed,
-    callbackOnError)
-    return modules[Channel.WEB_SOCKET_CLIENT].New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed,
+-- 创建一个WebsocketClient对象，第一个参数是地址，后面四个参数是回调，请提供函数
+function IsaacSocket.WebSocketClient.New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed, callbackOnError)
+    return require("modules.common").WebSocketClient.New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed,
         callbackOnError)
-
 end
 -- 获取剪贴板文本
 function IsaacSocket.Clipboard.GetClipboard()
-    return modules[Channel.CLIPBOARD].GetClipboard()
+    return require("modules.common").Clipboard.GetClipboard()
 end
 
 -- 设置剪贴板文本
 function IsaacSocket.Clipboard.SetClipboard(text)
-    return modules[Channel.CLIPBOARD].SetClipboard(text)
+    return require("modules.common").Clipboard.SetClipboard(text)
 end
+
+-- 发送get请求，headers是table或者留空，返回一个Task对象
+function IsaacSocket.HttpClient.GetAsync(url, headers)
+    return require("modules.common").HttpClient.GetAsync(url, headers)
+end
+
