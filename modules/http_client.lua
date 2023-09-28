@@ -44,6 +44,32 @@ local function GetAsync(url, headers)
     end
     return task
 end
+-- 发送一个Post请求，返回Task对象
+local function PostAsync(url, headers, body)
+    if type(url) ~= "string" then
+        url = ""
+    end
+    if type(headers) ~= "table" then
+        headers = {}
+    end
+    if type(body) ~= "string" then
+        body = ""
+    end
+    local headersString = require("json").encode(headers)
+    -- json库会把空表默认解析为空数组，这里手动改成空表
+    -- 也可以防止用户传入一个数组
+    if string.sub(headersString, 1, 1) == "[" then
+        headersString = "{}"
+    end
+    -- 创建一个新任务
+    local id, task = require("modules.common").Task.New()
+    -- 发送内存消息，如果失败的话，任务失败
+    if not MemoryMessageGenerated(string.pack("<I1I2I2I2", ActionType.POST_REQUEST, id, #url, #headersString) .. url ..
+                                      headersString .. body) then
+        require("modules.common").Task.Fail(id, "IsaacSocket Disconnected")
+    end
+    return task
+end
 -- 收到内存消息
 local function ReceiveMemoryMessage(message)
     -- 1字节action，2字节id
@@ -91,6 +117,7 @@ end
 -- 模块定义
 local module = {}
 module.GetAsync = GetAsync
+module.PostAsync = PostAsync
 module.ReceiveMemoryMessage = ReceiveMemoryMessage
 module.Connected = Connected
 module.DisConnected = DisConnected

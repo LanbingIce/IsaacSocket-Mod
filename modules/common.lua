@@ -117,5 +117,6 @@ module.Clipboard.SetClipboard = modules[Channel.CLIPBOARD].SetClipboard
 -- HttpClient模块
 module.HttpClient = {}
 module.HttpClient.GetAsync = modules[Channel.HTTP_CLIENT].GetAsync
+module.HttpClient.PostAsync = modules[Channel.HTTP_CLIENT].PostAsync
 
 return module

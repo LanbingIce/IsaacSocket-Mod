@@ -365,3 +365,7 @@ function IsaacSocket.HttpClient.GetAsync(url, headers)
     return require("modules.common").HttpClient.GetAsync(url, headers)
 end
 
+-- 发送post请求，headers是table或者留空，body是正文，返回一个Task对象
+function IsaacSocket.HttpClient.PostAsync(url, headers, body)
+    return require("modules.common").HttpClient.PostAsync(url, headers, body)
+end
