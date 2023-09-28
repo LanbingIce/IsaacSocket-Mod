@@ -251,7 +251,7 @@
   - 返回值：执行结果为[Response](#response)的[Task](#task)对象
   - 参数：
     - `url`：要请求的**url**，支持 **http** 和 **https** 协议
-    - `headers`：**HTTP 请求标头**，请传入一个lua表，键为标头名称，值为标头值，可以留空，留空默认为空表，详见[HTTP 请求标头](https://developer.mozilla.org/zh-CN/docs/Glossary/Response_header)
+    - `headers`：**HTTP 请求标头**，请传入一个lua表，键为标头名称，值为标头值，可以留空，留空默认为空表，详见[HTTP 请求标头](https://developer.mozilla.org/zh-CN/docs/Glossary/Request_header)
   
   - 使用示例（调用B站api，获取当前的时间戳，调用这个api，User-Agent并不是必须的，此处只是为了演示`headers`的用法）：
   
@@ -273,6 +273,42 @@
   end
   ```
 
+- `PostAsync(url, headers, body)`  
+
+  - 功能：发送 **HTTP POST请求**，这是一个异步函数
+  - 返回值：执行结果为[Response](#response)的[Task](#task)对象
+  - 参数：
+    - `url`：要请求的**url**，支持 **http** 和 **https** 协议
+    - `headers`：**HTTP 请求标头**，请传入一个lua表，键为标头名称，值为标头值，可以留空，留空默认为空表，详见[HTTP 请求标头](https://developer.mozilla.org/zh-CN/docs/Glossary/Request_header)，请将表示标头也放入其中，详见 [HTTP 表示标头](https://developer.mozilla.org/zh-CN/docs/Glossary/Representation_header)
+    - `body`：**HTTP 请求主体**
+
+  - 使用示例（调用B站api，在作者的直播间发送弹幕"hello"，请将`cookie`和`csrf`换成你自己的）
+  
+  ```lua
+      local cookie = "your_cookie"
+      local csrf = "your_csrf"
+      local msg = "hello"
+      local url = "https://api.live.bilibili.com/msg/send"
+      local headers = {
+          ["Cookie"] = cookie,
+          ["Content-Type"] = "application/x-www-form-urlencoded"
+      }
+      local body = "bubble=0&msg=" .. msg .. "&color=16777215&mode=1&fontsize=25&rnd=1637323682&roomid=3092145&csrf=" .. csrf
+      IsaacSocket.HttpClient.PostAsync(url, headers, body).Then(function(task)
+          local result = task.GetResult()
+          if task.IsCompletedSuccessfully() then
+              local json = require("json").decode(result)
+              if json.code == 0 then
+                  print("Sending a danmaku successfully.")
+              else
+                  print("Sending a danmaku failed due to:" .. json.message)
+              end
+          else
+              print("faulted:" .. tostring(result))
+          end
+      end)
+  ```
+  
 ## 衍生对象介绍
 
 有些接口的使用过程中，会产生一些衍生对象
@@ -324,7 +360,7 @@
   - `GetResult()`
 
     - 功能：如果任务成功完成，可以获取异步任务的执行结果，如果任务失败，则可以获取失败原因字符串
-    - 返回值：如果任务成功完成，返回执行结果对象，如果任务失败，返回失败原因字符串，如果任务仍在执行，返回nil
+    - 返回值：如果任务成功完成，返回执行结果对象，如果任务失败，返回失败原因字符串，如果任务仍在执行，返回`nil`
 
   - `IsCompletedSuccessfully()`
 
