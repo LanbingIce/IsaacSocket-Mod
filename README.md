@@ -279,8 +279,8 @@
   - 返回值：执行结果为[Response](#response)的[Task](#task)对象
   - 参数：
     - `url`：要请求的**url**，支持 **http** 和 **https** 协议
-    - `headers`：**HTTP 请求标头**，请传入一个lua表，键为标头名称，值为标头值，可以留空，留空默认为空表，详见[HTTP 请求标头](https://developer.mozilla.org/zh-CN/docs/Glossary/Request_header)，请将表示标头也放入其中，详见 [HTTP 表示标头](https://developer.mozilla.org/zh-CN/docs/Glossary/Representation_header)
-    - `body`：**HTTP 请求主体**
+    - `headers`：**HTTP 请求标头** 和 **HTTP 表示标头**，请传入一个lua表，键为标头名称，值为标头值，可以留空，留空默认为空表，详见[HTTP 请求标头](https://developer.mozilla.org/zh-CN/docs/Glossary/Request_header)和[HTTP 表示标头](https://developer.mozilla.org/zh-CN/docs/Glossary/Representation_header)，对于 **HTTP POST请求** 来说，一般必须有 **Content-Type** 表示标头，它表示请求主体的数据类型
+    - `body`：**HTTP 请求主体** ，请传入一个字符串，把要发送的数据放在里面
 
   - 使用示例（调用B站api，在作者的直播间发送弹幕"hello"，请将`cookie`和`csrf`换成你自己的）
   
@@ -297,7 +297,7 @@
       IsaacSocket.HttpClient.PostAsync(url, headers, body).Then(function(task)
           local result = task.GetResult()
           if task.IsCompletedSuccessfully() then
-              local json = require("json").decode(result)
+              local json = require("json").decode(result.body)
               if json.code == 0 then
                   print("Sending a danmaku successfully.")
               else
@@ -403,8 +403,8 @@
 
   - `statusCode` **HTTP 响应状态码**，详见[HTTP 响应状态码](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status)
   - `reasonPhrase` **HTTP 响应状态文本**
-  - `headers` **HTTP 响应标头**，是一个lua表，键为标头名称，值为标头值，详见[HTTP 响应标头](https://developer.mozilla.org/zh-CN/docs/Glossary/Response_header)
-  - `body` **HTTP 响应正文**
+  - `headers` **HTTP 响应标头**，是一个具有多个键值对的lua表，键为标头名称，值为标头值，详见[HTTP 响应标头](https://developer.mozilla.org/zh-CN/docs/Glossary/Response_header)
+  - `body` **HTTP 响应主体**
 
 ## 常见问题
 
