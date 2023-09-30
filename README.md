@@ -326,7 +326,7 @@
   - `GetState()`  （已过时，不要使用，将在下个版本删除）
     - 功能：得到 **WebSocket** 连接的状态
     - 返回值：`IsaacSocket.WebSocketClient.State`枚举
-  - `IsConnected()`  
+  - `IsOpen()`  
     - 功能：判断 **WebSocket**是否已经连接
     - 返回值：**bool**，`true`表示成功连接，`false`表示未成功连接
   - `IsClosed()`  
@@ -336,7 +336,7 @@
     - 功能：发送一条 **WebSocket** 消息
     - 参数：`message`是要发送的消息，`isBinary`表示是否为二进制数据，如果为false则为文本消息，如果留空默认为文本消息
   - `Close(closeStatus, statusDescription)`  
-    - 功能：关闭连接，**WebSocket** 连接将进入“正在关闭”状态，此时`IsConnected()`和`IsClosed()`都会返回`false`，直到成功关闭
+    - 功能：关闭连接，**WebSocket** 连接将进入“正在关闭”状态，此时`IsOpen()`和`IsClosed()`都会返回`false`，直到成功关闭
     - 参数：
       - `closeStatus`： **WebSocket 关闭状态码** ，详见[WebSocket 关闭状态码](https://developer.mozilla.org/zh-CN/docs/Web/API/CloseEvent#%E5%B1%9E%E6%80%A7)，可以留空，默认为`1000`，
       - `statusDescription`： **关闭描述字符串**，可以留空，默认为空字符串
@@ -344,7 +344,7 @@
 - 使用示例（检查 **WebSocket** 是否已经连接，如果已经连接，则发送一条文本消息"hello"）：
 
   ```lua
-  if ws.IsConnected() then
+  if ws.IsOpen() then
       ws.Send("hello", false)
   end
   ```
