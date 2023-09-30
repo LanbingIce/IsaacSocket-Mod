@@ -347,10 +347,6 @@ IsaacSocket.HttpClient = {}
 function IsaacSocket.IsConnected()
     return connectionState == ConnectionState.CONNECTED
 end
--- 模块列表
-
--- Websocket状态枚举，已过时
-IsaacSocket.WebSocketClient.State = require("utils").CloneTable(require("modules.common").WebSocketClient.State)
 
 -- 创建一个WebsocketClient对象，第一个参数是地址，后面四个参数是回调，请提供函数
 function IsaacSocket.WebSocketClient.New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed, callbackOnError)

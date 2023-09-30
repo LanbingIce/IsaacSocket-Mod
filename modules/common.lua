@@ -106,7 +106,6 @@ module.Heartbeat.Update = modules[Channel.HEARTBEAT].Update
 --------------------------------
 -- WebSocketClient模块
 module.WebSocketClient = {}
-module.WebSocketClient.State = modules[Channel.WEB_SOCKET_CLIENT].State
 module.WebSocketClient.New = modules[Channel.WEB_SOCKET_CLIENT].New
 --------------------------------
 -- Clipboard模块

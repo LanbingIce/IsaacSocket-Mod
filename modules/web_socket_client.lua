@@ -15,7 +15,7 @@ local ActionType = {
     -- 出现错误
     ON_ERROR = 5
 }
--- WebSocket状态枚举，已过时
+-- WebSocket状态枚举
 local WebSocketState = {
     -- 正在连接
     CONNECTING = 0,
@@ -130,12 +130,6 @@ local function New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed,
     -- WebSocket接口对象方法:是否已关闭
     function webSocketInterface.IsClosed()
         return state == WebSocketState.CLOSED
-    end
-    -- WebSocket接口对象方法:获取websocket状态（已过时方法）
-    function webSocketInterface.GetState()
-        print(
-            "*IsaacSocket: This method 'GetState()' is deprecated, please use the new methods 'IsOpen()' and 'IsClosed()'.")
-        return state
     end
     --------------------------------
     -- WebSocket对象初始化
@@ -253,7 +247,6 @@ webSocketInternals = {}
 ----------------------------------------------------------------
 -- 模块定义
 local module = {}
-module.State = WebSocketState -- 过时
 module.New = New
 module.ReceiveMemoryMessage = ReceiveMemoryMessage
 module.Connected = Connected
