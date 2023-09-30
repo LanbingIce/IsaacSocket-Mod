@@ -30,7 +30,7 @@ local receiveTable
 -- 连接状态，取枚举型ConnectionState的值
 local connectionState
 -- debug模式
-local debugMode = true
+local debugMode
 ----------------------------------------------------------------
 -- 类定义
 -- 接收表
@@ -318,6 +318,13 @@ end
 
 ----------------------------------------------------------------
 -- 此处代码在Mod被加载时运行
+local modData = isaacSocketMod:LoadData()
+local isSuccess, result = pcall(require("json").decode, modData)
+debugMode = false
+if isSuccess and result.debug then
+    debugMode = true
+end
+
 connectionState = ConnectionState.UNLOADED
 Update()
 
