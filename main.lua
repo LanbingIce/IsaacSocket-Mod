@@ -197,6 +197,16 @@ local function cw(...)
     return false
 end
 
+local function LoadConfig()
+    -- 读取配置文件
+    local modData = isaacSocketMod:LoadData()
+    local isSuccess, result = pcall(require("json").decode, modData)
+    debugMode = false
+    if isSuccess and result.debug then
+        debugMode = true
+    end
+end
+
 local function Send(channel, data)
     return sendTable.AddNewMessage(string.pack("<I1", channel) .. data)
 end
@@ -235,6 +245,7 @@ local function Update()
         if ext_send == 2128394904 and ext_receive == 1842063751 then
             return
         elseif ext_send == 1 and ext_receive >= 64 and ext_receive <= 4 * 1024 * 1024 then
+            LoadConfig()
             dataSpaceSize = ext_receive
             dataBodySize = dataSpaceSize - DATA_HEAD_SIZE
             sendTable.Initialize()
@@ -318,13 +329,7 @@ end
 
 ----------------------------------------------------------------
 -- 此处代码在Mod被加载时运行
-local modData = isaacSocketMod:LoadData()
-local isSuccess, result = pcall(require("json").decode, modData)
-debugMode = false
-if isSuccess and result.debug then
-    debugMode = true
-end
-
+LoadConfig()
 connectionState = ConnectionState.UNLOADED
 Update()
 
