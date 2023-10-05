@@ -17,6 +17,10 @@ local ConnectionState = {
     UNLOADED = 4
 }
 ----------------------------------------------------------------
+-- 工具变量定义
+-- 字体
+local font = Font()
+----------------------------------------------------------------
 -- 变量定义
 -- 交换区的内存大小和最大数据体长度
 local dataSpaceSize
@@ -29,6 +33,8 @@ local sendTable
 local receiveTable
 -- 连接状态，取枚举型ConnectionState的值
 local connectionState
+-- 显示提示文字的计时器
+local hintTextTimer
 -- debug模式
 local debugMode
 ----------------------------------------------------------------
@@ -185,6 +191,7 @@ end
 -- 普通函数定义
 -- 
 
+-- 调试输出
 local function cw(...)
     if debugMode then
         local args = {...}
@@ -196,9 +203,8 @@ local function cw(...)
     end
     return false
 end
-
+-- 读取配置文件
 local function LoadConfig()
-    -- 读取配置文件
     local modData = isaacSocketMod:LoadData()
     local isSuccess, result = pcall(require("json").decode, modData)
     debugMode = false
@@ -207,12 +213,26 @@ local function LoadConfig()
     end
 end
 
+-- 发送一条内存消息
 local function Send(channel, data)
     return sendTable.AddNewMessage(string.pack("<I1", channel) .. data)
 end
 
+-- 渲染提示文字
+local function RenderHintText()
+    if connectionState == ConnectionState.CONNECTED and hintTextTimer > 0 then
+        font:DrawStringScaledUTF8("IsaacSocket 连接成功!", 2, 0, 0.5, 0.5, KColor(0, 1, 0, 1), 0, false)
+    elseif connectionState == ConnectionState.CONNECTING then
+        hintTextTimer = 180
+        font:DrawStringScaledUTF8(
+            "IsaacSocket 连接失败,请查看 IsaacSocket 的创意工坊页面,按照页面上的使用步骤下载 IsaacSocket.exe 并启动",
+            2, 0, 0.5, 0.5, KColor(1, 1, 1, 1), 0, false)
+    end
+
+end
+
 -- 更新内存连接状态，同时进行收发数据，需要每帧运行60次
-local function Update()
+local function StateUpdate()
     if connectionState == ConnectionState.CONNECTED then
         -- 正常连接状态
         -- 解析接收变量，如果成功更新，说明有新消息，将心跳包计时器置为 0
@@ -305,13 +325,20 @@ local function ModuleCallback(callbackType, channel, message)
     return false
 end
 
--- 画面渲染
+-- 逻辑更新回调
+local function OnUpdate()
+    if hintTextTimer > 0 then
+        hintTextTimer = hintTextTimer - 1
+    end
+end
+
+-- 画面渲染回调
 local function OnRender()
-    Update()
+    StateUpdate()
+    RenderHintText()
 end
 
 -- Mod被卸载时（包括重新加载）
-
 local function OnUnload(_, mod)
     if connectionState == ConnectionState.UNLOADED then
         return
@@ -323,23 +350,27 @@ local function OnUnload(_, mod)
     end
 
     connectionState = ConnectionState.UNLOADING
-    Update()
-
+    StateUpdate()
 end
-
 ----------------------------------------------------------------
 -- 此处代码在Mod被加载时运行
+font:Load("font/cjk/lanapixel.fnt")
+hintTextTimer = 0
+
 LoadConfig()
+
 connectionState = ConnectionState.UNLOADED
-Update()
+StateUpdate()
 
 receiveTable = NewReceiveTable()
 sendTable = NewSendTable()
 
 require("modules.common").SetCallback(ModuleCallback)
-Update()
+
+StateUpdate()
 
 isaacSocketMod:AddCallback(ModCallbacks.MC_POST_RENDER, OnRender)
+isaacSocketMod:AddCallback(ModCallbacks.MC_POST_UPDATE, OnUpdate)
 isaacSocketMod:AddCallback(ModCallbacks.MC_PRE_MOD_UNLOAD, OnUnload)
 ----------------------------------------------------------------
 -- 接口定义
