@@ -224,7 +224,7 @@ local function RenderHintText()
         font:DrawStringScaledUTF8("IsaacSocket 连接成功!", 2, 0, 0.5, 0.5, KColor(0, 1, 0, 1), 0, false)
     elseif connectionState == ConnectionState.CONNECTING then
         font:DrawStringScaledUTF8(
-            "IsaacSocket 连接失败,请查看 IsaacSocket 的创意工坊页面,按照页面上的使用步骤下载 IsaacSocket.exe 并启动",
+            "IsaacSocket 连接失败,请查看 IsaacSocket 的创意工坊页面,按照页面上的使用步骤下载 IsaacSocket.exe 并启动,如果仍然失败,可以尝试关闭杀毒软件或者使用管理员模式启动 IsaacSocket.exe",
             2, 0, 0.5, 0.5, KColor(1, 1, 1, 1), 0, false)
     end
 
@@ -274,6 +274,8 @@ local function StateUpdate()
             ext_send = sendTable.Serialize()
             connectionState = ConnectionState.CONNECTED
             cw("Connected[" .. dataSpaceSize .. "]")
+            -- 5秒钟的连接成功提示
+            hintTextTimer = 5 * 30
             -- 触发所有模块的已连接事件
             require("modules.common").Connected()
         else
@@ -291,8 +293,6 @@ local function StateUpdate()
     elseif connectionState == ConnectionState.DISCONNECTED then
         connectionState = ConnectionState.CONNECTING
         cw("Connecting...")
-        -- 3秒钟的连接成功提示
-        hintTextTimer = 3 * 60
         ext_send = 2128394904
         ext_receive = 1842063751
     end
