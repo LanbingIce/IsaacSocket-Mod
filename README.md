@@ -26,13 +26,7 @@
 
   2. 下载 [IsaacSocket 连接工具](https://github.com/LanbingIce/IsaacSocket-Utility/releases/latest) 并将其启动  
 
-  3. 进入游戏，当看到 **IsaacSocket 连接工具** 的窗口中出现类似如下的提示时，说明 **IsaacSocket-Mod** 已经正常工作
-
-      \- 09:49:02 以撒进程已找到！
-
-      \- 09:49:14 正在等待Mod回应...
-
-      \- 09:49:16 已连接！交换区大小：1024字节
+  3. 进入游戏，当看到游戏画面的左上角出现绿色的 **IsaacSocket 连接成功!** 的字样，说明 **IsaacSocket-Mod** 已经正常工作
 
   4. 如果
 
@@ -51,18 +45,18 @@
 
    ````xml
    <metadata>
-    <name>my first mod</name>
-    <directory>my_first_mod</directory>
-    <description/>
-    <version>1.0</version>
-    <visibility/>
+      <name>my first mod</name>
+      <directory>my_first_mod</directory>
+      <description/>
+      <version>1.0</version>
+      <visibility/>
    </metadata>
    ````
 
 4. 建立文件`main.lua`，用文本编辑器打开，修改其内容如下并保存：
 
    ````lua
-   local myFirstMod = RegisterMod("MyFirstMod", 1)
+   local mod = RegisterMod("MyFirstMod", 1)
    local font = Font()
    font:Load("font/terminus.fnt")
    
@@ -71,15 +65,15 @@
            local text = IsaacSocket.Clipboard.GetClipboard()
            font:DrawStringScaled(text, 100, 50, 0.5, 0.5, KColor(1, 1, 1, 1), 0, true)
        else
-           font:DrawStringScaled("IsaacSocket is not installed or has not connected successfully.", 100, 50, 0.5, 0.5,
-               KColor(1, 1, 1, 1), 0, true)
+           local text = "IsaacSocket is not installed or has not connected successfully."
+           font:DrawStringScaled(text, 100, 50, 0.5, 0.5, KColor(1, 1, 1, 1), 0, true)
        end
    end
    
-   myFirstMod:AddCallback(ModCallbacks.MC_POST_RENDER, OnRender)
+   mod:AddCallback(ModCallbacks.MC_POST_RENDER, OnRender)
    ````
 
-5. 你现在已经做出了一个mod并成功调用 **IsaacSocket-Mod** 的 **ClipBoard模块** 的接口获取到了剪贴板中的文本，可以进入游戏查看效果，当你复制文本时，文本会显示在游戏画面上
+5. 你现在已经做出了一个mod并成功调用 **IsaacSocket-Mod** 的 **ClipBoard模块** 的接口获取到了剪贴板中的文本，可以进入游戏查看效果，Mod的效果是：当你复制文本时，文本会显示在游戏画面上
 
 ## 接口介绍
 
@@ -313,7 +307,7 @@
 
 有些接口的使用过程中，会产生一些衍生对象
 
-单独使用衍生对象时，不需要特意判断 **[IsaacSocket](#isaacsocket)** 是否存在和已连接
+单独使用衍生对象时，不需要特意判断 `IsaacSocket` 是否存在和已连接
 
 ### WebSocketClient
 
@@ -323,9 +317,6 @@
 
 - 成员方法：
 
-  - `GetState()`  （已过时，不要使用，将在下个版本删除）
-    - 功能：得到 **WebSocket** 连接的状态
-    - 返回值：`IsaacSocket.WebSocketClient.State`枚举
   - `IsOpen()`  
     - 功能：判断 **WebSocket**是否已经连接
     - 返回值：**bool**，`true`表示成功连接，`false`表示未成功连接
@@ -397,7 +388,7 @@
 
 ### Response
 
-- 获取方式：调用`IsaacSocket.HttpClient.GetAsync()`得到[Task对象](#task)，在任务成功完成之后，对[Task对象](#task)使用`GetResult()`
+- 获取方式：调用`IsaacSocket.HttpClient.GetAsync()`或者`IsaacSocket.HttpClient.PostAsync()`得到[Task对象](#task)，在任务成功完成之后，对[Task对象](#task)使用`GetResult()`
 - 功能：是你 **HTTP请求** 的响应对象
 - 成员：
 
@@ -408,9 +399,13 @@
 
 ## 常见问题
 
-**Q:** 已经在创意工坊订阅了 **IsaacSocket**，并在游戏中打开，**IsaacSocket 连接工具**也已经下载并运行，为什么没有显示连接成功？
+**Q:** 已经按照安装使用步骤做了每一步，为什么 **IsaacSocket 连接工具** 没有任何反应？
 
 **A:** 有可能是因为你的以撒是以管理员模式启动的，请尝试用管理员模式启动 **IsaacSocket 连接工具**
+
+**Q:** 已经按照安装使用步骤做了每一步，为什么 **IsaacSocket 连接工具** 中一直反复出现连接断开的字样？
+
+**A:** 有可能是因为 **IsaacSocket 连接工具** 的内存操作被你的杀毒软件拦截了，请尝试关闭杀毒软件
 
 如果您的问题仍然没有解决，请联系作者[B站账号](https://space.bilibili.com/15109387)
 
@@ -427,4 +422,4 @@
   end
   ```
 
-- `IsaacSocket-Mod` 的所有代码都运行在游戏的 **Render** 回调中，因此各种回调中只能执行诸如打印文字，渲染图片之类的操作，而不能执行对游戏逻辑有实质影响的操作，例如生成道具，改变实体状态等，如果需要进行这些操作，可以先保存在表里，然后在 **Update** 回调中再执行，如果不这样做，可能会引发不可预测的游戏渲染问题或者让游戏崩溃
+- **IsaacSocket-Mod** 的所有代码都运行在游戏的 **Render** 回调中，因此在各种回调函数中只能执行诸如打印文字，渲染图片之类的操作，而不能执行对游戏逻辑有实质影响的操作，例如生成道具，改变实体状态等，如果需要进行这些操作，可以先保存在表里，然后在 **Update** 回调中再执行，如果不这样做，可能会引发不可预测的游戏渲染问题或者让游戏崩溃
