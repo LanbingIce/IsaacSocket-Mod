@@ -253,6 +253,8 @@ local function StateUpdate()
         else
             connectionState = ConnectionState.DISCONNECTED
             cw("Timeout")
+            -- 触发自定义回调：断开连接
+            Isaac.RunCallback("ISAAC_SOCKET_DISCONNECTED")
             -- 触发所有模块的断开连接事件
             require("modules.common").DisConnected()
         end
@@ -278,6 +280,8 @@ local function StateUpdate()
             hintTextTimer = 5 * 30
             -- 触发所有模块的已连接事件
             require("modules.common").Connected()
+            -- 触发自定义回调：已连接
+            Isaac.RunCallback("ISAAC_SOCKET_CONNECTED")
         else
             connectionState = ConnectionState.DISCONNECTED
             cw("Connect Error")
@@ -347,6 +351,8 @@ local function OnUnload(_, mod)
 
     if connectionState == ConnectionState.CONNECTED then
         connectionState = ConnectionState.DISCONNECTED
+        -- 触发自定义回调：断开连接
+        Isaac.RunCallback("ISAAC_SOCKET_DISCONNECTED")
         require("modules.common").DisConnected()
     end
 
