@@ -26,7 +26,7 @@ local function Connected()
     channel = require("isaac_socket.modules.common").Channel.TASK
 end
 -- 在断开连接时被执行
-local function DisConnected()
+local function Disconnected()
     -- 断开连接时，让所有任务失败
     for _, task in pairs(taskInternals) do
         task.Fail("IsaacSocket Disconnected")
@@ -152,7 +152,7 @@ taskInternals = {}
 -- 模块定义
 local module = {}
 module.Connected = Connected
-module.DisConnected = DisConnected
+module.Disconnected = Disconnected
 module.Complete = Complete
 module.Fail = Fail
 module.New = New

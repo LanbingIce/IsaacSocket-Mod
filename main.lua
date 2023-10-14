@@ -256,7 +256,7 @@ local function StateUpdate()
             -- 触发自定义回调：断开连接
             Isaac.RunCallback("ISAAC_SOCKET_DISCONNECTED")
             -- 触发所有模块的断开连接事件
-            require("isaac_socket.modules.common").DisConnected()
+            require("isaac_socket.modules.common").Disconnected()
         end
     elseif connectionState == ConnectionState.CONNECTING then
         -- 未连接状态下，接收和发送变量的值都为约定好的特殊值，如果它们的值变化，说明它们的地址已被外部程序找到
@@ -353,7 +353,7 @@ local function OnUnload(_, mod)
         connectionState = ConnectionState.DISCONNECTED
         -- 触发自定义回调：断开连接
         Isaac.RunCallback("ISAAC_SOCKET_DISCONNECTED")
-        require("isaac_socket.modules.common").DisConnected()
+        require("isaac_socket.modules.common").Disconnected()
     end
 
     connectionState = ConnectionState.UNLOADING

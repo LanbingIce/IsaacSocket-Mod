@@ -232,7 +232,7 @@ local function Connected()
     channel = require("isaac_socket.modules.common").Channel.WEB_SOCKET_CLIENT
 end
 -- 在断开连接时被执行
-local function DisConnected()
+local function Disconnected()
     -- 将所有不处于关闭状态的WebSocket连接置为关闭状态，并触发其OnError回调
     for _, webSocket in pairs(webSocketInternals) do
         if webSocket.SetState(WebSocketState.CLOSED) then
@@ -250,5 +250,5 @@ local module = {}
 module.New = New
 module.ReceiveMemoryMessage = ReceiveMemoryMessage
 module.Connected = Connected
-module.DisConnected = DisConnected
+module.Disconnected = Disconnected
 return module

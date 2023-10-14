@@ -44,9 +44,9 @@ local function Connected()
     end
 end
 -- 在断开连接时被执行，调用所有模块的对应方法
-local function DisConnected()
+local function Disconnected()
     for _, m in pairs(modules) do
-        m.DisConnected()
+        m.Disconnected()
     end
 end
 -- 调试输出，在debug模式开启时有效
@@ -86,7 +86,7 @@ Callback = EMPTY_FUNCTION
 local module = {}
 module.Connected = Connected
 module.ReceiveMemoryMessage = ReceiveMemoryMessage
-module.DisConnected = DisConnected
+module.Disconnected = Disconnected
 module.Channel = Channel
 module.CallbackType = CallbackType
 module.EMPTY_FUNCTION = EMPTY_FUNCTION

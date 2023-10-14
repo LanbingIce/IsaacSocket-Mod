@@ -52,7 +52,7 @@ local function Connected()
     channel = require("isaac_socket.modules.common").Channel.HEARTBEAT
 end
 -- 在断开连接时被执行
-local function DisConnected()
+local function Disconnected()
     timer = 0
 end
 ----------------------------------------------------------------
@@ -64,5 +64,5 @@ local module = {}
 module.Update = Update
 module.ReceiveMemoryMessage = ReceiveMemoryMessage
 module.Connected = Connected
-module.DisConnected = DisConnected
+module.Disconnected = Disconnected
 return module

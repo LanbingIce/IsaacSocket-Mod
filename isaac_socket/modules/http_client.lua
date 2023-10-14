@@ -107,7 +107,7 @@ local function Connected()
     channel = require("isaac_socket.modules.common").Channel.HTTP_CLIENT
 end
 -- 在断开连接时被执行
-local function DisConnected()
+local function Disconnected()
     -- 没什么要做的
 end
 ----------------------------------------------------------------
@@ -120,5 +120,5 @@ module.GetAsync = GetAsync
 module.PostAsync = PostAsync
 module.ReceiveMemoryMessage = ReceiveMemoryMessage
 module.Connected = Connected
-module.DisConnected = DisConnected
+module.Disconnected = Disconnected
 return module
