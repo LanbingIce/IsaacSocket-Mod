@@ -52,11 +52,13 @@ local function Connected()
 end
 -- 在断开连接时被执行
 local function DisConnected()
-    clipboardText = ""
+    clipboardText = nil
+    -- 触发自定义回调：剪贴板已更新
+    Isaac.RunCallback("ISAAC_SOCKET_CLIPBOARD_UPDATED", clipboardText)
 end
 ----------------------------------------------------------------
 -- 初始化模块
-clipboardText = ""
+
 ----------------------------------------------------------------
 -- 模块定义
 local module = {}
