@@ -227,12 +227,14 @@
 
 - `GetClipboard()`
 
+  - 提示：由于 **IsaacSocket 连接工具** 和 **IsaacSocket-Mod** 建立连接之后握手需要时间，因此在 **IsaacSocket-Mod** 刚进入“已连接”状态时，有一小段时间，调用此方法会返回空文本，另外如果你需要持续关心剪贴板内容的变化，你可能需要每帧都调用此方法。因此，推荐使用更高效更可靠的方式：通过自定义回调 ["ISAAC\_SOCKET\_CLIPBOARD\_UPDATED"](#isaac_socket_clipboard_updated) 来被动获得剪贴板文本
+
   - 功能：获取剪贴板文本
 
   - 返回值：当前剪贴板文本
 
   - 使用示例：
-
+  
       ```lua
       local text = IsaacSocket.Clipboard.GetClipboard()
       print(text)
