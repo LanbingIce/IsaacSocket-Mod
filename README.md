@@ -17,6 +17,10 @@
     - [WebSocketClient](#websocketclient)
     - [Task](#task)
     - [Response](#response)
+  - [自定义回调](#自定义回调)
+    - ["ISAAC\_SOCKET\_CONNECTED"](#isaac_socket_connected)
+    - ["ISAAC\_SOCKET\_DISCONNECTED"](#isaac_socket_disconnected)
+    - ["ISAAC\_SOCKET\_CLIPBOARD\_UPDATED"](#isaac_socket_clipboard_updated)
   - [常见问题](#常见问题)
   - [注意事项](#注意事项)
 
@@ -57,23 +61,39 @@
 
    ````lua
    local mod = RegisterMod("MyFirstMod", 1)
-   local font = Font()
-   font:Load("font/terminus.fnt")
+   local timestamp = 0
+   
+   local function OnConnected()
+       local url = "https://api.bilibili.com/x/report/click/now"
+       IsaacSocket.HttpClient.GetAsync(url).Then(function(task)
+           if task.IsCompletedSuccessfully() then
+               local response = task.GetResult()
+               local json = require("json").decode(response.body)
+               timestamp = json.data.now
+           else
+               timestamp = task.GetResult()
+           end
+       end)
+   end
+   
+   local function OnDisconnected()
+       timestamp = 0
+   end
    
    local function OnRender()
-       if IsaacSocket ~= nil and IsaacSocket.IsConnected() then
-           local text = IsaacSocket.Clipboard.GetClipboard()
-           font:DrawStringScaled(text, 100, 50, 0.5, 0.5, KColor(1, 1, 1, 1), 0, true)
+       if timestamp == 0 then
+           Isaac.RenderText("IsaacSocket not installed or not connected successfully.", 80, 100, 1, 1, 1, 255)
        else
-           local text = "IsaacSocket is not installed or has not connected successfully."
-           font:DrawStringScaled(text, 100, 50, 0.5, 0.5, KColor(1, 1, 1, 1), 0, true)
+           Isaac.RenderText("Timestamp: " .. timestamp, 80, 100, 1, 1, 1, 255)
        end
    end
    
+   mod:AddCallback("ISAAC_SOCKET_CONNECTED", OnConnected)
+   mod:AddCallback("ISAAC_SOCKET_DISCONNECTED", OnDisconnected)
    mod:AddCallback(ModCallbacks.MC_POST_RENDER, OnRender)
    ````
 
-5. 你现在已经做出了一个mod并成功调用 **IsaacSocket-Mod** 的 **ClipBoard模块** 的接口获取到了剪贴板中的文本，可以进入游戏查看效果，Mod的效果是：当你复制文本时，文本会显示在游戏画面上
+5. 你现在已经做出了一个mod，效果是：当 **IsaacSocket-Mod** 连接成功时，调用了 **IsaacSocket-Mod** 的 **HttpClient模块** 的接口，访问B站的api并获得当前时间戳，然后显示在游戏画面上
 
 ## 接口介绍
 
@@ -81,18 +101,24 @@
 
 `IsaacSocket`是一个全局变量，每当你需要使用 **IsaacSocket-Mod** 提供的接口时，你都需要使用它
 
-如果用户没有安装 **IsaacSocket-Mod** 或者没有在游戏中开启，`IsaacSocket`的值将会是`nil`，因此，在使用`IsaacSocket`之前一定要检查其值，确保其不是`nil`
+如果用户没有安装 **IsaacSocket-Mod** 或者没有在游戏中开启，`IsaacSocket`的值将会是`nil`，因此，请在确保`IsaacSocket`的值不是`nil`的情况下再使用它
+
+如果用户已经安装并开启了 **IsaacSocket-Mod** ，但是没有处于已连接状态，那么所有接口都不会生效，因此，请在确保已连接的情况下使用`IsaacSocket`
+
+使用 [自定义回调](#自定义回调) 可以方便的判断 **IsaacSocket-Mod** 是否已经安装、开启、并且已连接
 
 `IsaacSocket`有如下方法：
 
 - `IsConnected()`
 
-  - 功能：判断 **IsaacSocket-Mod** 是否已连接，在未连接状态下，所有接口都不会生效，因此，在使用`IsaacSocket`之前一定要检查是否已连接
+  - 提示：不推荐使用此方法来判断 **IsaacSocket-Mod** 是否已连接，因为你在任何调用接口的地方都需要先判断`IsaacSocket`是否为`nil`，然后再判断是否已连接，非常繁琐，更好的方法是使用 [自定义回调](#自定义回调)
+
+  - 功能：判断 **IsaacSocket-Mod** 是否已连接
 
   - 返回值：**bool** ，已连接返回`true`，未连接返回`false`
 
   - 使用示例：
-
+  
     ````lua
     if IsaacSocket ~= nil and IsaacSocket.IsConnected() then
         -- Do something
@@ -190,9 +216,7 @@
         print("Error: ", message)
     end
     
-    if IsaacSocket ~= nil and IsaacSocket.IsConnected() then
-        ws = IsaacSocket.WebSocketClient.New("ws://localhost:80", CallbackOnOpen, CallbackOnMessage, CallbackOnClose, CallbackOnError)
-    end
+    ws = IsaacSocket.WebSocketClient.New("ws://localhost:80", CallbackOnOpen, CallbackOnMessage, CallbackOnClose, CallbackOnError)
     ````
 
 ### IsaacSocket.ClipBoard
@@ -210,12 +234,10 @@
   - 使用示例：
 
       ```lua
-      if IsaacSocket ~= nil and IsaacSocket.IsConnected() then
-          local text = IsaacSocket.Clipboard.GetClipboard()
-          print(text)
-      end
+      local text = IsaacSocket.Clipboard.GetClipboard()
+      print(text)
       ```
-
+  
 - `SetClipboard(text)`
 
   - 功能：设置剪贴板文本
@@ -228,9 +250,7 @@
   
       ````lua
       local text = "example text"
-      if IsaacSocket ~= nil and IsaacSocket.IsConnected() then
-          IsaacSocket.Clipboard.SetClipboard(text)
-      end
+      IsaacSocket.Clipboard.SetClipboard(text)
       ````
 
 ### IsaacSocket.HttpClient
@@ -254,19 +274,17 @@
   local headers = {
       ["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
   }
-  if IsaacSocket ~= nil and IsaacSocket.IsConnected() then
-      IsaacSocket.HttpClient.GetAsync(url, headers).Then(function(task)
-          if task.IsCompletedSuccessfully() then
-              local response = task.GetResult()
-              local json = require("json").decode(response.body)
-              print("current timestamp: " .. json.data.now)
-          else
-              print(task.GetResult())
-          end
-      end)
-  end
+  IsaacSocket.HttpClient.GetAsync(url, headers).Then(function(task)
+      if task.IsCompletedSuccessfully() then
+          local response = task.GetResult()
+          local json = require("json").decode(response.body)
+          print("current timestamp: " .. json.data.now)
+      else
+          print(task.GetResult())
+      end
+  end)
   ```
-
+  
 - `PostAsync(url, headers, body)`  
 
   - 功能：发送 **HTTP POST请求**，这是一个异步函数
@@ -397,6 +415,69 @@
   - `headers` **HTTP 响应标头**，是一个具有多个键值对的lua表，键为标头名称，值为标头值，详见[HTTP 响应标头](https://developer.mozilla.org/zh-CN/docs/Glossary/Response_header)
   - `body` **HTTP 响应主体**
 
+## 自定义回调
+
+当你需要在游戏中的某个时机挂载回调函数时，你会用到`mod:AddCallback()`，参数中回调时机都是官方API给定的，但是实际上Mod也可以通过API注册自定义的回调时机
+
+为了方便使用，**IsaacSocket-Mod** 在游戏中注册了一些自定义回调
+
+这样做的优点是：即使 **IsaacSocket-Mod** 没有安装，回调也可以正常的工作，而不会造成任何的报错，因此，在大多数情况下，你不再需要进行繁琐的判断来确保 **IsaacSocket-Mod** 已安装，开启，并连接成功。
+
+需要注意的一点是：以撒所有的回调，在第一个参数中都传入了你的 **Mod对象**，这个参数很少会用的到，有的Mod作者还会通过冒号语法糖的方式，回避掉这个参数，因此，在习惯上，我们在讨论回调函数的参数时，一般会忽略掉这个参数，然后把第二个参数叫做第一个参数，下文都是如此
+
+### "ISAAC_SOCKET_CONNECTED"
+
+- 时机：**IsaacSocket-Mod** 连接成功时
+
+- 使用示例：见 ["ISAAC\_SOCKET\_DISCONNECTED"](#isaac_socket_disconnected)
+
+### "ISAAC_SOCKET_DISCONNECTED"
+
+- 时机：**IsaacSocket-Mod** 断开连接时
+
+- 使用示例：  
+
+   ```lua
+   local isConnected = false
+   
+   local function OnConnected()
+       isConnected = true
+       -- Do something
+   end
+   
+   local function OnDisconnected()
+       isConnected = false
+       -- Do something
+   end
+   
+   mod:AddCallback("ISAAC_SOCKET_CONNECTED", OnConnected)
+   mod:AddCallback("ISAAC_SOCKET_DISCONNECTED", OnDisconnected)
+   ```
+  
+  大多数情况下，你可以在 `"ISAAC_SOCKET_CONNECTED"` 回调中安全的调用接口，而不需要额外判断是否已连接
+  
+  如果你确实需要判断是否已连接，你可以通过上文代码的这种方式，用 `isConnected` 来方便的判断
+
+### "ISAAC_SOCKET_CLIPBOARD_UPDATED"
+
+- 时机：**ClipBoard模块** 剪贴板内容更新时 / **IsaacSocket-Mod** 断开连接时
+
+- 回调函数参数：
+
+  - `text`：**ClipBoard模块** 剪贴板内容更新时：新的剪贴板文本 / **IsaacSocket-Mod** 断开连接时： `nil`
+
+- 使用示例：
+
+  ``````lua
+  local function OnClipboardUpdated(_, text)
+      if text ~= nil then
+          print("Clipboard: " .. text)
+      end
+  end
+  
+  mod:AddCallback("ISAAC_SOCKET_CLIPBOARD_UPDATED", OnClipboardUpdated)
+  ``````
+
 ## 常见问题
 
 **Q:** 已经按照安装使用步骤做了每一步，为什么 **IsaacSocket 连接工具** 没有任何反应？
@@ -411,15 +492,6 @@
 
 ## 注意事项
 
-- 除了直接使用衍生对象之外，任何时候使用接口，都必须检查 `IsaacSocket` 是否存在且已连接，如果未成功连接的话接口是无效的
-  具体代码像是这样：
-
-  ```lua
-  if IsaacSocket ~= nil and IsaacSocket.IsConnected() then
-      -- Do something
-  else
-      -- The user doesn't have IsaacSocket installed or hasn't connected successfully
-  end
-  ```
-
+- 除了使用自定义回调和直接使用衍生对象之外，任何时候使用接口都必须确定 `IsaacSocket` 不是`nil`且已连接，详见 [IsaacSocket](#isaacsocket)
+  
 - **IsaacSocket-Mod** 的所有代码都运行在游戏的 **Render** 回调中，因此在各种回调函数中只能执行诸如打印文字，渲染图片之类的操作，而不能执行对游戏逻辑有实质影响的操作，例如生成道具，改变实体状态等，如果需要进行这些操作，可以先保存在表里，然后在 **Update** 回调中再执行，如果不这样做，可能会引发不可预测的游戏渲染问题或者让游戏崩溃
