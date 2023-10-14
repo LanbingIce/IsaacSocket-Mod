@@ -40,6 +40,8 @@ local function ReceiveMemoryMessage(message)
     if action == ActionType.CLIPBOARD_UPDATED then
         -- 剪贴板已更新
         clipboardText = string.sub(message, offset)
+        -- 触发自定义回调：剪贴板已更新
+        Isaac.RunCallback("ISAAC_SOCKET_CLIPBOARD_UPDATED", clipboardText)
         return true
     end
     return false
