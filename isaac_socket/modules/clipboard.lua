@@ -49,6 +49,7 @@ end
 -- 在成功连接时被执行
 local function Connected()
     channel = require("isaac_socket.modules.common").Channel.CLIPBOARD
+    clipboardText = ""
 end
 -- 在断开连接时被执行
 local function Disconnected()
