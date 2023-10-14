@@ -43,11 +43,11 @@ local webSocketInternals
 -- 方法定义
 -- 用于调试的输出方法，debug模式开启时可用
 local function cw(...)
-    return require("modules.common").DebugPrint(channel, ...)
+    return require("isaac_socket.modules.common").DebugPrint(channel, ...)
 end
 -- 已生成新内存消息，回传给主模块
 local function MemoryMessageGenerated(message)
-    return require("modules.common").MemoryMessageGenerated(channel, message)
+    return require("isaac_socket.modules.common").MemoryMessageGenerated(channel, message)
 end
 -- 创建一个WebSocketClient连接，返回WebSocketClient对象
 local function New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed, callbackOnError)
@@ -135,7 +135,7 @@ local function New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed,
     -- WebSocket对象初始化
     state = WebSocketState.CONNECTING
     -- 将留空的回调函数设置为空函数
-    local emptyFunction = require("modules.common").EMPTY_FUNCTION
+    local emptyFunction = require("isaac_socket.modules.common").EMPTY_FUNCTION
     if type(callbackOnOpen) ~= "function" then
         callbackOnOpen = emptyFunction
     end
@@ -229,7 +229,7 @@ local function ReceiveMemoryMessage(message)
 end
 -- 在成功连接被执行
 local function Connected()
-    channel = require("modules.common").Channel.WEB_SOCKET_CLIENT
+    channel = require("isaac_socket.modules.common").Channel.WEB_SOCKET_CLIENT
 end
 -- 在断开连接时被执行
 local function DisConnected()

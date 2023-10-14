@@ -15,11 +15,11 @@ local channel
 -- 方法定义
 -- 用于调试的输出方法，debug模式开启时可用
 local function cw(...)
-    return require("modules.common").DebugPrint(channel, ...)
+    return require("isaac_socket.modules.common").DebugPrint(channel, ...)
 end
 -- 已生成新内存消息，回传给主模块
 local function MemoryMessageGenerated(message)
-    return require("modules.common").MemoryMessageGenerated(channel, message)
+    return require("isaac_socket.modules.common").MemoryMessageGenerated(channel, message)
 end
 -- 发送一个Get请求，返回Task对象
 local function GetAsync(url, headers)
@@ -36,11 +36,11 @@ local function GetAsync(url, headers)
         headersString = "{}"
     end
     -- 创建一个新任务
-    local id, task = require("modules.common").Task.New()
+    local id, task = require("isaac_socket.modules.common").Task.New()
     -- 发送内存消息，如果失败的话，任务失败
     if not MemoryMessageGenerated(string.pack("<I1I2I2I2", ActionType.GET_REQUEST, id, #url, #headersString) .. url ..
                                       headersString) then
-        require("modules.common").Task.Fail(id, "IsaacSocket Disconnected")
+        require("isaac_socket.modules.common").Task.Fail(id, "IsaacSocket Disconnected")
     end
     return task
 end
@@ -62,11 +62,11 @@ local function PostAsync(url, headers, body)
         headersString = "{}"
     end
     -- 创建一个新任务
-    local id, task = require("modules.common").Task.New()
+    local id, task = require("isaac_socket.modules.common").Task.New()
     -- 发送内存消息，如果失败的话，任务失败
     if not MemoryMessageGenerated(string.pack("<I1I2I2I2", ActionType.POST_REQUEST, id, #url, #headersString) .. url ..
                                       headersString .. body) then
-        require("modules.common").Task.Fail(id, "IsaacSocket Disconnected")
+        require("isaac_socket.modules.common").Task.Fail(id, "IsaacSocket Disconnected")
     end
     return task
 end
@@ -94,17 +94,17 @@ local function ReceiveMemoryMessage(message)
             body = body
         }
         -- 收到响应就把任务完成
-        return require("modules.common").Task.Complete(id, response)
+        return require("isaac_socket.modules.common").Task.Complete(id, response)
     elseif action == ActionType.FAULTED then
         -- 收到失败消息就把任务失败
-        return require("modules.common").Task.Fail(id, string.sub(message, offset))
+        return require("isaac_socket.modules.common").Task.Fail(id, string.sub(message, offset))
     else
         return false
     end
 end
 -- 在成功连接时被执行
 local function Connected()
-    channel = require("modules.common").Channel.HTTP_CLIENT
+    channel = require("isaac_socket.modules.common").Channel.HTTP_CLIENT
 end
 -- 在断开连接时被执行
 local function DisConnected()

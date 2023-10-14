@@ -235,13 +235,13 @@ local function StateUpdate()
     if connectionState == ConnectionState.CONNECTED then
         -- 正常连接状态
         -- 解析接收变量，如果成功更新，说明有新消息，将心跳包计时器置为 0
-        if require("modules.common").Heartbeat.Update(receiveTable.Update(ext_receive)) then
+        if require("isaac_socket.modules.common").Heartbeat.Update(receiveTable.Update(ext_receive)) then
             local newMessage = receiveTable.GetMessage()
             while newMessage do
                 local messageChannel, messageOffset = string.unpack("<I1", newMessage)
 
                 local messageBody = string.sub(newMessage, messageOffset)
-                require("modules.common").ReceiveMemoryMessage(messageChannel, messageBody)
+                require("isaac_socket.modules.common").ReceiveMemoryMessage(messageChannel, messageBody)
 
                 newMessage = receiveTable.GetMessage()
             end
@@ -256,7 +256,7 @@ local function StateUpdate()
             -- 触发自定义回调：断开连接
             Isaac.RunCallback("ISAAC_SOCKET_DISCONNECTED")
             -- 触发所有模块的断开连接事件
-            require("modules.common").DisConnected()
+            require("isaac_socket.modules.common").DisConnected()
         end
     elseif connectionState == ConnectionState.CONNECTING then
         -- 未连接状态下，接收和发送变量的值都为约定好的特殊值，如果它们的值变化，说明它们的地址已被外部程序找到
@@ -279,7 +279,7 @@ local function StateUpdate()
             -- 5秒钟的连接成功提示
             hintTextTimer = 5 * 30
             -- 触发所有模块的已连接事件
-            require("modules.common").Connected()
+            require("isaac_socket.modules.common").Connected()
             -- 触发自定义回调：已连接
             Isaac.RunCallback("ISAAC_SOCKET_CONNECTED")
         else
@@ -306,7 +306,7 @@ end
 
 -- 模块回调
 local function ModuleCallback(callbackType, channel, message)
-    local CallbackType = require("modules.common").CallbackType
+    local CallbackType = require("isaac_socket.modules.common").CallbackType
     if callbackType == CallbackType.MEMORY_MESSAGE_GENERATED and connectionState == ConnectionState.CONNECTED then
         return Send(channel, message)
     elseif callbackType == CallbackType.PRINT then
@@ -353,7 +353,7 @@ local function OnUnload(_, mod)
         connectionState = ConnectionState.DISCONNECTED
         -- 触发自定义回调：断开连接
         Isaac.RunCallback("ISAAC_SOCKET_DISCONNECTED")
-        require("modules.common").DisConnected()
+        require("isaac_socket.modules.common").DisConnected()
     end
 
     connectionState = ConnectionState.UNLOADING
@@ -372,7 +372,7 @@ StateUpdate()
 receiveTable = NewReceiveTable()
 sendTable = NewSendTable()
 
-require("modules.common").SetCallback(ModuleCallback)
+require("isaac_socket.modules.common").SetCallback(ModuleCallback)
 
 StateUpdate()
 
@@ -393,25 +393,25 @@ end
 
 -- 创建一个WebsocketClient对象，第一个参数是地址，后面四个参数是回调，请提供函数
 function IsaacSocket.WebSocketClient.New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed, callbackOnError)
-    return require("modules.common").WebSocketClient.New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed,
+    return require("isaac_socket.modules.common").WebSocketClient.New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed,
         callbackOnError)
 end
 -- 获取剪贴板文本
 function IsaacSocket.Clipboard.GetClipboard()
-    return require("modules.common").Clipboard.GetClipboard()
+    return require("isaac_socket.modules.common").Clipboard.GetClipboard()
 end
 
 -- 设置剪贴板文本
 function IsaacSocket.Clipboard.SetClipboard(text)
-    return require("modules.common").Clipboard.SetClipboard(text)
+    return require("isaac_socket.modules.common").Clipboard.SetClipboard(text)
 end
 
 -- 发送get请求，headers是table或者留空，返回一个Task对象
 function IsaacSocket.HttpClient.GetAsync(url, headers)
-    return require("modules.common").HttpClient.GetAsync(url, headers)
+    return require("isaac_socket.modules.common").HttpClient.GetAsync(url, headers)
 end
 
 -- 发送post请求，headers是table或者留空，body是正文，返回一个Task对象
 function IsaacSocket.HttpClient.PostAsync(url, headers, body)
-    return require("modules.common").HttpClient.PostAsync(url, headers, body)
+    return require("isaac_socket.modules.common").HttpClient.PostAsync(url, headers, body)
 end

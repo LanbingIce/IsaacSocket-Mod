@@ -75,11 +75,11 @@ end
 ----------------------------------------------------------------
 -- 初始化模块
 modules = {}
-modules[Channel.HEARTBEAT] = require("modules.heartbeat")
-modules[Channel.WEB_SOCKET_CLIENT] = require("modules.web_socket_client")
-modules[Channel.CLIPBOARD] = require("modules.clipboard")
-modules[Channel.HTTP_CLIENT] = require("modules.http_client")
-modules[Channel.TASK] = require("modules.task")
+modules[Channel.HEARTBEAT] = require("isaac_socket.modules.heartbeat")
+modules[Channel.WEB_SOCKET_CLIENT] = require("isaac_socket.modules.web_socket_client")
+modules[Channel.CLIPBOARD] = require("isaac_socket.modules.clipboard")
+modules[Channel.HTTP_CLIENT] = require("isaac_socket.modules.http_client")
+modules[Channel.TASK] = require("isaac_socket.modules.task")
 Callback = EMPTY_FUNCTION
 ----------------------------------------------------------------
 -- 模块定义

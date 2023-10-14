@@ -19,11 +19,11 @@ local taskInternals
 -- 方法定义
 -- 用于调试的输出方法，debug模式开启时可用
 local function cw(...)
-    return require("modules.common").DebugPrint(channel, ...)
+    return require("isaac_socket.modules.common").DebugPrint(channel, ...)
 end
 -- 在成功连接时被执行
 local function Connected()
-    channel = require("modules.common").Channel.TASK
+    channel = require("isaac_socket.modules.common").Channel.TASK
 end
 -- 在断开连接时被执行
 local function DisConnected()
