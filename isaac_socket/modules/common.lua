@@ -35,7 +35,9 @@ local modules
 -- 函数定义
 -- 将内存消息分发给对应模块
 local function ReceiveMemoryMessage(channel, message)
-    return modules[channel].ReceiveMemoryMessage(message)
+    if modules[channel] then
+        return modules[channel].ReceiveMemoryMessage(message)
+    end
 end
 -- 在成功连接时被执行，调用所有模块的对应方法
 local function Connected()
