@@ -37,6 +37,8 @@ local connectionState
 local hintTextTimer
 -- debug模式
 local debugMode
+-- 文件夹名称
+local folderName
 ----------------------------------------------------------------
 -- 类定义
 -- 接收表
@@ -203,6 +205,17 @@ local function cw(...)
     end
     return false
 end
+
+-- 取文件夹名称
+local function GetFolderName()
+    local _, err = pcall(require, "")
+    local parts = {}
+    for part in string.gmatch(err, "[^/]+") do
+        table.insert(parts, part)
+    end
+    return parts[#parts - 1]
+end
+
 -- 读取配置文件
 local function LoadConfig()
     local modData = isaacSocketMod:LoadData()
@@ -221,7 +234,12 @@ end
 -- 渲染提示文字
 local function RenderHintText()
     if connectionState == ConnectionState.CONNECTED and hintTextTimer > 0 then
-        font:DrawStringScaledUTF8("IsaacSocket 连接成功!", 2, 0, 0.5, 0.5, KColor(0, 1, 0, 1), 0, false)
+        if debugMode then
+            font:DrawStringScaledUTF8("IsaacSocket (" .. folderName .. ") 连接成功!", 2, 0, 0.5, 0.5,
+                KColor(0, 1, 0, 1), 0, false)
+        else
+            font:DrawStringScaledUTF8("IsaacSocket 连接成功!", 2, 0, 0.5, 0.5, KColor(0, 1, 0, 1), 0, false)
+        end
     elseif connectionState == ConnectionState.CONNECTING then
         font:DrawStringScaledUTF8(
             "IsaacSocket 连接失败,请查看 IsaacSocket 的创意工坊页面,按照页面上的使用步骤下载 \"IsaacSocket 连接工具\" 并启动,如果仍然失败,可以尝试关闭杀毒软件或者使用管理员模式启动 \"IsaacSocket 连接工具\"",
@@ -278,6 +296,8 @@ local function StateUpdate()
             cw("Connected[" .. dataSpaceSize .. "]")
             -- 5秒钟的连接成功提示
             hintTextTimer = 5 * 30
+            -- 获取文件夹名称
+            folderName = GetFolderName()
             -- 触发所有模块的已连接事件
             require("isaac_socket.modules.common").Connected()
             -- 触发自定义回调：已连接
