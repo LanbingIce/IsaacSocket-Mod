@@ -221,8 +221,8 @@ end
 -- 渲染提示文字
 local function RenderHintText()
     if connectionState == ConnectionState.CONNECTED and hintTextTimer > 0 then
-                    font:DrawStringScaledUTF8("IsaacSocket 连接成功!", 2, 0, 0.5, 0.5, KColor(0, 1, 0, 1), 0, false)
-            elseif connectionState == ConnectionState.CONNECTING then
+        font:DrawStringScaledUTF8("IsaacSocket 连接成功!", 2, 0, 0.5, 0.5, KColor(0, 1, 0, 1), 0, false)
+    elseif connectionState == ConnectionState.CONNECTING then
         font:DrawStringScaledUTF8(
             "IsaacSocket 连接失败,请查看 IsaacSocket 的创意工坊页面,按照页面上的使用步骤下载 \"IsaacSocket 连接工具\" 并启动,如果仍然失败,可以尝试关闭杀毒软件或者使用管理员模式启动 \"IsaacSocket 连接工具\"",
             2, 0, 0.5, 0.5, KColor(1, 1, 1, 1), 0, false)
@@ -396,8 +396,8 @@ end
 
 -- 创建一个WebsocketClient对象，第一个参数是地址，后面四个参数是回调，请提供函数
 function IsaacSocket.WebSocketClient.New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed, callbackOnError)
-    return require("isaac_socket.modules.common").WebSocketClient.New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed,
-        callbackOnError)
+    return require("isaac_socket.modules.common").WebSocketClient.New(address, callbackOnOpen, callbackOnMessage,
+        callbackOnClosed, callbackOnError)
 end
 -- 获取剪贴板文本
 function IsaacSocket.Clipboard.GetClipboard()
