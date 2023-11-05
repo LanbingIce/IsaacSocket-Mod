@@ -279,17 +279,16 @@ local function StateUpdate(heartbeat)
             LoadConfig()
             dataSpaceSize = ext_receive
             dataBodySize = dataSpaceSize - DATA_HEAD_SIZE
-            sendTable.Initialize()
-            receiveTable.Initialize()
 
             ext_receive = string.rep("\0", dataSpaceSize)
             ext_send = sendTable.Serialize()
             connectionState = ConnectionState.CONNECTED
-            cw("Connected[" .. dataSpaceSize .. "]")
             -- 5秒钟的连接成功提示
             hintTextTimer = 5 * 30
             -- 触发所有模块的已连接事件
             require("isaac_socket.modules.common").Connected()
+
+            cw("Connected[" .. dataSpaceSize .. "]")
             -- 触发自定义回调：已连接
             Isaac.RunCallback("ISAAC_SOCKET_CONNECTED")
         else
@@ -301,14 +300,16 @@ local function StateUpdate(heartbeat)
         cw("Loaded")
     elseif connectionState == ConnectionState.UNLOADING then
         connectionState = ConnectionState.UNLOADED
-        cw("Unloaded")
         ext_send = nil
         ext_receive = nil
+        cw("Unloaded")
     elseif connectionState == ConnectionState.DISCONNECTED then
         connectionState = ConnectionState.CONNECTING
-        cw("Connecting...")
         ext_send = 2128394904
         ext_receive = 1842063751
+        sendTable.Initialize()
+        receiveTable.Initialize()
+        cw("Connecting...")
     end
 end
 
@@ -391,16 +392,16 @@ end
 folderName = parts[#parts - 1]
 
 font:Load("font/cjk/lanapixel.fnt")
-hintTextTimer = 0
 
+receiveTable = NewReceiveTable()
+sendTable = NewSendTable()
+
+hintTextTimer = 0
 -- 这里读取配置可能会失败，所以连接成功时会再次读取
 LoadConfig()
 
 connectionState = ConnectionState.UNLOADED
 StateUpdate(false)
-
-receiveTable = NewReceiveTable()
-sendTable = NewSendTable()
 
 require("isaac_socket.modules.common").SetCallback(ModuleCallback)
 
