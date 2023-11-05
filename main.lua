@@ -206,16 +206,6 @@ local function cw(...)
     return false
 end
 
--- 取文件夹名称
-local function GetFolderName()
-    local _, err = pcall(require, "")
-    local parts = {}
-    for part in string.gmatch(err, "[^/]+") do
-        table.insert(parts, part)
-    end
-    return parts[#parts - 1]
-end
-
 -- 读取配置文件
 local function LoadConfig()
     local modData = isaacSocketMod:LoadData()
@@ -224,11 +214,6 @@ local function LoadConfig()
     if isSuccess and result.debug then
         debugMode = true
     end
-end
-
--- 发送一条内存消息
-local function Send(channel, data)
-    return sendTable.AddNewMessage(string.pack("<I1", channel) .. data)
 end
 
 -- 渲染提示文字
@@ -249,11 +234,17 @@ local function RenderHintText()
 end
 
 -- 更新内存连接状态，同时进行收发数据，需要每帧运行60次
-local function StateUpdate()
+local function StateUpdate(heartbeat)
     if connectionState == ConnectionState.CONNECTED then
         -- 正常连接状态
-        -- 解析接收变量，如果成功更新，说明有新消息，将心跳包计时器置为 0
-        if require("isaac_socket.modules.common").Heartbeat.Update(receiveTable.Update(ext_receive)) then
+        -- 解析接收变量，如果需要心跳，则将解析结果作为参数进行一次心跳
+        -- 如果不需要心跳，则视为心跳成功
+        -- 如果心跳成功，则处理要发送的消息
+        local isSuccess = receiveTable.Update(ext_receive) or not heartbeat
+        if heartbeat then
+            isSuccess = require("isaac_socket.modules.common").Heartbeat.Update(isSuccess)
+        end
+        if isSuccess then
             local newMessage = receiveTable.GetMessage()
             while newMessage do
                 local messageChannel, messageOffset = string.unpack("<I1", newMessage)
@@ -284,6 +275,7 @@ local function StateUpdate()
         if ext_send == 2128394904 and ext_receive == 1842063751 then
             return
         elseif ext_send == 1 and ext_receive >= 64 and ext_receive <= 4 * 1024 * 1024 then
+            -- 加载mod时读取配置可能会失败，因此这里再读取一次
             LoadConfig()
             dataSpaceSize = ext_receive
             dataBodySize = dataSpaceSize - DATA_HEAD_SIZE
@@ -296,8 +288,6 @@ local function StateUpdate()
             cw("Connected[" .. dataSpaceSize .. "]")
             -- 5秒钟的连接成功提示
             hintTextTimer = 5 * 30
-            -- 获取文件夹名称
-            folderName = GetFolderName()
             -- 触发所有模块的已连接事件
             require("isaac_socket.modules.common").Connected()
             -- 触发自定义回调：已连接
@@ -320,6 +310,15 @@ local function StateUpdate()
         ext_send = 2128394904
         ext_receive = 1842063751
     end
+end
+
+-- 发送一条内存消息
+local function Send(channel, data)
+    if sendTable.AddNewMessage(string.pack("<I1", channel) .. data) then
+        StateUpdate(false)
+        return true
+    end
+    return false
 end
 ----------------------------------------------------------------
 -- 回调函数定义
@@ -361,7 +360,7 @@ end
 
 -- 画面渲染回调
 local function OnRender()
-    StateUpdate()
+    StateUpdate(true)
     RenderHintText()
 end
 
@@ -379,24 +378,33 @@ local function OnUnload(_, mod)
     end
 
     connectionState = ConnectionState.UNLOADING
-    StateUpdate()
+    StateUpdate(false)
 end
 ----------------------------------------------------------------
 -- 此处代码在Mod被加载时运行
+-- 获取文件夹名称
+local _, err = pcall(require, "")
+local parts = {}
+for part in string.gmatch(err, "[^/]+") do
+    table.insert(parts, part)
+end
+folderName = parts[#parts - 1]
+
 font:Load("font/cjk/lanapixel.fnt")
 hintTextTimer = 0
 
+-- 这里读取配置可能会失败，所以连接成功时会再次读取
 LoadConfig()
 
 connectionState = ConnectionState.UNLOADED
-StateUpdate()
+StateUpdate(false)
 
 receiveTable = NewReceiveTable()
 sendTable = NewSendTable()
 
 require("isaac_socket.modules.common").SetCallback(ModuleCallback)
 
-StateUpdate()
+StateUpdate(false)
 
 isaacSocketMod:AddCallback(ModCallbacks.MC_POST_RENDER, OnRender)
 isaacSocketMod:AddCallback(ModCallbacks.MC_POST_UPDATE, OnUpdate)
