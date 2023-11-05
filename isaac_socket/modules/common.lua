@@ -16,7 +16,9 @@ local Channel = {
     -- 剪贴板
     CLIPBOARD = 2,
     -- Http客户端
-    HTTP_CLIENT = 3
+    HTTP_CLIENT = 3,
+    -- 以撒API
+    ISAAC_API = 4
 }
 -- 回调类型枚举
 local CallbackType = {
@@ -77,11 +79,12 @@ end
 ----------------------------------------------------------------
 -- 初始化模块
 modules = {}
+modules[Channel.TASK] = require("isaac_socket.modules.task")
 modules[Channel.HEARTBEAT] = require("isaac_socket.modules.heartbeat")
 modules[Channel.WEB_SOCKET_CLIENT] = require("isaac_socket.modules.web_socket_client")
 modules[Channel.CLIPBOARD] = require("isaac_socket.modules.clipboard")
 modules[Channel.HTTP_CLIENT] = require("isaac_socket.modules.http_client")
-modules[Channel.TASK] = require("isaac_socket.modules.task")
+modules[Channel.ISAAC_API] = require("isaac_socket.modules.isaac_api")
 Callback = EMPTY_FUNCTION
 ----------------------------------------------------------------
 -- 模块定义
@@ -119,5 +122,21 @@ module.Clipboard.SetClipboard = modules[Channel.CLIPBOARD].SetClipboard
 module.HttpClient = {}
 module.HttpClient.GetAsync = modules[Channel.HTTP_CLIENT].GetAsync
 module.HttpClient.PostAsync = modules[Channel.HTTP_CLIENT].PostAsync
+--------------------------------
+-- IsaacAPI模块
+module.IsaacAPI = {}
+module.IsaacAPI.ReloadLua = modules[Channel.ISAAC_API].ReloadLua
+module.IsaacAPI.GetDebugFlag = modules[Channel.ISAAC_API].GetDebugFlag
+
+module.IsaacAPI.GetCanShoot = modules[Channel.ISAAC_API].GetCanShoot
+module.IsaacAPI.GetActiveVarData = modules[Channel.ISAAC_API].GetActiveVarData
+module.IsaacAPI.GetActivePartialCharge = modules[Channel.ISAAC_API].GetActivePartialCharge
+module.IsaacAPI.GetActiveSubCharge = modules[Channel.ISAAC_API].GetActiveSubCharge
+
+module.IsaacAPI.SetDebugFlag = modules[Channel.ISAAC_API].SetDebugFlag
+module.IsaacAPI.SetCanShoot = modules[Channel.ISAAC_API].SetCanShoot
+module.IsaacAPI.SetActiveVarData = modules[Channel.ISAAC_API].SetActiveVarData
+module.IsaacAPI.SetActivePartialCharge = modules[Channel.ISAAC_API].SetActivePartialCharge
+module.IsaacAPI.SetActiveSubCharge = modules[Channel.ISAAC_API].SetActiveSubCharge
 
 return module

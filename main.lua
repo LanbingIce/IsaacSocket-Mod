@@ -221,8 +221,8 @@ end
 -- 渲染提示文字
 local function RenderHintText()
     if connectionState == ConnectionState.CONNECTED and hintTextTimer > 0 then
-        font:DrawStringScaledUTF8("IsaacSocket 连接成功!", 2, 0, 0.5, 0.5, KColor(0, 1, 0, 1), 0, false)
-    elseif connectionState == ConnectionState.CONNECTING then
+                    font:DrawStringScaledUTF8("IsaacSocket 连接成功!", 2, 0, 0.5, 0.5, KColor(0, 1, 0, 1), 0, false)
+            elseif connectionState == ConnectionState.CONNECTING then
         font:DrawStringScaledUTF8(
             "IsaacSocket 连接失败,请查看 IsaacSocket 的创意工坊页面,按照页面上的使用步骤下载 \"IsaacSocket 连接工具\" 并启动,如果仍然失败,可以尝试关闭杀毒软件或者使用管理员模式启动 \"IsaacSocket 连接工具\"",
             2, 0, 0.5, 0.5, KColor(1, 1, 1, 1), 0, false)
@@ -320,6 +320,8 @@ local function ModuleCallback(callbackType, channel, message)
                 channelName = "ClipBoard"
             elseif channel == 3 then
                 channelName = "HttpClient"
+            elseif channel == 4 then
+                channelName = "IsaacAPI"
             else
                 channelName = channel
             end
@@ -385,6 +387,7 @@ IsaacSocket = {}
 IsaacSocket.WebSocketClient = {}
 IsaacSocket.Clipboard = {}
 IsaacSocket.HttpClient = {}
+IsaacSocket.IsaacAPI = {}
 
 -- 获取连接状态,如果返回false，说明IsaacSocket尚未连接，暂时不可用
 function IsaacSocket.IsConnected()
@@ -414,4 +417,55 @@ end
 -- 发送post请求，headers是table或者留空，body是正文，返回一个Task对象
 function IsaacSocket.HttpClient.PostAsync(url, headers, body)
     return require("isaac_socket.modules.common").HttpClient.PostAsync(url, headers, body)
+end
+
+-- 重新加载Lua环境
+function IsaacSocket.IsaacAPI.ReloadLua()
+    return require("isaac_socket.modules.common").IsaacAPI.ReloadLua()
+end
+
+-- 设置debug标志
+function IsaacSocket.IsaacAPI.SetDebugFlag(debugFlag)
+    return require("isaac_socket.modules.common").IsaacAPI.SetDebugFlag(debugFlag)
+end
+
+-- 获取debug标志
+function IsaacSocket.IsaacAPI.GetDebugFlag()
+    return require("isaac_socket.modules.common").IsaacAPI.GetDebugFlag()
+end
+
+-- 获取能否射击
+function IsaacSocket.IsaacAPI.GetCanShoot(playerId)
+    return require("isaac_socket.modules.common").IsaacAPI.GetCanShoot(playerId)
+end
+
+-- 设置能否射击
+function IsaacSocket.IsaacAPI.SetCanShoot(canShoot, playerId)
+    return require("isaac_socket.modules.common").IsaacAPI.SetCanShoot(canShoot, playerId)
+end
+
+-- 获取主动VarData
+function IsaacSocket.IsaacAPI.GetActiveVarData(activeSlot, playerId)
+    return require("isaac_socket.modules.common").IsaacAPI.GetActiveVarData(activeSlot, playerId)
+end
+
+-- 设置主动VarData
+function IsaacSocket.IsaacAPI.SetActiveVarData(activeVarData, activeSlot, playerId)
+    return require("isaac_socket.modules.common").IsaacAPI.SetActiveVarData(activeVarData, activeSlot, playerId)
+end
+-- 获取主动PartialCharge
+function IsaacSocket.IsaacAPI.GetActivePartialCharge(activeSlot, playerId)
+    return require("isaac_socket.modules.common").IsaacAPI.GetActivePartialCharge(activeSlot, playerId)
+end
+-- 设置主动PartialCharge
+function IsaacSocket.IsaacAPI.SetActivePartialCharge(partialCharge, activeSlot, playerId)
+    return require("isaac_socket.modules.common").IsaacAPI.SetActivePartialCharge(partialCharge, activeSlot, playerId)
+end
+-- 获取主动SubCharge
+function IsaacSocket.IsaacAPI.GetActiveSubCharge(activeSlot, playerId)
+    return require("isaac_socket.modules.common").IsaacAPI.GetActiveSubCharge(activeSlot, playerId)
+end
+-- 设置主动SubCharge
+function IsaacSocket.IsaacAPI.SetActiveSubCharge(subCharge, activeSlot, playerId)
+    return require("isaac_socket.modules.common").IsaacAPI.SetActiveSubCharge(subCharge, activeSlot, playerId)
 end
