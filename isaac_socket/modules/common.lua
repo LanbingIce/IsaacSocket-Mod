@@ -100,43 +100,20 @@ module.MemoryMessageGenerated = MemoryMessageGenerated
 module.SetCallback = SetCallback
 --------------------------------
 -- Task模块
-module.Task = {}
-module.Task.New = modules[Channel.TASK].New
-module.Task.Complete = modules[Channel.TASK].Complete
-module.Task.Fail = modules[Channel.TASK].Fail
+module.Task = modules[Channel.TASK]
 --------------------------------
 -- Heartbeat模块
-module.Heartbeat = {}
-module.Heartbeat.Update = modules[Channel.HEARTBEAT].Update
+module.Heartbeat = modules[Channel.HEARTBEAT]
 --------------------------------
 -- WebSocketClient模块
-module.WebSocketClient = {}
-module.WebSocketClient.New = modules[Channel.WEB_SOCKET_CLIENT].New
+module.WebSocketClient = modules[Channel.WEB_SOCKET_CLIENT]
 --------------------------------
 -- Clipboard模块
-module.Clipboard = {}
-module.Clipboard.GetClipboard = modules[Channel.CLIPBOARD].GetClipboard
-module.Clipboard.SetClipboard = modules[Channel.CLIPBOARD].SetClipboard
+module.Clipboard = modules[Channel.CLIPBOARD]
 --------------------------------
 -- HttpClient模块
-module.HttpClient = {}
-module.HttpClient.GetAsync = modules[Channel.HTTP_CLIENT].GetAsync
-module.HttpClient.PostAsync = modules[Channel.HTTP_CLIENT].PostAsync
+module.HttpClient = modules[Channel.HTTP_CLIENT]
 --------------------------------
 -- IsaacAPI模块
-module.IsaacAPI = {}
-module.IsaacAPI.ReloadLua = modules[Channel.ISAAC_API].ReloadLua
-module.IsaacAPI.GetDebugFlag = modules[Channel.ISAAC_API].GetDebugFlag
-
-module.IsaacAPI.GetCanShoot = modules[Channel.ISAAC_API].GetCanShoot
-module.IsaacAPI.GetActiveVarData = modules[Channel.ISAAC_API].GetActiveVarData
-module.IsaacAPI.GetActivePartialCharge = modules[Channel.ISAAC_API].GetActivePartialCharge
-module.IsaacAPI.GetActiveSubCharge = modules[Channel.ISAAC_API].GetActiveSubCharge
-
-module.IsaacAPI.SetDebugFlag = modules[Channel.ISAAC_API].SetDebugFlag
-module.IsaacAPI.SetCanShoot = modules[Channel.ISAAC_API].SetCanShoot
-module.IsaacAPI.SetActiveVarData = modules[Channel.ISAAC_API].SetActiveVarData
-module.IsaacAPI.SetActivePartialCharge = modules[Channel.ISAAC_API].SetActivePartialCharge
-module.IsaacAPI.SetActiveSubCharge = modules[Channel.ISAAC_API].SetActiveSubCharge
-
+module.IsaacAPI = modules[Channel.ISAAC_API]
 return module
