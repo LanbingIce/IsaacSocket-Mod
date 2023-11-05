@@ -253,7 +253,7 @@ local function ReceiveMemoryMessage(message)
             local playerDataType, offset = string.unpack("<I1", message, offset)
             if playerDataType == PlayerDataType.CAN_SHOOT then
                 local canShoot = string.unpack("<I1", message, offset)
-                SetCanShoot(playerID, canShoot)
+                SetCanShoot(playerID, canShoot == 1)
             elseif playerDataType == PlayerDataType.ACTIVE_DATA then
                 local activeSlot, offset = string.unpack("<I1", message, offset)
                 local activeDataType, offset = string.unpack("<I1", message, offset)
