@@ -469,32 +469,32 @@ function IsaacSocket.IsaacAPI.GetCanShoot(playerId)
 end
 
 -- 设置能否射击
-function IsaacSocket.IsaacAPI.SetCanShoot(canShoot, playerId)
-    return require("isaac_socket.modules.common").IsaacAPI.SetCanShoot(canShoot, playerId)
+function IsaacSocket.IsaacAPI.SetCanShoot(playerId, canShoot)
+    return require("isaac_socket.modules.common").IsaacAPI.SetCanShoot(playerId, canShoot)
 end
 
 -- 获取主动VarData
-function IsaacSocket.IsaacAPI.GetActiveVarData(activeSlot, playerId)
-    return require("isaac_socket.modules.common").IsaacAPI.GetActiveVarData(activeSlot, playerId)
+function IsaacSocket.IsaacAPI.GetActiveVarData(playerId, activeSlot)
+    return require("isaac_socket.modules.common").IsaacAPI.GetActiveVarData(playerId, activeSlot)
 end
 
 -- 设置主动VarData
-function IsaacSocket.IsaacAPI.SetActiveVarData(activeVarData, activeSlot, playerId)
-    return require("isaac_socket.modules.common").IsaacAPI.SetActiveVarData(activeVarData, activeSlot, playerId)
+function IsaacSocket.IsaacAPI.SetActiveVarData(playerId, activeSlot, activeVarData)
+    return require("isaac_socket.modules.common").IsaacAPI.SetActiveVarData(playerId, activeSlot, activeVarData)
 end
 -- 获取主动PartialCharge
-function IsaacSocket.IsaacAPI.GetActivePartialCharge(activeSlot, playerId)
-    return require("isaac_socket.modules.common").IsaacAPI.GetActivePartialCharge(activeSlot, playerId)
+function IsaacSocket.IsaacAPI.GetActivePartialCharge(playerId, activeSlot)
+    return require("isaac_socket.modules.common").IsaacAPI.GetActivePartialCharge(playerId, activeSlot)
 end
 -- 设置主动PartialCharge
-function IsaacSocket.IsaacAPI.SetActivePartialCharge(partialCharge, activeSlot, playerId)
-    return require("isaac_socket.modules.common").IsaacAPI.SetActivePartialCharge(partialCharge, activeSlot, playerId)
+function IsaacSocket.IsaacAPI.SetActivePartialCharge(playerId, activeSlot, partialCharge)
+    return require("isaac_socket.modules.common").IsaacAPI.SetActivePartialCharge(playerId, activeSlot, partialCharge)
 end
 -- 获取主动SubCharge
-function IsaacSocket.IsaacAPI.GetActiveSubCharge(activeSlot, playerId)
-    return require("isaac_socket.modules.common").IsaacAPI.GetActiveSubCharge(activeSlot, playerId)
+function IsaacSocket.IsaacAPI.GetActiveSubCharge(playerId, activeSlot)
+    return require("isaac_socket.modules.common").IsaacAPI.GetActiveSubCharge(playerId, activeSlot)
 end
 -- 设置主动SubCharge
-function IsaacSocket.IsaacAPI.SetActiveSubCharge(subCharge, activeSlot, playerId)
-    return require("isaac_socket.modules.common").IsaacAPI.SetActiveSubCharge(subCharge, activeSlot, playerId)
+function IsaacSocket.IsaacAPI.SetActiveSubCharge(playerId, activeSlot, subCharge)
+    return require("isaac_socket.modules.common").IsaacAPI.SetActiveSubCharge(playerId, activeSlot, subCharge)
 end

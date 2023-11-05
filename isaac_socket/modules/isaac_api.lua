@@ -99,12 +99,12 @@ local function GetCanShoot(playerID)
 end
 
 -- 设置是否能射击
-local function SetCanShoot(canShoot, playerID)
+local function SetCanShoot(playerID, canShoot)
     dataTable[DataType.PLAYER_DATA][playerID][PlayerDataType.CAN_SHOOT] = canShoot
 end
 
 -- 发送是否能射击
-local function SendCanShoot(canShoot, playerID)
+local function SendCanShoot(playerID, canShoot)
     if type(canShoot) ~= "boolean" then
         canShoot = true
     end
@@ -116,7 +116,7 @@ local function SendCanShoot(canShoot, playerID)
 end
 
 -- 获取主动VarData
-local function GetActiveVarData(activeSlot, playerID)
+local function GetActiveVarData(playerID, activeSlot)
     if not IsPlayerIDValid(playerID) then
         playerID = 0
     end
@@ -127,12 +127,12 @@ local function GetActiveVarData(activeSlot, playerID)
 end
 
 -- 设置主动VarData
-local function SetActiveVarData(varData, activeSlot, playerID)
+local function SetActiveVarData(playerID, activeSlot, varData)
     dataTable[DataType.PLAYER_DATA][playerID][PlayerDataType.ACTIVE_DATA][activeSlot][ActiveDataType.VAR_DATA] = varData
 end
 
 -- 发送主动VarData
-local function SendActiveVarData(varData, activeSlot, playerID)
+local function SendActiveVarData(playerID, activeSlot, varData)
     if not IsPlayerIDValid(playerID) then
         playerID = 0
     end
@@ -148,7 +148,7 @@ local function SendActiveVarData(varData, activeSlot, playerID)
 end
 
 -- 获取主动PartialCharge
-local function GetActivePartialCharge(activeSlot, playerID)
+local function GetActivePartialCharge(playerID, activeSlot)
     if not IsPlayerIDValid(playerID) then
         playerID = 0
     end
@@ -160,13 +160,13 @@ local function GetActivePartialCharge(activeSlot, playerID)
 end
 
 -- 设置主动PartialCharge
-local function SetActivePartialCharge(partialCharge, activeSlot, playerID)
+local function SetActivePartialCharge(playerID, activeSlot, partialCharge)
     dataTable[DataType.PLAYER_DATA][playerID][PlayerDataType.ACTIVE_DATA][activeSlot][ActiveDataType.PARTIAL_CHARGE] =
         partialCharge
 end
 
 -- 发送主动PartialCharge
-local function SendActivePartialCharge(partialCharge, activeSlot, playerID)
+local function SendActivePartialCharge(playerID, activeSlot, partialCharge)
     if not IsPlayerIDValid(playerID) then
         playerID = 0
     end
@@ -183,7 +183,7 @@ local function SendActivePartialCharge(partialCharge, activeSlot, playerID)
 end
 
 -- 获取主动的SubCharge
-local function GetActiveSubCharge(activeSlot, playerID)
+local function GetActiveSubCharge(playerID, activeSlot)
     if not IsPlayerIDValid(playerID) then
         playerID = 0
     end
@@ -194,13 +194,13 @@ local function GetActiveSubCharge(activeSlot, playerID)
 end
 
 -- 设置主动的SubCharge
-local function SetActiveSubCharge(subCharge, activeSlot, playerID)
+local function SetActiveSubCharge(playerID, activeSlot, subCharge)
     dataTable[DataType.PLAYER_DATA][playerID][PlayerDataType.ACTIVE_DATA][activeSlot][ActiveDataType.SUB_CHARGE] =
         subCharge
 end
 
 -- 发送主动的SubCharge
-local function SendActiveSubCharge(subCharge, activeSlot, playerID)
+local function SendActiveSubCharge(playerID, activeSlot, subCharge)
     if not IsPlayerIDValid(playerID) then
         playerID = 0
     end
@@ -253,19 +253,19 @@ local function ReceiveMemoryMessage(message)
             local playerDataType, offset = string.unpack("<I1", message, offset)
             if playerDataType == PlayerDataType.CAN_SHOOT then
                 local canShoot = string.unpack("<I1", message, offset)
-                SetCanShoot(canShoot, playerID)
+                SetCanShoot(playerID, canShoot)
             elseif playerDataType == PlayerDataType.ACTIVE_DATA then
                 local activeSlot, offset = string.unpack("<I1", message, offset)
                 local activeDataType, offset = string.unpack("<I1", message, offset)
                 if activeDataType == ActiveDataType.VAR_DATA then
                     local varData = string.unpack("<i4", message, offset)
-                    SetActiveVarData(varData, activeSlot, playerID)
+                    SetActiveVarData(playerID, activeSlot, varData)
                 elseif activeDataType == ActiveDataType.PARTIAL_CHARGE then
                     local partialCharge = string.unpack("<f", message, offset)
-                    SetActivePartialCharge(partialCharge, activeSlot, playerID)
+                    SetActivePartialCharge(playerID, activeSlot, partialCharge)
                 elseif activeDataType == ActiveDataType.SUB_CHARGE then
                     local subCharge = string.unpack("<I4", message, offset)
-                    SetActiveSubCharge(subCharge, activeSlot, playerID)
+                    SetActiveSubCharge(playerID, activeSlot, subCharge)
                 end
             end
         end
