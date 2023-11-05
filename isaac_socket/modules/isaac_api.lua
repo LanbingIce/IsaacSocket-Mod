@@ -221,7 +221,7 @@ end
 
 -- debug标志已更新
 local function DebugUpdated(newDebugFlag)
-    local oldDebugFlag = dataTable[DataType.DEBUG_FLAG]
+    local oldDebugFlag = GetDebugFlag()
     local updateLuck = (newDebugFlag ~ oldDebugFlag) & 256 == 256
     local updateDamage = (newDebugFlag ~ oldDebugFlag) & 8 == 8
     if updateLuck or updateDamage then
