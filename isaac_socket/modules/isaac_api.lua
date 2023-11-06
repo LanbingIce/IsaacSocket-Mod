@@ -246,7 +246,7 @@ local function ReceiveMemoryMessage(message)
         local dataType, offset = string.unpack("<I1", message, offset)
         if dataType == DataType.DEBUG_FLAG then
             local debugFlag = string.unpack("<I4", message, offset)
-            DebugUpdated(debugFlag)
+            -- DebugUpdated(debugFlag)
             SetDebugFlag(debugFlag)
         elseif dataType == DataType.PLAYER_DATA then
             local playerID, offset = string.unpack("<I1", message, offset)

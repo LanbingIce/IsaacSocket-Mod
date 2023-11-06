@@ -454,9 +454,9 @@ function IsaacSocket.IsaacAPI.ReloadLua()
 end
 
 -- 设置debug标志
-function IsaacSocket.IsaacAPI.SetDebugFlag(debugFlag)
-    return require("isaac_socket.modules.common").IsaacAPI.SetDebugFlag(debugFlag)
-end
+-- function IsaacSocket.IsaacAPI.SetDebugFlag(debugFlag)
+--     return require("isaac_socket.modules.common").IsaacAPI.SetDebugFlag(debugFlag)
+-- end
 
 -- 获取debug标志
 function IsaacSocket.IsaacAPI.GetDebugFlag()
@@ -464,9 +464,9 @@ function IsaacSocket.IsaacAPI.GetDebugFlag()
 end
 
 -- 获取能否射击
-function IsaacSocket.IsaacAPI.GetCanShoot(playerId)
-    return require("isaac_socket.modules.common").IsaacAPI.GetCanShoot(playerId)
-end
+-- function IsaacSocket.IsaacAPI.GetCanShoot(playerId)
+--     return require("isaac_socket.modules.common").IsaacAPI.GetCanShoot(playerId)
+-- end
 
 -- 设置能否射击
 function IsaacSocket.IsaacAPI.SetCanShoot(playerId, canShoot)
