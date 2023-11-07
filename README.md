@@ -13,6 +13,7 @@
     - [IsaacSocket.WebSocketClient](#isaacsocketwebsocketclient)
     - [IsaacSocket.ClipBoard](#isaacsocketclipboard)
     - [IsaacSocket.HttpClient](#isaacsockethttpclient)
+    - [IsaacSocket.IsaacAPI](#isaacsocketisaacapi)
   - [衍生对象介绍](#衍生对象介绍)
     - [WebSocketClient](#websocketclient)
     - [Task](#task)
@@ -115,7 +116,7 @@
 
   - 功能：判断 **IsaacSocket-Mod** 是否已连接
 
-  - 返回值：**bool** ，已连接返回`true`，未连接返回`false`
+  - 返回值：**boolean** ，已连接返回`true`，未连接返回`false`
 
   - 使用示例：
   
@@ -323,6 +324,119 @@
       end)
   ```
   
+### IsaacSocket.IsaacAPI
+
+`IsaacSocket.IsaacAPI`是 **IsaacAPI模块** 的接口变量
+
+它有如下方法：
+
+- `ReloadLua()`  
+
+  - 注意：由于在游戏内调用会出现一些已知问题，因此如果需要调用此方法，请在小退的回调中调用，这样会在菜单界面重置，与游戏本体的重置方式一致，不会出现问题
+  - 功能：重置游戏的**Lua环境**，所有mod都会被重新加载，与在mod菜单界面开关mod之后触发的重新加载的效果完全一致
+  - 已知问题：
+    - 在游戏内调用大概率会导致：
+      - 角色的影子尺寸不正常，消失或者变得很大，小退恢复正常
+      - 角色的质量不正常，表现为角色不能推动任何实体，小退恢复正常
+      - 如果你开启了某些mod（比如EID或者东方之类的大型mod），调用此方法会导致游戏崩溃
+
+  - 使用示例（在小退回调时调用）：
+
+  ```lua
+  local function OnGameExit(_, shouldSave)
+      if shouldSave then
+          IsaacSocket.IsaacAPI.ReloadLua()
+      end
+  end
+  
+  mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, OnGameExit)
+  ```
+
+- `GetDebugFlag()`
+
+  - 功能：获取当前的 **debug标志**
+  - 返回值：按位存储了 **debug标志** 的整数，最低位为**debug 1**，请用位与 `&` 运算符取出所需的标志位
+  - 使用示例：
+
+  ``````lua
+  local debugFlag = IsaacSocket.IsaacAPI.GetDebugFlag()
+  for i = 1, 14 do
+      if debugFlag & 2 ^ (i - 1) ~= 0 then
+          print("Debug " .. i .. " is Enabled")
+      end
+  end
+
+- `SetDebugFlag(debugFlag)` **未提供**
+
+  - 提示：此方法可以通过`GetDebugFlag()`和官方api简单的实现，因此不提供，实现方法：
+
+  ``````lua
+  local function SetDebugFlag(debugFlag)
+      local currentDebugFlag = IsaacSocket.IsaacAPI.GetDebugFlag()
+      for i = 1, 14 do
+          local mask = 2 ^ (i - 1)
+          if currentDebugFlag & mask ~= debugFlag & mask then
+              Isaac.ExecuteCommand("debug " .. i);
+          end
+      end
+  end
+  ``````
+
+- `GetCanShoot(playerId)` **未提供**
+
+  - 提示：此方法官方api已经存在，因此不提供： 官方api中的此方法：`Isaac.GetPlayer(playerId).CanShoot()`
+
+- `SetCanShoot(playerId, canShoot)`
+
+  - 功能：设置角色是否能射击
+  - 参数：
+    - `playerId`：玩家id，请传入一个整数，范围在0到当前角色数-1之间，如果不合法或为空，默认为0
+    - `canShoot`：能否射击，请传入一个**boolean**，`true`为能射击，`false`为不能射击，如果不合法或为空，默认为`true`
+
+- `GetActiveVarData(playerId, activeSlot)`
+
+  - 功能：得到主动的附加数据（例如后悔药的次数，里蓝人副主动里装了什么屎）
+  - 参数：
+    - `playerId`：玩家id，请传入一个整数，范围在0到当前角色数-1之间，如果不合法或为空，默认为0
+    - `activeSlot`：主动槽，详见 [ActiveSlot](https://moddingofisaac.com/docs/rep/enums/ActiveSlot.html)
+
+  - 返回值：整数，主动的附加数据
+
+- `SetActiveVarData(playerId, activeSlot, activeVarData)`
+
+- 功能：设置主动的附加数据（例如后悔药的次数，里蓝人副主动里装了什么屎）
+- 参数：
+  - `playerId`：玩家id，请传入一个整数，范围在0到当前角色数-1之间，如果不合法或为空，默认为0
+  - `activeSlot`：主动槽，详见 [ActiveSlot](https://moddingofisaac.com/docs/rep/enums/ActiveSlot.html)
+  - `activeVarData`：整数，主动的附加数据，如果不合法或为空，默认为0
+- `GetActivePartialCharge(playerId, activeSlot)`
+  - 功能：得到4.5伏特当前的充能进度
+  - 参数：
+    - `playerId`：玩家id，请传入一个整数，范围在0到当前角色数-1之间，如果不合法或为空，默认为0
+    - `activeSlot`：主动槽，详见 [ActiveSlot](https://moddingofisaac.com/docs/rep/enums/ActiveSlot.html)
+  - 返回值：小数，范围从0到1
+- `SetActivePartialCharge(playerId, activeSlot, partialCharge)`
+
+- 功能：设置4.5伏特当前的充能进度
+- 参数：
+  - `playerId`：玩家id，请传入一个整数，范围在0到当前角色数-1之间，如果不合法或为空，默认为0
+  - `activeSlot`：主动槽，详见 [ActiveSlot](https://moddingofisaac.com/docs/rep/enums/ActiveSlot.html)
+  - `partialCharge`：小数，范围从0到1，如果不合法或为空，默认为0
+
+- `GetActiveSubCharge(playerId, activeSlot)`
+  - 功能：得到9伏特当前的充能进度（仅在主动是1充能主动时有效）
+  - 参数：
+    - `playerId`：玩家id，请传入一个整数，范围在0到当前角色数-1之间，如果不合法或为空，默认为0
+    - `activeSlot`：主动槽，详见 [ActiveSlot](https://moddingofisaac.com/docs/rep/enums/ActiveSlot.html)
+  - 返回值：整数，范围从0到449
+- `SetActiveSubCharge(playerId, activeSlot, subCharge)`
+
+- 功能：设置9伏特当前的充能进度（仅在主动是1充能主动时有效）
+- 参数：
+  - `playerId`：玩家id，请传入一个整数，范围在0到当前角色数-1之间，如果不合法或为空，默认为0
+  - `activeSlot`：主动槽，详见 [ActiveSlot](https://moddingofisaac.com/docs/rep/enums/ActiveSlot.html)
+  - `subCharge`：整数，范围从0到449，如果不合法或为空，默认为0
+
 ## 衍生对象介绍
 
 有些接口的使用过程中，会产生一些衍生对象
@@ -339,10 +453,10 @@
 
   - `IsOpen()`  
     - 功能：判断 **WebSocket**是否已经连接
-    - 返回值：**bool**，`true`表示成功连接，`false`表示未成功连接
+    - 返回值：**boolean**，`true`表示成功连接，`false`表示未成功连接
   - `IsClosed()`  
     - 功能：判断 **WebSocket** 连接是否已经关闭
-    - 返回值：**bool**，`true`表示已经关闭连接，`false`表示未关闭连接
+    - 返回值：**boolean**，`true`表示已经关闭连接，`false`表示未关闭连接
   - `Send(message, isBinary)`  
     - 功能：发送一条 **WebSocket** 消息
     - 参数：`message`是要发送的消息，`isBinary`表示是否为二进制数据，如果为false则为文本消息，如果留空默认为文本消息
@@ -376,17 +490,17 @@
   - `IsCompletedSuccessfully()`
 
     - 功能：判断任务是否已经成功完成
-    - 返回值：**bool**，`true`表示已经成功完成，`false`表示仍在执行或者已经失败
+    - 返回值：**boolean**，`true`表示已经成功完成，`false`表示仍在执行或者已经失败
 
   - `IsFaulted()`
 
     - 功能：判断任务是否已经失败
-    - 返回值：**bool**，`true`表示已经失败，`false`表示仍在执行或者已经成功完成
+    - 返回值：**boolean**，`true`表示已经失败，`false`表示仍在执行或者已经成功完成
 
   - `IsCompleted()`
 
     - 功能：判断任务是否已经结束
-    - 返回值：**bool**，`true`表示已经结束（包括成功完成和已经失败），`false`表示仍在执行
+    - 返回值：**boolean**，`true`表示已经结束（包括成功完成和已经失败），`false`表示仍在执行
 
   - `Then(continuation)`
 
