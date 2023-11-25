@@ -7,7 +7,9 @@ local ActionType = {
     -- 设置数据
     SET_DATA = 1,
     -- 重载lua环境
-    RELOAD_LUA = 2
+    RELOAD_LUA = 2,
+    -- 暂停
+    FORCE_PAUSE = 3
 }
 local DataType = {
     -- debug标志
@@ -52,6 +54,14 @@ end
 -- 重新加载Lua环境
 local function ReloadLua()
     return MemoryMessageGenerated(string.pack("<I1", ActionType.RELOAD_LUA))
+end
+
+-- 暂停游戏
+local function ForcePause(pause)
+    if type(pause) ~= "boolean" then
+        pause = true
+    end
+    return MemoryMessageGenerated(string.pack("<I1<I1", ActionType.FORCE_PAUSE, pause and 1 or 0))
 end
 
 -- 判断playerID是否有效的
@@ -333,6 +343,7 @@ module.SetActivePartialCharge = SendActivePartialCharge
 module.SetActiveSubCharge = SendActiveSubCharge
 
 module.ReloadLua = ReloadLua
+module.ForcePause = ForcePause
 
 module.ReceiveMemoryMessage = ReceiveMemoryMessage
 module.Connected = Connected

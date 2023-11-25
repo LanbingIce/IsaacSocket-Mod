@@ -453,6 +453,11 @@ function IsaacSocket.IsaacAPI.ReloadLua()
     return require("isaac_socket.modules.common").IsaacAPI.ReloadLua()
 end
 
+-- 强制暂停
+function IsaacSocket.IsaacAPI.ForcePause(pause)
+    return require("isaac_socket.modules.common").IsaacAPI.ForcePause(pause)
+end
+
 -- 设置debug标志
 -- function IsaacSocket.IsaacAPI.SetDebugFlag(debugFlag)
 --     return require("isaac_socket.modules.common").IsaacAPI.SetDebugFlag(debugFlag)
