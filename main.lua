@@ -262,6 +262,7 @@ local function StateUpdate(heartbeat)
         else
             connectionState = ConnectionState.DISCONNECTED
             cw("Timeout")
+            IsaacSocket = nil
             -- 触发自定义回调：断开连接
             Isaac.RunCallback("ISAAC_SOCKET_DISCONNECTED")
             -- 触发所有模块的断开连接事件
@@ -289,6 +290,7 @@ local function StateUpdate(heartbeat)
             require("isaac_socket.modules.common").Connected()
 
             cw("Connected[" .. dataSpaceSize .. "]")
+            IsaacSocket = _ISAAC_SOCKET.IsaacSocket
             -- 触发自定义回调：已连接
             Isaac.RunCallback("ISAAC_SOCKET_CONNECTED")
         else
@@ -373,6 +375,7 @@ local function OnUnload(_, mod)
 
     if connectionState == ConnectionState.CONNECTED then
         connectionState = ConnectionState.DISCONNECTED
+        IsaacSocket = nil
         -- 触发自定义回调：断开连接
         Isaac.RunCallback("ISAAC_SOCKET_DISCONNECTED")
         require("isaac_socket.modules.common").Disconnected()
@@ -503,3 +506,7 @@ end
 function IsaacSocket.IsaacAPI.SetActiveSubCharge(playerId, activeSlot, subCharge)
     return require("isaac_socket.modules.common").IsaacAPI.SetActiveSubCharge(playerId, activeSlot, subCharge)
 end
+
+_ISAAC_SOCKET = {}
+_ISAAC_SOCKET.IsaacSocket = IsaacSocket
+IsaacSocket = nil
