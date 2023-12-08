@@ -344,8 +344,6 @@ local function ModuleCallback(callbackType, channel, message)
                 channelName = "ClipBoard"
             elseif channel == 3 then
                 channelName = "HttpClient"
-            elseif channel == 4 then
-                channelName = "IsaacAPI"
             else
                 channelName = channel
             end
