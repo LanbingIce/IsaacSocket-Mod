@@ -276,23 +276,25 @@ local function StateUpdate(heartbeat)
         if ext_send == 2128394904 and ext_receive == 1842063751 then
             return
         elseif ext_send == 1 and ext_receive >= 64 and ext_receive <= 4 * 1024 * 1024 then
-            -- 加载mod时读取配置可能会失败，因此这里再读取一次
-            LoadConfig()
-            dataSpaceSize = ext_receive
-            dataBodySize = dataSpaceSize - DATA_HEAD_SIZE
+            if _ISAAC_SOCKET.IsaacSocket.IsaacAPI then
+                -- 加载mod时读取配置可能会失败，因此这里再读取一次
+                LoadConfig()
+                dataSpaceSize = ext_receive
+                dataBodySize = dataSpaceSize - DATA_HEAD_SIZE
 
-            ext_receive = string.rep("\0", dataSpaceSize)
-            ext_send = sendTable.Serialize()
-            connectionState = ConnectionState.CONNECTED
-            -- 5秒钟的连接成功提示
-            hintTextTimer = 5 * 30
-            -- 触发所有模块的已连接事件
-            require("isaac_socket.modules.common").Connected()
+                ext_receive = string.rep("\0", dataSpaceSize)
+                ext_send = sendTable.Serialize()
+                connectionState = ConnectionState.CONNECTED
+                -- 5秒钟的连接成功提示
+                hintTextTimer = 5 * 30
+                -- 触发所有模块的已连接事件
+                require("isaac_socket.modules.common").Connected()
 
-            cw("Connected[" .. dataSpaceSize .. "]")
-            IsaacSocket = _ISAAC_SOCKET.IsaacSocket
-            -- 触发自定义回调：已连接
-            Isaac.RunCallback("ISAAC_SOCKET_CONNECTED")
+                cw("Connected[" .. dataSpaceSize .. "]")
+                IsaacSocket = _ISAAC_SOCKET.IsaacSocket
+                -- 触发自定义回调：已连接
+                Isaac.RunCallback("ISAAC_SOCKET_CONNECTED")
+            end
         else
             connectionState = ConnectionState.DISCONNECTED
             cw("Connect Error")
@@ -419,7 +421,6 @@ IsaacSocket = {}
 IsaacSocket.WebSocketClient = {}
 IsaacSocket.Clipboard = {}
 IsaacSocket.HttpClient = {}
-IsaacSocket.IsaacAPI = {}
 
 -- 获取连接状态,如果返回false，说明IsaacSocket尚未连接，暂时不可用
 -- 此方法已过时，始终返回真，请勿使用，现在只要IsaacSocket不为nil就可以确保连接成功
@@ -450,62 +451,6 @@ end
 -- 发送post请求，headers是table或者留空，body是正文，返回一个Task对象
 function IsaacSocket.HttpClient.PostAsync(url, headers, body)
     return require("isaac_socket.modules.common").HttpClient.PostAsync(url, headers, body)
-end
-
--- 重新加载Lua环境
-function IsaacSocket.IsaacAPI.ReloadLua()
-    return require("isaac_socket.modules.common").IsaacAPI.ReloadLua()
-end
-
--- 强制暂停
-function IsaacSocket.IsaacAPI.ForcePause(pause)
-    return require("isaac_socket.modules.common").IsaacAPI.ForcePause(pause)
-end
-
--- 设置debug标志
--- function IsaacSocket.IsaacAPI.SetDebugFlag(debugFlag)
---     return require("isaac_socket.modules.common").IsaacAPI.SetDebugFlag(debugFlag)
--- end
-
--- 获取debug标志
-function IsaacSocket.IsaacAPI.GetDebugFlag()
-    return require("isaac_socket.modules.common").IsaacAPI.GetDebugFlag()
-end
-
--- 获取能否射击
--- function IsaacSocket.IsaacAPI.GetCanShoot(playerId)
---     return require("isaac_socket.modules.common").IsaacAPI.GetCanShoot(playerId)
--- end
-
--- 设置能否射击
-function IsaacSocket.IsaacAPI.SetCanShoot(playerId, canShoot)
-    return require("isaac_socket.modules.common").IsaacAPI.SetCanShoot(playerId, canShoot)
-end
-
--- 获取主动VarData
-function IsaacSocket.IsaacAPI.GetActiveVarData(playerId, activeSlot)
-    return require("isaac_socket.modules.common").IsaacAPI.GetActiveVarData(playerId, activeSlot)
-end
-
--- 设置主动VarData
-function IsaacSocket.IsaacAPI.SetActiveVarData(playerId, activeSlot, activeVarData)
-    return require("isaac_socket.modules.common").IsaacAPI.SetActiveVarData(playerId, activeSlot, activeVarData)
-end
--- 获取主动PartialCharge
-function IsaacSocket.IsaacAPI.GetActivePartialCharge(playerId, activeSlot)
-    return require("isaac_socket.modules.common").IsaacAPI.GetActivePartialCharge(playerId, activeSlot)
-end
--- 设置主动PartialCharge
-function IsaacSocket.IsaacAPI.SetActivePartialCharge(playerId, activeSlot, partialCharge)
-    return require("isaac_socket.modules.common").IsaacAPI.SetActivePartialCharge(playerId, activeSlot, partialCharge)
-end
--- 获取主动SubCharge
-function IsaacSocket.IsaacAPI.GetActiveSubCharge(playerId, activeSlot)
-    return require("isaac_socket.modules.common").IsaacAPI.GetActiveSubCharge(playerId, activeSlot)
-end
--- 设置主动SubCharge
-function IsaacSocket.IsaacAPI.SetActiveSubCharge(playerId, activeSlot, subCharge)
-    return require("isaac_socket.modules.common").IsaacAPI.SetActiveSubCharge(playerId, activeSlot, subCharge)
 end
 
 _ISAAC_SOCKET = {}
