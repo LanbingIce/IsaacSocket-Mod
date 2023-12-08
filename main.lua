@@ -422,8 +422,9 @@ IsaacSocket.HttpClient = {}
 IsaacSocket.IsaacAPI = {}
 
 -- 获取连接状态,如果返回false，说明IsaacSocket尚未连接，暂时不可用
+-- 此方法已过时，始终返回真，请勿使用，现在只要IsaacSocket不为nil就可以确保连接成功
 function IsaacSocket.IsConnected()
-    return connectionState == ConnectionState.CONNECTED
+    return true
 end
 
 -- 创建一个WebsocketClient对象，第一个参数是地址，后面四个参数是回调，请提供函数
