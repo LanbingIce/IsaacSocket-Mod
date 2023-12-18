@@ -419,6 +419,7 @@ isaacSocketMod:AddCallback(ModCallbacks.MC_PRE_MOD_UNLOAD, OnUnload)
 -- 接口定义
 IsaacSocket = {}
 IsaacSocket.WebSocketClient = {}
+-- Clipboard模块已过时，请使用System模块替代
 IsaacSocket.Clipboard = {}
 IsaacSocket.HttpClient = {}
 
@@ -433,11 +434,14 @@ function IsaacSocket.WebSocketClient.New(address, callbackOnOpen, callbackOnMess
     return require("isaac_socket.modules.common").WebSocketClient.New(address, callbackOnOpen, callbackOnMessage,
         callbackOnClosed, callbackOnError)
 end
+
+-- Clipboard模块已过时，请使用System模块替代
 -- 获取剪贴板文本
 function IsaacSocket.Clipboard.GetClipboard()
     return require("isaac_socket.modules.common").Clipboard.GetClipboard()
 end
 
+-- Clipboard模块已过时，请使用System模块替代
 -- 设置剪贴板文本
 function IsaacSocket.Clipboard.SetClipboard(text)
     return require("isaac_socket.modules.common").Clipboard.SetClipboard(text)
