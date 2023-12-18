@@ -261,6 +261,7 @@ local function StateUpdate(heartbeat)
             end
         else
             connectionState = ConnectionState.DISCONNECTED
+            _ISAAC_SOCKET.Disconnect()
             cw("Timeout")
             IsaacSocket = nil
             -- 触发自定义回调：断开连接
@@ -375,6 +376,7 @@ local function OnUnload(_, mod)
 
     if connectionState == ConnectionState.CONNECTED then
         connectionState = ConnectionState.DISCONNECTED
+        _ISAAC_SOCKET.Disconnect()
         IsaacSocket = nil
         -- 触发自定义回调：断开连接
         Isaac.RunCallback("ISAAC_SOCKET_DISCONNECTED")
