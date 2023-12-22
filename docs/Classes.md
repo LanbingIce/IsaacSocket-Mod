@@ -36,7 +36,7 @@ Send(string message="", boolean isBinary=false)
 Close(integer closeStatus=1000, string statusDescription="")
 
 - 功能：关闭连接，**WebSocket** 连接将进入“正在关闭”状态，直到成功关闭
-- xxxxxxxxxx local cookie = "your_cookie"local csrf = "your_csrf"local msg = "hello"local url = "<https://api.live.bilibili.com/msg/send"local> headers = {    ["Cookie"] = cookie,    ["Content-Type"] = "application/x-www-form-urlencoded"}local body = "bubble=0&msg=" .. msg .. "&color=16777215&mode=1&fontsize=25&rnd=1637323682&roomid=3092145&csrf=" .. csrfIsaacSocket.HttpClient.PostAsync(url, headers, body).Then(function(task)    local result = task.GetResult()    if task.IsCompletedSuccessfully() then        local json = require("json").decode(result.body)        if json.code == 0 then            print("Sending a danmaku successfully.")        else            print("Sending a danmaku failed due to:" .. json.message)        end    else        print("faulted:" .. tostring(result))    endend)lua
+- 参数：
   - `closeStatus`： **WebSocket 关闭状态码** ，详见[WebSocket 关闭状态码](https://developer.mozilla.org/zh-CN/docs/Web/API/CloseEvent#%E5%B1%9E%E6%80%A7)
   - `statusDescription`： **关闭描述字符串**，可以留空，默认为空字符串
 
@@ -86,7 +86,7 @@ Type/string/nil GetResult()
 
 这是 **HTTP请求** 的响应对象
 
-当调用HttpClient模块的相关方法发送请求，可以通过[Task](#Task<Type>)\<Response\>对象获取Response返回值
+当调用HttpClient模块的相关方法发送请求，可以通过[Task](#tasktype)\<Response\>对象获取Response返回值
 
 #### statusCode
 
@@ -116,10 +116,10 @@ string body
 
 ### Continuation()
 
-Continuation([Task](#Task<Type>)\<Type\> task)
+Continuation([Task](#tasktype)\<Type\> task)
 
 - 参数：
-  - `task`：此异步操作对应的[Task](#Task<Type>)对象
+  - `task`：此异步操作对应的[Task](#tasktype)对象
 
 - 示例：
 

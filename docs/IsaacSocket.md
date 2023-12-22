@@ -56,7 +56,7 @@
 
 示例（调用WinAPI模块的AllocConsole()函数打开系统控制台，然后调用System模块的ConsoleOutput()方法输出"hello world"）：
 
-```
+```lua
 if IsaacSocket then
     IsaacSocket.WinAPI.AllocConsole()
     IsaacSocket.System.ConsoleOutput("hello world")

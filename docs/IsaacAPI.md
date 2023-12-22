@@ -6,15 +6,6 @@
 
 ## 模块函数
 
-### ForcePause(pause)
-
-ForcePause(boolean pause=true)
-
-- 功能：强制暂停/取消强制暂停游戏，强制暂停将导致 **Update** 完全停止，`Game():IsPaused()`返回`true`，无法呼出官方控制台和暂停菜单，不会影响 **Render** 以及获取按键输入。
-- 参数：
-  - `pause`：是否强制暂停，`true` 强制暂停，`false` 取消强制暂停
-- 自动恢复：此接口具有自动恢复特性，当IsaacSocket断开连接时，会自动取消强制暂停
-
 ### ReloadLua()
 
 ReloadLua(boolean luaDebug=luaDebug)
@@ -44,7 +35,7 @@ ReloadLua(boolean luaDebug=luaDebug)
   mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, OnGameExit)
   ```
 
-### IsForcePaused(pause)
+### ForcePause()
 
 ForcePause(boolean pause=true)
 
@@ -53,6 +44,13 @@ ForcePause(boolean pause=true)
   - `pause`：是否强制暂停，`true` 强制暂停，`false` 取消强制暂停
 - 自动恢复：此接口具有自动恢复特性，当IsaacSocket断开连接时，会自动取消强制暂停
 
+### IsForcePaused()
+
+bool IsForcePaused()
+
+- 判断当前是否强制暂停
+- 返回值：`true` 当前强制暂停，`false` 当前没有强制暂停
+
 ### GetDebugFlag()
 
 integer GetDebugFlag()
@@ -60,8 +58,8 @@ integer GetDebugFlag()
 - 功能：获取当前的 **debug标志**
 - 返回值：按位存储了 **debug标志** 的整数，最低位为**debug 1**，请用位与 `&` 运算符取出所需的标志位
 - 使用示例：
-
-```
+  
+```lua
 local debugFlag = IsaacSocket.IsaacAPI.GetDebugFlag()
 for i = 1, 14 do
     if debugFlag & 2 ^ (i - 1) ~= 0 then
@@ -118,7 +116,7 @@ table GetActive(integer playerId=0,[ActiveSlot](https://moddingofisaac.com/docs/
 
 - 返回值：这样格式的一个表
 
-  ```
+  ```lua
   local active = {
       item = 105,
       charge = 0,
