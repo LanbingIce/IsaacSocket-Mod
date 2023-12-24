@@ -1,6 +1,25 @@
 # 衍生对象说明
 
-[TOC]
+- [衍生对象说明](#衍生对象说明)
+  - [衍生类](#衍生类)
+    - [WebSocketClient](#websocketclient)
+      - [IsOpen()](#isopen)
+      - [IsClosed()](#isclosed)
+      - [Send()](#send)
+      - [Close()](#close)
+    - [Task\<Type\>](#tasktype)
+      - [IsCompletedSuccessfully()](#iscompletedsuccessfully)
+      - [IsCompleted()](#iscompleted)
+      - [IsFaulted()](#isfaulted)
+      - [Then()](#then)
+      - [GetResult()](#getresult)
+    - [Response](#response)
+      - [statusCode](#statuscode)
+      - [reasonPhrase](#reasonphrase)
+      - [headers](#headers)
+      - [body](#body)
+  - [回调函数](#回调函数)
+    - [Continuation()](#continuation)
 
 ## 衍生类
 

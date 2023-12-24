@@ -2,7 +2,10 @@
 
 这个模块提供了一些windows的api，仅原汁原味的提供，如果你不知道自己在做什么，请不要使用这个模块
 
-[TOC]
+- [WinAPI](#winapi)
+  - [模块函数](#模块函数)
+    - [AllocConsole()](#allocconsole)
+    - [FreeConsole()](#freeconsole)
 
 ## 模块函数
 

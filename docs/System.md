@@ -2,7 +2,11 @@
 
 这是一个用于提供某些系统功能的模块，
 
-[TOC]
+- [System](#system)
+  - [模块函数](#模块函数)
+    - [ConsoleOutput()](#consoleoutput)
+    - [GetClipboard()](#getclipboard)
+    - [SetClipboard()](#setclipboard)
 
 ## 模块函数
 

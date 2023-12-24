@@ -2,7 +2,25 @@
 
 这个模块提供了一些以撒官方API没有提供的接口
 
-[TOC]
+- [IsaacAPI](#isaacapi)
+  - [模块函数](#模块函数)
+    - [ReloadLua()](#reloadlua)
+    - [ForcePause()](#forcepause)
+    - [IsForcePaused()](#isforcepaused)
+    - [GetDebugFlag()](#getdebugflag)
+    - [GetConsoleInput()](#getconsoleinput)
+    - [IsConsoleOpen()](#isconsoleopen)
+    - [SetCanShoot()](#setcanshoot)
+    - [IsPauseMenuForceHidden()](#ispausemenuforcehidden)
+    - [ForceHidePauseMenu()](#forcehidepausemenu)
+    - [GetActive()](#getactive)
+    - [SetActive()](#setactive)
+    - [GetEdenTokens()](#getedentokens)
+    - [SetEdenTokens()](#setedentokens)
+    - [IsAchievementUnlocked()](#isachievementunlocked)
+    - [UnlockAchievement()](#unlockachievement)
+    - [IsMTRandomLocked()](#ismtrandomlocked)
+    - [LockMTRandom()](#lockmtrandom)
 
 ## 模块函数
 

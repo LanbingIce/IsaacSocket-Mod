@@ -2,7 +2,10 @@
 
 这是一个用于发送 **HTTP 请求** 的模块，支持 **GET** 和 **POST** 请求，支持 **http**，**https** 协议
 
-[TOC]
+- [HttpClient](#httpclient)
+  - [模块函数](#模块函数)
+    - [GetAysnc()](#getaysnc)
+    - [PostAysnc()](#postaysnc)
 
 ## 模块函数
 

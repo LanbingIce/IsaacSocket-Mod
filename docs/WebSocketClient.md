@@ -2,7 +2,14 @@
 
 这是一个用于建立连接WebSocket连接的模块，支持 **ws** 协议和 **wss** 协议
 
-[TOC]
+- [WebSocketClient](#websocketclient)
+  - [模块函数](#模块函数)
+    - [New()](#new)
+  - [回调函数](#回调函数)
+    - [CallbackOnOpen()](#callbackonopen)
+    - [CallbackOnMessage()](#callbackonmessage)
+    - [CallbackOnClosed()](#callbackonclosed)
+    - [CallbackOnError()](#callbackonerror)
 
 ## 模块函数
 

@@ -2,7 +2,12 @@
 
 这里是自定义回调的介绍
 
-[TOC]
+- [自定义回调](#自定义回调)
+  - [关于自定义回调](#关于自定义回调)
+  - [回调类型](#回调类型)
+    - [ISAAC\_SOCKET\_ON\_CHAR\_INPUT](#isaac_socket_on_char_input)
+    - [ISAAC\_SOCKET\_CONNECTED](#isaac_socket_connected)
+    - [ISAAC\_SOCKET\_DISCONNECTED](#isaac_socket_disconnected)
 
 ## 关于自定义回调
 
