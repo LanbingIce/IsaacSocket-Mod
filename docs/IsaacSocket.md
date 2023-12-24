@@ -10,6 +10,7 @@
       - [IsaacAPI](#isaacapi)
       - [System](#system)
       - [WinAPI](#winapi)
+      - [Memory](#memory)
       - [WebSocketClient](#websocketclient)
       - [HttpClient](#httpclient)
     - [其他](#其他)
@@ -89,6 +90,10 @@ end
 #### WinAPI
 
 WindowsAPI模块，文档：[WinAPI](WinAPI.md)
+
+#### Memory
+
+内存操作模块，文档：[Memory](Memory.md)
 
 #### WebSocketClient
 
