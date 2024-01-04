@@ -6,6 +6,18 @@ local isaacSocketMod = RegisterMod("IsaacSocket", 1)
 -- 1字节page,1字节replyPage，4字节replySize
 
 local DATA_HEAD_SIZE = 1 + 1 + 4
+
+-- 用于赋给ext_send和ext_receive的魔法数，用于连接程序查找
+-- 如果直接存储完整数值会干扰连接程序的查找，因此这里分开存储高位和低位
+
+-- 用于ext_send的魔法数：0x7EDCBA98
+local SEND_HIGH = 0x7EDC0000
+local SEND_LOW = 0xBA98
+
+-- 用于ext_receive的魔法数：0x6DCBA987
+local RECEIVE_HIGH = 0x6DCB0000
+local RECEIVE_LOW = 0xA987
+
 ----------------------------------------------------------------
 -- 枚举类型定义
 -- 内存连接状态：未连接/已连接
@@ -274,7 +286,7 @@ local function StateUpdate(heartbeat)
         -- 发送变量的值会被设为1，接收变量的值会被设为消息空间尺寸，尺寸的范围是64B到4MB，如果不在范围内，会将模块初始化
         -- 然后，将它们初始化为字符串，将状态置为已连接，然后可以正常通讯
         -- 发送变量的初始字符串由函数生成，接收变量的初始字符串为全部填充0x00
-        if ext_send == 2128394904 and ext_receive == 1842063751 then
+        if ext_send - SEND_HIGH == SEND_LOW and ext_receive - RECEIVE_HIGH == RECEIVE_LOW then
             return
         elseif ext_send == 1 and ext_receive >= 64 and ext_receive <= 4 * 1024 * 1024 then
             if _ISAAC_SOCKET.IsaacSocket.IsaacAPI then
@@ -310,8 +322,8 @@ local function StateUpdate(heartbeat)
         cw("Unloaded")
     elseif connectionState == ConnectionState.DISCONNECTED then
         connectionState = ConnectionState.CONNECTING
-        ext_send = 2128394904
-        ext_receive = 1842063751
+        ext_send = SEND_HIGH + SEND_LOW
+        ext_receive = RECEIVE_HIGH + RECEIVE_LOW
         sendTable.Initialize()
         receiveTable.Initialize()
         cw("Connecting...")
