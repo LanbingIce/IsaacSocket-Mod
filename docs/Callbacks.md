@@ -18,7 +18,7 @@
 添加回调的方式与官方回调一致，不同的是自定义回调的回调类型参数为字符串，以[ISAAC_SOCKET_ON_CHAR_INPUT](#isaac_socket_on_char_input)回调为例：
 
 ```lua
-local function OnCharInput(char)
+local function OnCharInput(_, char)
     print(char)
 end
 mod:AddCallback("ISAAC_SOCKET_ON_CHAR_INPUT", OnCharInput)
