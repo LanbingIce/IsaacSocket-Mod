@@ -64,7 +64,7 @@ ForcePause(boolean pause=true)
 
 ### IsForcePaused()
 
-bool IsForcePaused()
+boolean IsForcePaused()
 
 - 判断当前是否强制暂停
 - 返回值：`true` 当前强制暂停，`false` 当前没有强制暂停
