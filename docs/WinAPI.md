@@ -6,6 +6,8 @@
   - [模块函数](#模块函数)
     - [AllocConsole()](#allocconsole)
     - [FreeConsole()](#freeconsole)
+    - [GetAsyncKeyState()](#getasynckeystate)
+    - [GetKeyState()](#getkeystate)
 
 ## 模块函数
 
@@ -13,10 +15,35 @@
 
 AllocConsole ()
 
-- 功能：如果游戏没有已关联的系统控制台，则新建一个系统控制台并与其关联，游戏的所有log输出也会同时出现在关联的系统控制台中
+- 功能：为调用进程分配一个新的控制台。
+
+- 文档：[AllocConsole 函数](https://learn.microsoft.com/zh-cn/windows/console/allocconsole)
+
+---
 
 ### FreeConsole()
 
 FreeConsole()
 
-- 功能：如果游戏有已关联的系统控制台，则取消关联，取消关联的控制台不会自动关闭，请手动关闭
+- 功能：从其控制台分离调用进程。
+
+- 文档：[FreeConsole 函数](https://learn.microsoft.com/zh-cn/windows/console/freeconsole)
+
+---
+
+### GetAsyncKeyState()
+
+integer GetAsyncKeyState(integer vKey)
+
+- 功能：确定调用函数时键是向上还是向下，以及上次调用 GetAsyncKeyState 后是否按下了该键。
+- 文档：[GetAsyncKeyState 函数](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getasynckeystate)
+
+---
+
+### GetKeyState()
+
+integer GetKeyState(integer nVirtKey)
+
+- 功能：检索指定虚拟键的状态。 状态指定键是向上、向下还是切换， (打开、关闭—每次按下键时交替) 。
+
+- 文档：[GetKeyState 函数](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeystate)

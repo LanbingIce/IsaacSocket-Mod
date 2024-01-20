@@ -21,6 +21,13 @@
     - [UnlockAchievement()](#unlockachievement)
     - [IsMTRandomLocked()](#ismtrandomlocked)
     - [LockMTRandom()](#lockmtrandom)
+    - [GetItemIds()](#getitemids)
+    - [GetDonationCount()](#getdonationcount)
+    - [SetDonationCount()](#setdonationcount)
+    - [GetGreedDonationCount()](#getgreeddonationcount)
+    - [SetGreedDonationCount()](#setgreeddonationcount)
+    - [GetFrameInterval()](#getframeinterval)
+    - [SetFrameInterval()](#setframeinterval)
 
 ## 模块函数
 
@@ -53,6 +60,8 @@ ReloadLua(boolean luaDebug=luaDebug)
   mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, OnGameExit)
   ```
 
+---
+
 ### ForcePause()
 
 ForcePause(boolean pause=true)
@@ -62,12 +71,16 @@ ForcePause(boolean pause=true)
   - `pause`：是否强制暂停，`true` 强制暂停，`false` 取消强制暂停
 - 自动恢复：此接口具有自动恢复特性，当IsaacSocket断开连接时，会自动取消强制暂停
 
+---
+
 ### IsForcePaused()
 
 boolean IsForcePaused()
 
 - 判断当前是否强制暂停
 - 返回值：`true` 当前强制暂停，`false` 当前没有强制暂停
+
+---
 
 ### GetDebugFlag()
 
@@ -86,17 +99,23 @@ for i = 1, 14 do
 end
 ```
 
+---
+
 ### GetConsoleInput()
 
 string GetConsoleInput()
 
 - 功能：获取当前官方控制台的输入框中的文本
 
+---
+
 ### IsConsoleOpen()
 
 boolean IsConsoleOpen()
 
 - 功能：判断用户是否呼出了官方控制台
+
+---
 
 ### SetCanShoot()
 
@@ -106,11 +125,15 @@ SetCanShoot(integer playerId=0,canShoot=true)
 - 参数：
   - `canShoot`：角色是否能射击
 
+---
+
 ### IsPauseMenuForceHidden()
 
 boolean IsPauseMenuForceHidden()
 
 - 功能：查询是否强制隐藏了暂停菜单
+
+---
 
 ### ForceHidePauseMenu()
 
@@ -120,6 +143,8 @@ ForceHidePauseMenu(boolean hide=true)
 - 参数：
   - `hide`：是否强制隐藏暂停菜单
 - 自动恢复：此接口具有自动恢复特性，当**IsaacSocket**断开连接时，会自动取消强制隐藏
+
+---
 
 ### GetActive()
 
@@ -151,6 +176,8 @@ table GetActive(integer playerId=0,[ActiveSlot](https://moddingofisaac.com/docs/
   注意不要直接复制官方文档中的字段，因为它们是首字母大写的
 
   这个表可以用于[SetActive()](#setactive)的参数，但是一般来说没有必要这样做
+
+---
 
 ### SetActive()
 
@@ -184,11 +211,15 @@ SetActive(integer playerId=0,[ActiveSlot](https://moddingofisaac.com/docs/rep/en
 
     注意不要直接复制官方文档中的字段，因为它们是首字母大写的
 
+---
+
 ### GetEdenTokens()
 
 integer GetEdenTokens()
 
 - 功能：获取当前的伊甸币数量
+
+---
 
 ### SetEdenTokens()
 
@@ -198,6 +229,8 @@ SetEdenTokens(integer tokens)
 - 参数：
   - `tokens`：要设定的伊甸币数量的值
 
+---
+
 ### IsAchievementUnlocked()
 
 boolean IsAchievementUnlocked(integer achievementId=0)
@@ -205,6 +238,8 @@ boolean IsAchievementUnlocked(integer achievementId=0)
 - 功能：查询指定成就是否解锁/查询是否已解锁全成就
 - 参数：
   - `achievementId`：要查询的成就id，传入0代表查询是否已解锁全成就
+
+---
 
 ### UnlockAchievement()
 
@@ -215,11 +250,15 @@ UnlockAchievement(integer achievementId,boolean unlock=true)
   - `achievementId`：要解锁/锁定的成就id，传入0代表所有成就
   - `unlock`：`true`表示解锁，`false`表示锁定
 
+---
+
 ### IsMTRandomLocked()
 
 boolean IsMTRandomLocked()
 
 - 查询真随机的随机结果是否被锁定了，如需获取被锁定的具体值，可以调用`Random()`函数来获取
+
+---
 
 ### LockMTRandom()
 
@@ -229,3 +268,72 @@ LockMTRandom(integer value=0)
 - 参数：
   - `value`：要锁定的值，传入0将解除锁定
 - 自动恢复：此接口具有自动恢复特性，当**IsaacSocket**断开连接时，会自动解除锁定
+
+---
+
+### GetItemIds()
+
+table GetItemIds(integer playerId=0)
+
+- 功能：获取角色身上所有的道具的id
+- 参数：
+  - `playerId`：角色id
+- 返回值：数组形式的角色身上所有道具的id，以获取时间排序，重复的道具也会存在多个成员
+
+---
+
+### GetDonationCount()
+
+integer GetDonationCount()
+
+- 功能：获取存款机累计存款计数
+- 返回值：存款机累计存款计数（存炸时1000硬币并没有归0，而是累加了）
+
+---
+
+### SetDonationCount()
+
+ SetDonationCount(integer count)
+
+- 功能：设置存款机累计存款计数
+- 参数：
+  - `count`：存款机累计存款计数（存炸时1000硬币并没有归0，而是累加了，设置时需要注意这一点）
+
+---
+
+### GetGreedDonationCount()
+
+integer GetGreedDonationCount()
+
+- 功能：获取贪婪存款机累计存款计数
+- 返回值：贪婪存款机累计存款计数（存炸时1000硬币并没有归0，而是累加了）
+
+---
+
+### SetGreedDonationCount()
+
+ SetGreedDonationCount(integer count)
+
+- 功能：设置贪婪存款机累计存款计数
+- 参数：
+  - `count`：贪婪存款机累计存款计数（存炸时1000硬币并没有归0，而是累加了，设置时需要注意这一点）
+
+---
+
+### GetFrameInterval()
+
+number GetFrameInterval()
+
+- 功能：获取游戏的帧间隔
+- 返回值：游戏的帧间隔（默认是1/60）
+
+---
+
+### SetFrameInterval()
+
+ SetFrameInterval(number interval=1/60)
+
+- 功能：设置游戏的帧间隔
+- 参数：
+  - `interval`：要设置的帧间隔
+- 自动恢复：此接口具有自动恢复特性，当**IsaacSocket**断开连接时，帧间隔将恢复为1/60

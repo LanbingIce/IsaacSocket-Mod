@@ -5,6 +5,7 @@
 - [自定义回调](#自定义回调)
   - [关于自定义回调](#关于自定义回调)
   - [回调类型](#回调类型)
+    - [ISAAC\_SOCKET\_ON\_KEY\_DOWN](#isaac_socket_on_key_down)
     - [ISAAC\_SOCKET\_ON\_CHAR\_INPUT](#isaac_socket_on_char_input)
     - [ISAAC\_SOCKET\_CONNECTED](#isaac_socket_connected)
     - [ISAAC\_SOCKET\_DISCONNECTED](#isaac_socket_disconnected)
@@ -28,20 +29,35 @@ mod:AddCallback("ISAAC_SOCKET_ON_CHAR_INPUT", OnCharInput)
 
 ## 回调类型
 
+### ISAAC_SOCKET_ON_KEY_DOWN
+
+OnKeyDown([ModReference](https://moddingofisaac.com/docs/rep/ModReference.html) mod, integer keyCode)
+
+- 时机：用户按下一个键时
+- 参数：
+  - `keyCode`：用户按下的键代码
+- 返回值：`nil`或无返回值：无影响；其他任何值：将此次按键拦截，让游戏接收不到此次按键
+
+---
+
 ### ISAAC_SOCKET_ON_CHAR_INPUT
 
-OnCharInput([ModReference](https://moddingofisaac.com/docs/rep/ModReference.html) mod,string char)
+OnCharInput([ModReference](https://moddingofisaac.com/docs/rep/ModReference.html) mod, string char)
 
 - 时机：用户键入一个字符时（支持中文）
 - 参数：
   - `char`：用户键入的字符
 - 返回值：`nil`或无返回值：无影响；其他任何值：将此次键入拦截，让游戏接收不到此次键入
 
+---
+
 ### ISAAC_SOCKET_CONNECTED
 
 IsaacSocketOnConnected([ModReference](https://moddingofisaac.com/docs/rep/ModReference.html) mod)
 
 - 时机：IsaacSocket连接成功之后，此时所有模块可用，因此在此回调中调用接口是安全的，即使不检查`IsaacSocket`是否为`nil`
+
+---
 
 ### ISAAC_SOCKET_DISCONNECTED
 
