@@ -277,6 +277,8 @@ local function StateUpdate(heartbeat)
             cw("Timeout")
             IsaacSocket = nil
             -- 触发自定义回调：断开连接
+            Isaac.RunCallback("ISMC_PRE_CLOSE")
+            -- 兼容旧版名称，下个版本删除
             Isaac.RunCallback("ISAAC_SOCKET_DISCONNECTED")
             -- 触发所有模块的断开连接事件
             require("isaac_socket.modules.common").Disconnected()
@@ -306,6 +308,8 @@ local function StateUpdate(heartbeat)
                 cw("Connected[" .. dataSpaceSize .. "]")
                 IsaacSocket = _ISAAC_SOCKET.IsaacSocket
                 -- 触发自定义回调：已连接
+                Isaac.RunCallback("ISMC_POST_OPEN")
+                -- 兼容旧版名称，下个版本删除
                 Isaac.RunCallback("ISAAC_SOCKET_CONNECTED")
             end
         else
@@ -391,6 +395,8 @@ local function OnUnload(_, mod)
         _ISAAC_SOCKET.Disconnect()
         IsaacSocket = nil
         -- 触发自定义回调：断开连接
+        Isaac.RunCallback("ISMC_PRE_CLOSE")
+        -- 兼容旧版名称，下个版本删除
         Isaac.RunCallback("ISAAC_SOCKET_DISCONNECTED")
         require("isaac_socket.modules.common").Disconnected()
     end
