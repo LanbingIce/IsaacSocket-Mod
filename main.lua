@@ -269,7 +269,7 @@ local function StateUpdate(heartbeat)
 
             -- 更新发送表，如果有新消息，对发送表进行序列化并赋值给发送变量
             if sendTable.Update() then
-                ext_send = sendTable.Serialize(receiveTable)
+                ext_send = sendTable.Serialize()
             end
         else
             connectionState = ConnectionState.DISCONNECTED
