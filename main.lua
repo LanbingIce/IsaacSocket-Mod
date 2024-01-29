@@ -302,11 +302,12 @@ local function StateUpdate(heartbeat)
                 connectionState = ConnectionState.CONNECTED
                 -- 5秒钟的连接成功提示
                 hintTextTimer = 5 * 30
+                -- 使 IsaacSocket 可见
+                IsaacSocket = _ISAAC_SOCKET.IsaacSocket
                 -- 触发所有模块的已连接事件
                 require("isaac_socket.modules.common").Connected()
 
                 cw("Connected[" .. dataSpaceSize .. "]")
-                IsaacSocket = _ISAAC_SOCKET.IsaacSocket
                 -- 触发自定义回调：已连接
                 Isaac.RunCallback("ISMC_POST_OPEN")
                 -- 兼容旧版名称，下个版本删除
