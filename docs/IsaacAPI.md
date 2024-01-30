@@ -28,6 +28,7 @@
     - [SetGreedDonationCount()](#setgreeddonationcount)
     - [GetFrameInterval()](#getframeinterval)
     - [SetFrameInterval()](#setframeinterval)
+    - [ConsoleOutput()](#consoleoutput)
 
 ## 模块函数
 
@@ -331,9 +332,20 @@ number GetFrameInterval()
 
 ### SetFrameInterval()
 
- SetFrameInterval(number interval=1/60)
+ SetFrameInterval(number interval = 1/60)
 
 - 功能：设置游戏的帧间隔
 - 参数：
   - `interval`：要设置的帧间隔
 - 自动恢复：此接口具有自动恢复特性，当**IsaacSocket**断开连接时，帧间隔将恢复为1/60
+
+---
+
+### ConsoleOutput()
+
+ ConsoleOutput(string text,integer color = 0xFFD3D3D3)
+
+- 功能：在游戏控制台中输出文本，支持指定颜色
+- 参数：
+  - `text`：要输出的文本
+  - `color`：文本的颜色
