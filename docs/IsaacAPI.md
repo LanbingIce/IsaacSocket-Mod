@@ -29,6 +29,7 @@
     - [GetFrameInterval()](#getframeinterval)
     - [SetFrameInterval()](#setframeinterval)
     - [ConsoleOutput()](#consoleoutput)
+    - [GetFPS()](#getfps)
 
 ## 模块函数
 
@@ -338,6 +339,7 @@ number GetFrameInterval()
 - 参数：
   - `interval`：要设置的帧间隔
 - 自动恢复：此接口具有自动恢复特性，当**IsaacSocket**断开连接时，帧间隔将恢复为1/60
+- 已知问题：当 `Options.VSync` 设置为 `true` 时，设置小于1/60的值有可能无法加速游戏，此时需要将 `Options.VSync` 设置为 `false`
 
 ---
 
@@ -349,3 +351,12 @@ number GetFrameInterval()
 - 参数：
   - `text`：要输出的文本
   - `color`：文本的颜色
+
+---
+
+### GetFPS()
+
+integer GetFPS()
+
+- 功能：获取当前游戏的FPS
+- 返回值：当前游戏的FPS
