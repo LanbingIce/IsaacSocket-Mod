@@ -18,6 +18,9 @@ local SEND_LOW = 0xBA98
 local RECEIVE_HIGH = 0x6DCB0000
 local RECEIVE_LOW = 0xA987
 
+-- 支持ImGui的最低版本
+local MIN_IMGUI_VERSION = "2.5"
+
 ----------------------------------------------------------------
 -- 枚举类型定义
 -- 内存连接状态：未连接/已连接
@@ -218,6 +221,19 @@ local function cw(...)
     return false
 end
 
+-- 获取版本号文本
+local function GetVersionText()
+    return _ISAAC_SOCKET.version .. "-" .. _ISAAC_SOCKET.modVersion
+end
+
+-- 能否使用ImGui
+local function CanUseImGui()
+    if connectionState ~= ConnectionState.CONNECTED and connectionState ~= ConnectionState.CONNECTING then
+        return false
+    end
+    return _ISAAC_SOCKET.IsaacSocket.CheckVersion(MIN_IMGUI_VERSION)
+end
+
 -- 读取配置文件
 local function LoadConfig()
     local modData = isaacSocketMod:LoadData()
@@ -230,13 +246,9 @@ end
 
 -- 渲染提示文字
 local function RenderHintText()
-    if connectionState == ConnectionState.CONNECTED and hintTextTimer > 0 then
-        if debugMode then
-            font:DrawStringScaledUTF8("IsaacSocket (" .. folderName .. ") 连接成功!", 2, 0, 0.5, 0.5,
-                KColor(0, 1, 0, 1), 0, false)
-        else
-            font:DrawStringScaledUTF8("IsaacSocket 连接成功!", 2, 0, 0.5, 0.5, KColor(0, 1, 0, 1), 0, false)
-        end
+    if connectionState == ConnectionState.CONNECTED and hintTextTimer > 0 and not CanUseImGui() then
+        font:DrawStringScaledUTF8("IsaacSocket v" .. GetVersionText() .. " 连接成功!", 2, 0, 0.5, 0.5,
+            KColor(0, 1, 0, 1), 0, false)
     elseif connectionState == ConnectionState.CONNECTING then
         font:DrawStringScaledUTF8(
             "IsaacSocket 连接失败,请查看 IsaacSocket 的创意工坊页面,按照页面上的使用步骤下载 \"IsaacSocket 连接工具\" 并启动,如果仍然失败,可以尝试关闭杀毒软件或者使用管理员模式启动 \"IsaacSocket 连接工具\"",
@@ -377,8 +389,35 @@ end
 
 -- 画面渲染回调
 local function OnRender()
-    StateUpdate(true)
+    if not CanUseImGui() then
+        StateUpdate(true)
+    end
     RenderHintText()
+end
+
+-- SwapBuffers 之前，即使在主菜单也会执行
+local function PreSwapBuffers()
+    if CanUseImGui() then
+        StateUpdate(true)
+    end
+end
+
+-- ImGui渲染
+local function ImGuiRender()
+    if hintTextTimer > 0 and CanUseImGui() then
+        local ImGui = IsaacSocket.ImGui
+        local flags = 1 << 1 | 1 << 6 | 1 << 8 -- ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings
+        local _, open = ImGui.Begin("提示##_IsaacSocket1", hintTextTimer > 0, flags)
+        if not open then
+            hintTextTimer = 0
+        end
+        ImGui.Text("IsaacSocket 连接成功!")
+        ImGui.Text("版本号: " .. GetVersionText())
+        if ImGui.Button("确定##_IsaacSocket2") then
+            hintTextTimer = 0
+        end
+        ImGui.End()
+    end
 end
 
 -- Mod被卸载时（包括重新加载）
@@ -428,6 +467,8 @@ StateUpdate(false)
 isaacSocketMod:AddCallback(ModCallbacks.MC_POST_RENDER, OnRender)
 isaacSocketMod:AddCallback(ModCallbacks.MC_POST_UPDATE, OnUpdate)
 isaacSocketMod:AddCallback(ModCallbacks.MC_PRE_MOD_UNLOAD, OnUnload)
+isaacSocketMod:AddCallback("ISMC_IMGUI_RENDER", ImGuiRender)
+isaacSocketMod:AddCallback("ISMC_PRE_SWAP_BUFFERS", PreSwapBuffers)
 ----------------------------------------------------------------
 -- 接口定义
 IsaacSocket = {}
