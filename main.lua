@@ -517,7 +517,7 @@ function IsaacSocket.HttpClient.PostAsync(url, headers, body)
 end
 
 _ISAAC_SOCKET = {}
-_ISAAC_SOCKET.modVersion = "240216.0"
+_ISAAC_SOCKET.modVersion = "240217.0"
 _ISAAC_SOCKET.version = "1.0"
 _ISAAC_SOCKET.IsaacSocket = IsaacSocket
 IsaacSocket = nil
