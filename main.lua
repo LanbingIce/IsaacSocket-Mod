@@ -224,7 +224,7 @@ local function cw(...)
 end
 
 -- 获取版本号文本
-local function GetVersionText()
+local function GetVersion()
     return _ISAAC_SOCKET.version .. "-" .. _ISAAC_SOCKET.modVersion
 end
 
@@ -249,7 +249,7 @@ end
 -- 渲染提示文字
 local function RenderHintText()
     if connectionState == ConnectionState.CONNECTED and hintTextTimer > 0 and not CanUseImGui() then
-        font:DrawStringScaledUTF8("IsaacSocket v" .. GetVersionText() .. " 连接成功!", 2, 0, 0.5, 0.5,
+        font:DrawStringScaledUTF8("IsaacSocket v" .. GetVersion() .. " 连接成功!", 2, 0, 0.5, 0.5,
             KColor(0, 1, 0, 1), 0, false)
     elseif connectionState == ConnectionState.CONNECTING then
         font:DrawStringScaledUTF8(
@@ -413,7 +413,7 @@ local function ImGuiRender()
             hintTextTimer = 0
         end
         ImGui.Text("IsaacSocket 连接成功!")
-        ImGui.Text("版本号: " .. GetVersionText())
+        ImGui.Text("版本号: " .. GetVersion())
         if ImGui.Button("确定##_IsaacSocket2") then
             hintTextTimer = 0
         end
@@ -480,28 +480,24 @@ IsaacSocket.HttpClient = {}
 
 -- 返回版本号
 function IsaacSocket.GetVersion()
-    return _ISAAC_SOCKET.version
-end
-
--- 返回Mod的版本号
-function IsaacSocket.GetModVersion()
-    return _ISAAC_SOCKET.modVersion
+    return GetVersion()
 end
 
 -- 检查版本号
 function IsaacSocket.CheckVersion(version)
-    if version then
-        return tonumber(_ISAAC_SOCKET.version) >= tonumber(version)
+    if type(version) ~= "string" then
+        error("bad argument #1 (string expected, got " .. type(version) .. ")")
     end
-    return false
-end
-
--- 检查Mod的版本号
-function IsaacSocket.CheckModVersion(modVersion)
-    if modVersion then
-        return tonumber(_ISAAC_SOCKET.modVersion) >= tonumber(modVersion)
+    local modVersion = ""
+    local pos = string.find(version, "-")
+    if pos then
+        modVersion = string.sub(version, pos + 1)
+        version = string.sub(version, 1, pos - 1)
     end
-    return false
+    version = "0" .. version
+    modVersion = "0" .. modVersion
+    return tonumber(_ISAAC_SOCKET.version) >= tonumber(version) and tonumber(_ISAAC_SOCKET.modVersion) >=
+               tonumber(modVersion)
 end
 
 -- 创建一个WebsocketClient对象，第一个参数是地址，后面四个参数是回调，请提供函数
