@@ -434,6 +434,32 @@ IsaacSocket = {}
 IsaacSocket.WebSocketClient = {}
 IsaacSocket.HttpClient = {}
 
+-- 返回版本号
+function IsaacSocket.GetVersion()
+    return _ISAAC_SOCKET.version
+end
+
+-- 返回Mod的版本号
+function IsaacSocket.GetModVersion()
+    return _ISAAC_SOCKET.modVersion
+end
+
+-- 检查版本号
+function IsaacSocket.CheckVersion(version)
+    if version then
+        return tonumber(_ISAAC_SOCKET.version) >= tonumber(version)
+    end
+    return false
+end
+
+-- 检查Mod的版本号
+function IsaacSocket.CheckModVersion(modVersion)
+    if modVersion then
+        return tonumber(_ISAAC_SOCKET.modVersion) >= tonumber(modVersion)
+    end
+    return false
+end
+
 -- 创建一个WebsocketClient对象，第一个参数是地址，后面四个参数是回调，请提供函数
 function IsaacSocket.WebSocketClient.New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed, callbackOnError)
     return require("isaac_socket.modules.common").WebSocketClient.New(address, callbackOnOpen, callbackOnMessage,
@@ -451,5 +477,7 @@ function IsaacSocket.HttpClient.PostAsync(url, headers, body)
 end
 
 _ISAAC_SOCKET = {}
+_ISAAC_SOCKET.modVersion = "240216.0"
+_ISAAC_SOCKET.version = "1.0"
 _ISAAC_SOCKET.IsaacSocket = IsaacSocket
 IsaacSocket = nil
