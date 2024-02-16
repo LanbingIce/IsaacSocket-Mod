@@ -278,8 +278,6 @@ local function StateUpdate(heartbeat)
             IsaacSocket = nil
             -- 触发自定义回调：断开连接
             Isaac.RunCallback("ISMC_PRE_CLOSE")
-            -- 兼容旧版名称，下个版本删除
-            Isaac.RunCallback("ISAAC_SOCKET_DISCONNECTED")
             -- 触发所有模块的断开连接事件
             require("isaac_socket.modules.common").Disconnected()
         end
@@ -310,8 +308,6 @@ local function StateUpdate(heartbeat)
                 cw("Connected[" .. dataSpaceSize .. "]")
                 -- 触发自定义回调：已连接
                 Isaac.RunCallback("ISMC_POST_OPEN")
-                -- 兼容旧版名称，下个版本删除
-                Isaac.RunCallback("ISAAC_SOCKET_CONNECTED")
             end
         else
             connectionState = ConnectionState.DISCONNECTED
@@ -397,8 +393,6 @@ local function OnUnload(_, mod)
         IsaacSocket = nil
         -- 触发自定义回调：断开连接
         Isaac.RunCallback("ISMC_PRE_CLOSE")
-        -- 兼容旧版名称，下个版本删除
-        Isaac.RunCallback("ISAAC_SOCKET_DISCONNECTED")
         require("isaac_socket.modules.common").Disconnected()
     end
 
@@ -438,32 +432,12 @@ isaacSocketMod:AddCallback(ModCallbacks.MC_PRE_MOD_UNLOAD, OnUnload)
 -- 接口定义
 IsaacSocket = {}
 IsaacSocket.WebSocketClient = {}
--- Clipboard模块已过时，请使用System模块替代
-IsaacSocket.Clipboard = {}
 IsaacSocket.HttpClient = {}
-
--- 获取连接状态,如果返回false，说明IsaacSocket尚未连接，暂时不可用
--- 此方法已过时，始终返回真，请勿使用，现在只要IsaacSocket不为nil就可以确保连接成功
-function IsaacSocket.IsConnected()
-    return true
-end
 
 -- 创建一个WebsocketClient对象，第一个参数是地址，后面四个参数是回调，请提供函数
 function IsaacSocket.WebSocketClient.New(address, callbackOnOpen, callbackOnMessage, callbackOnClosed, callbackOnError)
     return require("isaac_socket.modules.common").WebSocketClient.New(address, callbackOnOpen, callbackOnMessage,
         callbackOnClosed, callbackOnError)
-end
-
--- Clipboard模块已过时，请使用System模块替代
--- 获取剪贴板文本
-function IsaacSocket.Clipboard.GetClipboard()
-    return require("isaac_socket.modules.common").Clipboard.GetClipboard()
-end
-
--- Clipboard模块已过时，请使用System模块替代
--- 设置剪贴板文本
-function IsaacSocket.Clipboard.SetClipboard(text)
-    return require("isaac_socket.modules.common").Clipboard.SetClipboard(text)
 end
 
 -- 发送get请求，headers是table或者留空，返回一个Task对象
