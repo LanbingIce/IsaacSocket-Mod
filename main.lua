@@ -54,6 +54,8 @@ local hintTextTimer
 local debugMode
 -- 文件夹名称
 local folderName
+-- dll是否已经初始化
+local dllInitialized
 ----------------------------------------------------------------
 -- 类定义
 -- 接收表
@@ -389,17 +391,16 @@ end
 
 -- 画面渲染回调
 local function OnRender()
-    if not CanUseImGui() then
+    if not dllInitialized then
         StateUpdate(true)
     end
     RenderHintText()
 end
 
--- SwapBuffers 之前，即使在主菜单也会执行
-local function PreSwapBuffers()
-    if CanUseImGui() then
-        StateUpdate(true)
-    end
+-- IsaacSocket的更新回调，即使在主菜单也会执行
+local function IsaacSocketUpdate()
+    dllInitialized = true
+    StateUpdate(true)
 end
 
 -- ImGui渲染
@@ -453,6 +454,8 @@ font:Load("font/cjk/lanapixel.fnt")
 receiveTable = NewReceiveTable()
 sendTable = NewSendTable()
 
+dllInitialized = false
+
 hintTextTimer = 0
 -- 这里读取配置可能会失败，所以连接成功时会再次读取
 LoadConfig()
@@ -468,7 +471,7 @@ isaacSocketMod:AddCallback(ModCallbacks.MC_POST_RENDER, OnRender)
 isaacSocketMod:AddCallback(ModCallbacks.MC_POST_UPDATE, OnUpdate)
 isaacSocketMod:AddCallback(ModCallbacks.MC_PRE_MOD_UNLOAD, OnUnload)
 isaacSocketMod:AddCallback("ISMC_IMGUI_RENDER", ImGuiRender)
-isaacSocketMod:AddCallback("ISMC_PRE_SWAP_BUFFERS", PreSwapBuffers)
+isaacSocketMod:AddCallback("_ISAAC_SOCKET_UPDATE", IsaacSocketUpdate)
 ----------------------------------------------------------------
 -- 接口定义
 IsaacSocket = {}
