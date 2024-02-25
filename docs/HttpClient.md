@@ -4,14 +4,14 @@
 
 - [HttpClient](#httpclient)
   - [模块函数](#模块函数)
-    - [GetAysnc()](#getaysnc)
-    - [PostAysnc()](#postaysnc)
+    - [GetAsync()](#getasync)
+    - [PostAsync()](#postasync)
 
 ## 模块函数
 
-### GetAysnc()
+### GetAsync()
 
-[Task](Classes.md#Task<Type>)\<[Response](Classes.md#Response)\> GetAysnc(string url, table headers)
+[Task](Classes.md#Task<Type>)\<[Response](Classes.md#Response)\> GetAsync(string url, table headers)
 
 - 功能：发送 **HTTP GET请求**
 
@@ -38,9 +38,9 @@
     end)
     ````
 
-### PostAysnc()
+### PostAsync()
 
-[Task](Classes.md#Task<Type>)\<[Response](Classes.md#Response)\> PostAysnc(string url, table headers,string body)
+[Task](Classes.md#Task<Type>)\<[Response](Classes.md#Response)\> PostAsync(string url, table headers,string body)
 
 - 功能：发送 **HTTP POST请求**，支持 **http**，**https** 协议
 

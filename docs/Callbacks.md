@@ -84,8 +84,6 @@ MyFuntion([ModReference](https://moddingofisaac.com/docs/rep/ModReference.html) 
   - `nil`或无返回值：无影响
   - `string`：修改控制台指令
   - 其他任何值：拦截此次指令
-- 已知问题：
-  - 返回空字符串将会导致游戏崩溃
 
 ---
 
