@@ -11,6 +11,8 @@
     - [ISMC\_PRE\_CHAR\_INPUT](#ismc_pre_char_input)
     - [ISMC\_PRE\_EXECUTE\_CMD](#ismc_pre_execute_cmd)
     - [ISMC\_PRE\_CONSOLE\_OUTPUT](#ismc_pre_console_output)
+    - [ISMC\_IMGUI\_RENDER](#ismc_imgui_render)
+    - [ISMC\_IMGUI\_MAIN\_MENU\_BAR\_RENDER](#ismc_imgui_main_menu_bar_render)
 
 ## 关于自定义回调
 
@@ -99,3 +101,19 @@ MyFuntion([ModReference](https://moddingofisaac.com/docs/rep/ModReference.html) 
   - `nil`或无返回值：无影响
   - `string`：修改输出的字符串
   - 其他任何值：拦截此次输出
+
+### ISMC_IMGUI_RENDER
+
+MyFuntion([ModReference](https://moddingofisaac.com/docs/rep/ModReference.html) mod)
+
+- 时机：渲染ImGui
+- 返回值：
+  - 任何值：无影响
+
+### ISMC_IMGUI_MAIN_MENU_BAR_RENDER
+
+MyFuntion([ModReference](https://moddingofisaac.com/docs/rep/ModReference.html) mod)
+
+- 时机：渲染ImGui的主菜单
+- 返回值：
+  - 任何值：无影响
