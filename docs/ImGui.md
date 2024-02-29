@@ -32,6 +32,353 @@
     - [ImGuiComboFlags](#imguicomboflags)
   - [模块函数](#模块函数)
     - [ImVec2()](#imvec2)
+    - [ImVec4()](#imvec4)
+    - [CreateContext()](#createcontext)
+    - [DestroyContext()](#destroycontext)
+    - [GetCurrentContext()](#getcurrentcontext)
+    - [SetCurrentContext()](#setcurrentcontext)
+    - [GetIO()](#getio)
+    - [GetStyle()](#getstyle)
+    - [NewFrame()](#newframe)
+    - [EndFrame()](#endframe)
+    - [Render()](#render)
+    - [GetDrawData()](#getdrawdata)
+    - [ShowDemoWindow()](#showdemowindow)
+    - [ShowMetricsWindow()](#showmetricswindow)
+    - [ShowDebugLogWindow()](#showdebuglogwindow)
+    - [ShowIDStackToolWindow()](#showidstacktoolwindow)
+    - [ShowAboutWindow()](#showaboutwindow)
+    - [ShowStyleEditor()](#showstyleeditor)
+    - [ShowStyleSelector()](#showstyleselector)
+    - [ShowFontSelector()](#showfontselector)
+    - [ShowUserGuide()](#showuserguide)
+    - [GetVersion()](#getversion)
+    - [StyleColorsDark()](#stylecolorsdark)
+    - [StyleColorsLight()](#stylecolorslight)
+    - [StyleColorsClassic()](#stylecolorsclassic)
+    - [Begin()](#begin)
+    - [End()](#end)
+    - [BeginChild()](#beginchild)
+    - [EndChild()](#endchild)
+    - [IsWindowAppearing()](#iswindowappearing)
+    - [IsWindowCollapsed()](#iswindowcollapsed)
+    - [IsWindowFocused()](#iswindowfocused)
+    - [IsWindowHovered()](#iswindowhovered)
+    - [GetWindowDrawList()](#getwindowdrawlist)
+    - [GetWindowPos()](#getwindowpos)
+    - [GetWindowSize()](#getwindowsize)
+    - [GetWindowWidth()](#getwindowwidth)
+    - [GetWindowHeight()](#getwindowheight)
+    - [SetNextWindowPos()](#setnextwindowpos)
+    - [SetNextWindowSize()](#setnextwindowsize)
+    - [SetNextWindowSizeConstraints()](#setnextwindowsizeconstraints)
+    - [SetNextWindowContentSize()](#setnextwindowcontentsize)
+    - [SetNextWindowCollapsed()](#setnextwindowcollapsed)
+    - [SetNextWindowFocus()](#setnextwindowfocus)
+    - [SetNextWindowScroll()](#setnextwindowscroll)
+    - [SetNextWindowBgAlpha()](#setnextwindowbgalpha)
+    - [SetWindowPos()](#setwindowpos)
+    - [SetWindowSize()](#setwindowsize)
+    - [SetWindowCollapsed()](#setwindowcollapsed)
+    - [SetWindowFocus()](#setwindowfocus)
+    - [SetWindowFontScale()](#setwindowfontscale)
+    - [GetContentRegionAvail()](#getcontentregionavail)
+    - [GetContentRegionMax()](#getcontentregionmax)
+    - [GetWindowContentRegionMin()](#getwindowcontentregionmin)
+    - [GetWindowContentRegionMax()](#getwindowcontentregionmax)
+    - [GetScrollX()](#getscrollx)
+    - [GetScrollY()](#getscrolly)
+    - [SetScrollX()](#setscrollx)
+    - [SetScrollY()](#setscrolly)
+    - [GetScrollMaxX()](#getscrollmaxx)
+    - [GetScrollMaxY()](#getscrollmaxy)
+    - [SetScrollHereX()](#setscrollherex)
+    - [SetScrollHereY()](#setscrollherey)
+    - [SetScrollFromPosX()](#setscrollfromposx)
+    - [SetScrollFromPosY()](#setscrollfromposy)
+    - [PushFont()](#pushfont)
+    - [PopFont()](#popfont)
+    - [PushStyleColor()](#pushstylecolor)
+    - [PopStyleColor()](#popstylecolor)
+    - [PushStyleVar()](#pushstylevar)
+    - [PopStyleVar()](#popstylevar)
+    - [PushTabStop()](#pushtabstop)
+    - [PopTabStop()](#poptabstop)
+    - [PushButtonRepeat()](#pushbuttonrepeat)
+    - [PopButtonRepeat()](#popbuttonrepeat)
+    - [PushItemWidth()](#pushitemwidth)
+    - [PopItemWidth()](#popitemwidth)
+    - [SetNextItemWidth()](#setnextitemwidth)
+    - [CalcItemWidth()](#calcitemwidth)
+    - [PushTextWrapPos()](#pushtextwrappos)
+    - [PopTextWrapPos()](#poptextwrappos)
+    - [GetFont()](#getfont)
+    - [GetFontSize()](#getfontsize)
+    - [GetFontTexUvWhitePixel()](#getfonttexuvwhitepixel)
+    - [GetColorU32()](#getcoloru32)
+    - [GetStyleColorVec4()](#getstylecolorvec4)
+    - [GetCursorScreenPos()](#getcursorscreenpos)
+    - [SetCursorScreenPos()](#setcursorscreenpos)
+    - [GetCursorPos()](#getcursorpos)
+    - [GetCursorPosX()](#getcursorposx)
+    - [GetCursorPosY()](#getcursorposy)
+    - [SetCursorPos()](#setcursorpos)
+    - [SetCursorPosX()](#setcursorposx)
+    - [SetCursorPosY()](#setcursorposy)
+    - [GetCursorStartPos()](#getcursorstartpos)
+    - [Separator()](#separator)
+    - [SameLine()](#sameline)
+    - [NewLine()](#newline)
+    - [Spacing()](#spacing)
+    - [Dummy()](#dummy)
+    - [Indent()](#indent)
+    - [Unindent()](#unindent)
+    - [BeginGroup()](#begingroup)
+    - [EndGroup()](#endgroup)
+    - [AlignTextToFramePadding()](#aligntexttoframepadding)
+    - [GetTextLineHeight()](#gettextlineheight)
+    - [GetTextLineHeightWithSpacing()](#gettextlineheightwithspacing)
+    - [GetFrameHeight()](#getframeheight)
+    - [GetFrameHeightWithSpacing()](#getframeheightwithspacing)
+    - [PushID()](#pushid)
+    - [PopID()](#popid)
+    - [GetID()](#getid)
+    - [TextUnformatted()](#textunformatted)
+    - [Text()](#text)
+    - [TextV()](#textv)
+    - [TextColored()](#textcolored)
+    - [TextColoredV()](#textcoloredv)
+    - [TextDisabled()](#textdisabled)
+    - [TextDisabledV()](#textdisabledv)
+    - [TextWrapped()](#textwrapped)
+    - [TextWrappedV()](#textwrappedv)
+    - [LabelText()](#labeltext)
+    - [LabelTextV()](#labeltextv)
+    - [BulletText()](#bullettext)
+    - [BulletTextV()](#bullettextv)
+    - [SeparatorText()](#separatortext)
+    - [Button()](#button)
+    - [SmallButton()](#smallbutton)
+    - [InvisibleButton()](#invisiblebutton)
+    - [ArrowButton()](#arrowbutton)
+    - [Checkbox()](#checkbox)
+    - [CheckboxFlags()](#checkboxflags)
+    - [RadioButton()](#radiobutton)
+    - [ProgressBar()](#progressbar)
+    - [Bullet()](#bullet)
+    - [Image()](#image)
+    - [ImageButton()](#imagebutton)
+    - [BeginCombo()](#begincombo)
+    - [EndCombo()](#endcombo)
+    - [Combo()](#combo)
+    - [DragFloat()](#dragfloat)
+    - [DragFloat2()](#dragfloat2)
+    - [DragFloat3()](#dragfloat3)
+    - [DragFloat4()](#dragfloat4)
+    - [DragFloatRange2()](#dragfloatrange2)
+    - [DragInt()](#dragint)
+    - [DragInt2()](#dragint2)
+    - [DragInt3()](#dragint3)
+    - [DragInt4()](#dragint4)
+    - [DragIntRange2()](#dragintrange2)
+    - [DragScalar()](#dragscalar)
+    - [DragScalarN()](#dragscalarn)
+    - [SliderFloat()](#sliderfloat)
+    - [SliderFloat2()](#sliderfloat2)
+    - [SliderFloat3()](#sliderfloat3)
+    - [SliderFloat4()](#sliderfloat4)
+    - [SliderAngle()](#sliderangle)
+    - [SliderInt()](#sliderint)
+    - [SliderInt2()](#sliderint2)
+    - [SliderInt3()](#sliderint3)
+    - [SliderInt4()](#sliderint4)
+    - [SliderScalar()](#sliderscalar)
+    - [SliderScalarN()](#sliderscalarn)
+    - [VSliderFloat()](#vsliderfloat)
+    - [VSliderInt()](#vsliderint)
+    - [VSliderScalar()](#vsliderscalar)
+    - [InputText()](#inputtext)
+    - [InputTextMultiline()](#inputtextmultiline)
+    - [InputTextWithHint()](#inputtextwithhint)
+    - [InputFloat()](#inputfloat)
+    - [InputFloat2()](#inputfloat2)
+    - [InputFloat3()](#inputfloat3)
+    - [InputFloat4()](#inputfloat4)
+    - [InputInt()](#inputint)
+    - [InputInt2()](#inputint2)
+    - [InputInt3()](#inputint3)
+    - [InputInt4()](#inputint4)
+    - [InputDouble()](#inputdouble)
+    - [InputScalar()](#inputscalar)
+    - [InputScalarN()](#inputscalarn)
+    - [ColorEdit3()](#coloredit3)
+    - [ColorEdit4()](#coloredit4)
+    - [ColorPicker3()](#colorpicker3)
+    - [ColorPicker4()](#colorpicker4)
+    - [ColorButton()](#colorbutton)
+    - [SetColorEditOptions()](#setcoloreditoptions)
+    - [TreeNode()](#treenode)
+    - [TreeNodeV()](#treenodev)
+    - [TreeNodeEx()](#treenodeex)
+    - [TreeNodeExV()](#treenodeexv)
+    - [TreePush()](#treepush)
+    - [TreePop()](#treepop)
+    - [GetTreeNodeToLabelSpacing()](#gettreenodetolabelspacing)
+    - [CollapsingHeader()](#collapsingheader)
+    - [SetNextItemOpen()](#setnextitemopen)
+    - [Selectable()](#selectable)
+    - [BeginListBox()](#beginlistbox)
+    - [EndListBox()](#endlistbox)
+    - [ListBox()](#listbox)
+    - [PlotLines()](#plotlines)
+    - [PlotHistogram()](#plothistogram)
+    - [Value()](#value)
+    - [BeginMenuBar()](#beginmenubar)
+    - [EndMenuBar()](#endmenubar)
+    - [BeginMainMenuBar()](#beginmainmenubar)
+    - [EndMainMenuBar()](#endmainmenubar)
+    - [BeginMenu()](#beginmenu)
+    - [EndMenu()](#endmenu)
+    - [MenuItem()](#menuitem)
+    - [BeginTooltip()](#begintooltip)
+    - [EndTooltip()](#endtooltip)
+    - [SetTooltip()](#settooltip)
+    - [SetTooltipV()](#settooltipv)
+    - [BeginItemTooltip()](#beginitemtooltip)
+    - [SetItemTooltip()](#setitemtooltip)
+    - [SetItemTooltipV()](#setitemtooltipv)
+    - [BeginPopup()](#beginpopup)
+    - [BeginPopupModal()](#beginpopupmodal)
+    - [EndPopup()](#endpopup)
+    - [OpenPopup()](#openpopup)
+    - [OpenPopupOnItemClick()](#openpopuponitemclick)
+    - [CloseCurrentPopup()](#closecurrentpopup)
+    - [BeginPopupContextItem()](#beginpopupcontextitem)
+    - [BeginPopupContextWindow()](#beginpopupcontextwindow)
+    - [BeginPopupContextVoid()](#beginpopupcontextvoid)
+    - [IsPopupOpen()](#ispopupopen)
+    - [BeginTable()](#begintable)
+    - [EndTable()](#endtable)
+    - [TableNextRow()](#tablenextrow)
+    - [TableNextColumn()](#tablenextcolumn)
+    - [TableSetColumnIndex()](#tablesetcolumnindex)
+    - [TableSetupColumn()](#tablesetupcolumn)
+    - [TableSetupScrollFreeze()](#tablesetupscrollfreeze)
+    - [TableHeader()](#tableheader)
+    - [TableHeadersRow()](#tableheadersrow)
+    - [TableAngledHeadersRow()](#tableangledheadersrow)
+    - [TableGetSortSpecs()](#tablegetsortspecs)
+    - [TableGetColumnCount()](#tablegetcolumncount)
+    - [TableGetColumnIndex()](#tablegetcolumnindex)
+    - [TableGetRowIndex()](#tablegetrowindex)
+    - [TableGetColumnName()](#tablegetcolumnname)
+    - [TableGetColumnFlags()](#tablegetcolumnflags)
+    - [TableSetColumnEnabled()](#tablesetcolumnenabled)
+    - [TableSetBgColor()](#tablesetbgcolor)
+    - [Columns()](#columns)
+    - [NextColumn()](#nextcolumn)
+    - [GetColumnIndex()](#getcolumnindex)
+    - [GetColumnWidth()](#getcolumnwidth)
+    - [SetColumnWidth()](#setcolumnwidth)
+    - [GetColumnOffset()](#getcolumnoffset)
+    - [SetColumnOffset()](#setcolumnoffset)
+    - [GetColumnsCount()](#getcolumnscount)
+    - [BeginTabBar()](#begintabbar)
+    - [EndTabBar()](#endtabbar)
+    - [BeginTabItem()](#begintabitem)
+    - [EndTabItem()](#endtabitem)
+    - [TabItemButton()](#tabitembutton)
+    - [SetTabItemClosed()](#settabitemclosed)
+    - [LogToTTY()](#logtotty)
+    - [LogToFile()](#logtofile)
+    - [LogToClipboard()](#logtoclipboard)
+    - [LogFinish()](#logfinish)
+    - [LogButtons()](#logbuttons)
+    - [LogText()](#logtext)
+    - [LogTextV()](#logtextv)
+    - [BeginDragDropSource()](#begindragdropsource)
+    - [SetDragDropPayload()](#setdragdroppayload)
+    - [EndDragDropSource()](#enddragdropsource)
+    - [BeginDragDropTarget()](#begindragdroptarget)
+    - [AcceptDragDropPayload()](#acceptdragdroppayload)
+    - [EndDragDropTarget()](#enddragdroptarget)
+    - [GetDragDropPayload()](#getdragdroppayload)
+    - [BeginDisabled()](#begindisabled)
+    - [EndDisabled()](#enddisabled)
+    - [PushClipRect()](#pushcliprect)
+    - [PopClipRect()](#popcliprect)
+    - [SetItemDefaultFocus()](#setitemdefaultfocus)
+    - [SetKeyboardFocusHere()](#setkeyboardfocushere)
+    - [SetNextItemAllowOverlap()](#setnextitemallowoverlap)
+    - [IsItemHovered()](#isitemhovered)
+    - [IsItemActive()](#isitemactive)
+    - [IsItemFocused()](#isitemfocused)
+    - [IsItemClicked()](#isitemclicked)
+    - [IsItemVisible()](#isitemvisible)
+    - [IsItemEdited()](#isitemedited)
+    - [IsItemActivated()](#isitemactivated)
+    - [IsItemDeactivated()](#isitemdeactivated)
+    - [IsItemDeactivatedAfterEdit()](#isitemdeactivatedafteredit)
+    - [IsItemToggledOpen()](#isitemtoggledopen)
+    - [IsAnyItemHovered()](#isanyitemhovered)
+    - [IsAnyItemActive()](#isanyitemactive)
+    - [IsAnyItemFocused()](#isanyitemfocused)
+    - [GetItemID()](#getitemid)
+    - [GetItemRectMin()](#getitemrectmin)
+    - [GetItemRectMax()](#getitemrectmax)
+    - [GetItemRectSize()](#getitemrectsize)
+    - [GetMainViewport()](#getmainviewport)
+    - [GetBackgroundDrawList()](#getbackgrounddrawlist)
+    - [GetForegroundDrawList()](#getforegrounddrawlist)
+    - [IsRectVisible()](#isrectvisible)
+    - [GetTime()](#gettime)
+    - [GetFrameCount()](#getframecount)
+    - [GetDrawListSharedData()](#getdrawlistshareddata)
+    - [GetStyleColorName()](#getstylecolorname)
+    - [SetStateStorage()](#setstatestorage)
+    - [GetStateStorage()](#getstatestorage)
+    - [CalcTextSize()](#calctextsize)
+    - [ColorConvertU32ToFloat4()](#colorconvertu32tofloat4)
+    - [ColorConvertFloat4ToU32()](#colorconvertfloat4tou32)
+    - [ColorConvertRGBtoHSV()](#colorconvertrgbtohsv)
+    - [ColorConvertHSVtoRGB()](#colorconverthsvtorgb)
+    - [IsKeyDown()](#iskeydown)
+    - [IsKeyPressed()](#iskeypressed)
+    - [IsKeyReleased()](#iskeyreleased)
+    - [IsKeyChordPressed()](#iskeychordpressed)
+    - [GetKeyPressedAmount()](#getkeypressedamount)
+    - [GetKeyName()](#getkeyname)
+    - [SetNextFrameWantCaptureKeyboard()](#setnextframewantcapturekeyboard)
+    - [IsMouseDown()](#ismousedown)
+    - [IsMouseClicked()](#ismouseclicked)
+    - [IsMouseReleased()](#ismousereleased)
+    - [IsMouseDoubleClicked()](#ismousedoubleclicked)
+    - [GetMouseClickedCount()](#getmouseclickedcount)
+    - [IsMouseHoveringRect()](#ismousehoveringrect)
+    - [IsMousePosValid()](#ismouseposvalid)
+    - [IsAnyMouseDown()](#isanymousedown)
+    - [GetMousePos()](#getmousepos)
+    - [GetMousePosOnOpeningCurrentPopup()](#getmouseposonopeningcurrentpopup)
+    - [IsMouseDragging()](#ismousedragging)
+    - [GetMouseDragDelta()](#getmousedragdelta)
+    - [ResetMouseDragDelta()](#resetmousedragdelta)
+    - [ImGuiMouseCursor()](#imguimousecursor)
+    - [SetMouseCursor()](#setmousecursor)
+    - [SetNextFrameWantCaptureMouse()](#setnextframewantcapturemouse)
+    - [GetClipboardText()](#getclipboardtext)
+    - [SetClipboardText()](#setclipboardtext)
+    - [LoadIniSettingsFromDisk()](#loadinisettingsfromdisk)
+    - [LoadIniSettingsFromMemory()](#loadinisettingsfrommemory)
+    - [SaveIniSettingsToDisk()](#saveinisettingstodisk)
+    - [SaveIniSettingsToMemory()](#saveinisettingstomemory)
+    - [DebugTextEncoding()](#debugtextencoding)
+    - [DebugFlashStyleColor()](#debugflashstylecolor)
+    - [DebugStartItemPicker()](#debugstartitempicker)
+    - [DebugCheckVersionAndDataLayout()](#debugcheckversionanddatalayout)
+    - [SetAllocatorFunctions()](#setallocatorfunctions)
+    - [GetAllocatorFunctions()](#getallocatorfunctions)
+    - [MemAlloc()](#memalloc)
+    - [MemFree()](#memfree)
 
 ## 常用枚举
 
@@ -116,6 +463,10 @@ ImVec2 ImVec2(number x,number y)
 - 返回值：
   - ImVec2二维向量对象
 
+---
+
+### ImVec4()
+
 ImVec4 ImVec4(number x,number y,number z,number w)
 
 - 功能：生成一个ImVec4四维向量对象
@@ -127,7 +478,11 @@ ImVec4 ImVec4(number x,number y,number z,number w)
 - 返回值：
   - ImVec4四维向量对象
 
-AcceptDragDropPayload()
+---
+
+### CreateContext()
+
+ ImGuiContext\* CreateContext(ImFontAtlas* shared_font_atlas = NULL)
 
 - 功能：
 - 参数：
@@ -135,7 +490,9 @@ AcceptDragDropPayload()
 
 ---
 
-AlignTextToFramePadding()
+### DestroyContext()
+
+ void DestroyContext(ImGuiContext* ctx = NULL)
 
 - 功能：
 - 参数：
@@ -143,16 +500,217 @@ AlignTextToFramePadding()
 
 ---
 
-boolean ArrowButton(string str_id,[ImGuiDir](#imguidir) dir)
+### GetCurrentContext()
 
-- 功能：箭头按钮
+ ImGuiContext* GetCurrentContext()
+
+- 功能：
 - 参数：
-  - `str_id`：控件的id
-  - `dir`：箭头的方向
-
-- 返回值：按钮被点击时，返回`true`
+- 返回值：
 
 ---
+
+### SetCurrentContext()
+
+ void SetCurrentContext(ImGuiContext* ctx)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetIO()
+
+ ImGuiIO& GetIO()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetStyle()
+
+ ImGuiStyle& GetStyle()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### NewFrame()
+
+ void NewFrame()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### EndFrame()
+
+ void EndFrame()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### Render()
+
+ void Render()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetDrawData()
+
+ ImDrawData* GetDrawData()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### ShowDemoWindow()
+
+ void ShowDemoWindow(bool* p_open = NULL)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### ShowMetricsWindow()
+
+ void ShowMetricsWindow(bool* p_open = NULL)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### ShowDebugLogWindow()
+
+ void ShowDebugLogWindow(bool* p_open = NULL)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### ShowIDStackToolWindow()
+
+ void ShowIDStackToolWindow(bool* p_open = NULL)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### ShowAboutWindow()
+
+ void ShowAboutWindow(bool* p_open = NULL)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### ShowStyleEditor()
+
+ void ShowStyleEditor(ImGuiStyle* ref = NULL)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### ShowStyleSelector()
+
+ bool ShowStyleSelector(const char* label)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### ShowFontSelector()
+
+ void ShowFontSelector(const char* label)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### ShowUserGuide()
+
+ void ShowUserGuide()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetVersion()
+
+ const char* GetVersion()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### StyleColorsDark()
+
+ void StyleColorsDark(ImGuiStyle* dst = NULL)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### StyleColorsLight()
+
+ void StyleColorsLight(ImGuiStyle* dst = NULL)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### StyleColorsClassic()
+
+ void StyleColorsClassic(ImGuiStyle* dst = NULL)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### Begin()
 
 boolean, boolean Begin(string name,boolean open=true,[ImGuiWindowFlags](#imguiwindowflags) flags=0)
 
@@ -186,7 +744,9 @@ boolean, boolean Begin(string name,boolean open=true,[ImGuiWindowFlags](#imguiwi
 
 ---
 
-BeginChild()
+### End()
+
+ void End()
 
 - 功能：
 - 参数：
@@ -194,13 +754,1131 @@ BeginChild()
 
 ---
 
-BeginChildFrame()
+### BeginChild()
+
+ bool BeginChild(const char* str_id, const ImVec2& size = ImVec2(0, 0), ImGuiChildFlags child_flags = 0, ImGuiWindowFlags window_flags = 0)
+ bool BeginChild(ImGuiID id, const ImVec2& size = ImVec2(0, 0), ImGuiChildFlags child_flags = 0, ImGuiWindowFlags window_flags = 0)
 
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### EndChild()
+
+ void EndChild()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### IsWindowAppearing()
+
+ bool IsWindowAppearing()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### IsWindowCollapsed()
+
+ bool IsWindowCollapsed()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### IsWindowFocused()
+
+ bool IsWindowFocused(ImGuiFocusedFlags flags=0)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### IsWindowHovered()
+
+ bool IsWindowHovered(ImGuiHoveredFlags flags=0)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetWindowDrawList()
+
+ ImDrawList* GetWindowDrawList()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetWindowPos()
+
+ ImVec2 GetWindowPos()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetWindowSize()
+
+ ImVec2 GetWindowSize()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetWindowWidth()
+
+ float GetWindowWidth()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetWindowHeight()
+
+ float GetWindowHeight()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetNextWindowPos()
+
+ void SetNextWindowPos(const ImVec2& pos, ImGuiCond cond = 0, const ImVec2& pivot = ImVec2(0, 0))
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetNextWindowSize()
+
+ void SetNextWindowSize(const ImVec2& size, ImGuiCond cond = 0)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetNextWindowSizeConstraints()
+
+ void SetNextWindowSizeConstraints(const ImVec2& size_min, const ImVec2& size_max, ImGuiSizeCallback custom_callback = NULL, void* custom_callback_data = NULL)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetNextWindowContentSize()
+
+ void SetNextWindowContentSize(const ImVec2& size)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetNextWindowCollapsed()
+
+ void SetNextWindowCollapsed(bool collapsed, ImGuiCond cond = 0)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetNextWindowFocus()
+
+ void SetNextWindowFocus()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetNextWindowScroll()
+
+ void SetNextWindowScroll(const ImVec2& scroll)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetNextWindowBgAlpha()
+
+ void SetNextWindowBgAlpha(float alpha)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetWindowPos()
+
+ void SetWindowPos(const ImVec2& pos, ImGuiCond cond = 0)
+ void SetWindowPos(const char* name, const ImVec2& pos, ImGuiCond cond = 0)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetWindowSize()
+
+ void SetWindowSize(const ImVec2& size, ImGuiCond cond = 0)
+ void SetWindowSize(const char* name, const ImVec2& size, ImGuiCond cond = 0)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetWindowCollapsed()
+
+ void SetWindowCollapsed(bool collapsed, ImGuiCond cond = 0)
+ void SetWindowCollapsed(const char* name, bool collapsed, ImGuiCond cond = 0)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetWindowFocus()
+
+ void SetWindowFocus()
+ void SetWindowFocus(const char* name)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetWindowFontScale()
+
+ void SetWindowFontScale(float scale)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetContentRegionAvail()
+
+ ImVec2 GetContentRegionAvail()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetContentRegionMax()
+
+ ImVec2 GetContentRegionMax()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetWindowContentRegionMin()
+
+ ImVec2 GetWindowContentRegionMin()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetWindowContentRegionMax()
+
+ ImVec2 GetWindowContentRegionMax()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetScrollX()
+
+ float GetScrollX()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetScrollY()
+
+ float GetScrollY()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetScrollX()
+
+ void SetScrollX(float scroll_x)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetScrollY()
+
+ void SetScrollY(float scroll_y)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetScrollMaxX()
+
+ float GetScrollMaxX()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetScrollMaxY()
+
+ float GetScrollMaxY()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetScrollHereX()
+
+ void SetScrollHereX(float center_x_ratio = 0.5f)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetScrollHereY()
+
+ void SetScrollHereY(float center_y_ratio = 0.5f)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetScrollFromPosX()
+
+ void SetScrollFromPosX(float local_x, float center_x_ratio = 0.5f)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetScrollFromPosY()
+
+ void SetScrollFromPosY(float local_y, float center_y_ratio = 0.5f)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PushFont()
+
+ void PushFont(ImFont* font)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PopFont()
+
+ void PopFont()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PushStyleColor()
+
+ void PushStyleColor(ImGuiCol idx, ImU32 col)
+ void PushStyleColor(ImGuiCol idx, const ImVec4& col)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PopStyleColor()
+
+ void PopStyleColor(int count = 1)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PushStyleVar()
+
+ void PushStyleVar(ImGuiStyleVar idx, float val)
+ void PushStyleVar(ImGuiStyleVar idx, const ImVec2& val)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PopStyleVar()
+
+ void PopStyleVar(int count = 1)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PushTabStop()
+
+ void PushTabStop(bool tab_stop)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PopTabStop()
+
+ void PopTabStop()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PushButtonRepeat()
+
+ void PushButtonRepeat(bool repeat)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PopButtonRepeat()
+
+ void PopButtonRepeat()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PushItemWidth()
+
+ void PushItemWidth(float item_width)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PopItemWidth()
+
+ void PopItemWidth()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetNextItemWidth()
+
+ void SetNextItemWidth(float item_width)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### CalcItemWidth()
+
+ float CalcItemWidth()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PushTextWrapPos()
+
+ void PushTextWrapPos(float wrap_local_pos_x = 0.0f)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PopTextWrapPos()
+
+ void PopTextWrapPos()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetFont()
+
+ ImFont* GetFont()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetFontSize()
+
+ float GetFontSize()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetFontTexUvWhitePixel()
+
+ ImVec2 GetFontTexUvWhitePixel()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetColorU32()
+
+ ImU32 GetColorU32(ImGuiCol idx, float alpha_mul = 1.0f)
+ ImU32 GetColorU32(const ImVec4& col)
+
+ ImU32 GetColorU32(ImU32 col, float alpha_mul = 1.0f)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetStyleColorVec4()
+
+ const ImVec4& GetStyleColorVec4(ImGuiCol idx)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetCursorScreenPos()
+
+ ImVec2 GetCursorScreenPos()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetCursorScreenPos()
+
+ void SetCursorScreenPos(const ImVec2& pos)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetCursorPos()
+
+ ImVec2 GetCursorPos()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetCursorPosX()
+
+ float GetCursorPosX()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetCursorPosY()
+
+ float GetCursorPosY()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetCursorPos()
+
+ void SetCursorPos(const ImVec2& local_pos)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetCursorPosX()
+
+ void SetCursorPosX(float local_x)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SetCursorPosY()
+
+ void SetCursorPosY(float local_y)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetCursorStartPos()
+
+ ImVec2 GetCursorStartPos()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### Separator()
+
+ void Separator()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SameLine()
+
+ void SameLine(float offset_from_start_x=0.0f, float spacing=-1.0f)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### NewLine()
+
+ void NewLine()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### Spacing()
+
+ void Spacing()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### Dummy()
+
+ void Dummy(const ImVec2& size)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### Indent()
+
+ void Indent(float indent_w = 0.0f)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### Unindent()
+
+ void Unindent(float indent_w = 0.0f)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### BeginGroup()
+
+ void BeginGroup()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### EndGroup()
+
+ void EndGroup()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### AlignTextToFramePadding()
+
+ void AlignTextToFramePadding()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetTextLineHeight()
+
+ float GetTextLineHeight()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetTextLineHeightWithSpacing()
+
+ float GetTextLineHeightWithSpacing()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetFrameHeight()
+
+ float GetFrameHeight()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetFrameHeightWithSpacing()
+
+ float GetFrameHeightWithSpacing()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PushID()
+
+ void PushID(const char* str_id)
+
+ void PushID(const char*str_id_begin, const char* str_id_end)
+
+ void PushID(const void* ptr_id)
+
+ void PushID(int int_id)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### PopID()
+
+ void PopID()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### GetID()
+
+ ImGuiID GetID(const char*str_id)
+ ImGuiID GetID(const char*str_id_begin, const char\* str_id_end)
+ ImGuiID GetID(const void* ptr_id)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### TextUnformatted()
+
+ void TextUnformatted(const char*text, const char* text_end = NULL)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### Text()
+
+ void Text(const char* fmt, ...) IM_FMTARGS(1)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### TextV()
+
+ void TextV(const char* fmt, va_list args) IM_FMTLIST(1)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### TextColored()
+
+ void TextColored(const ImVec4& col, const char* fmt, ...) IM_FMTARGS(2)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### TextColoredV()
+
+ void TextColoredV(const ImVec4& col, const char* fmt, va_list args) IM_FMTLIST(2)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### TextDisabled()
+
+ void TextDisabled(const char* fmt, ...) IM_FMTARGS(1)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### TextDisabledV()
+
+ void TextDisabledV(const char* fmt, va_list args) IM_FMTLIST(1)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### TextWrapped()
+
+ void TextWrapped(const char* fmt, ...) IM_FMTARGS(1)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### TextWrappedV()
+
+ void TextWrappedV(const char* fmt, va_list args) IM_FMTLIST(1)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### LabelText()
+
+ void LabelText(const char*label, const char* fmt, ...) IM_FMTARGS(2)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### LabelTextV()
+
+ void LabelTextV(const char*label, const char* fmt, va_list args) IM_FMTLIST(2)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### BulletText()
+
+ void BulletText(const char* fmt, ...) IM_FMTARGS(1)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### BulletTextV()
+
+ void BulletTextV(const char* fmt, va_list args) IM_FMTLIST(1)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SeparatorText()
+
+ void SeparatorText(const char* label)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### Button()
+
+ bool Button(const char* label, const ImVec2& size = ImVec2(0, 0))
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### SmallButton()
+
+ bool SmallButton(const char* label)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### InvisibleButton()
+
+ bool InvisibleButton(const char* str_id, const ImVec2& size, ImGuiButtonFlags flags = 0)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### ArrowButton()
+
+boolean ArrowButton(string str_id,[ImGuiDir](#imguidir) dir)
+
+- 功能：箭头按钮
+- 参数：
+  - `str_id`：控件的id
+  - `dir`：箭头的方向
+
+- 返回值：按钮被点击时，返回`true`
+
+---
+
+### Checkbox()
+
+ bool Checkbox(const char*label, bool* v)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### CheckboxFlags()
+
+ bool CheckboxFlags(const char*label, int* flags, int flags_value)
+
+ bool CheckboxFlags(const char*label, unsigned int* flags, unsigned int flags_value)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### RadioButton()
+
+ bool RadioButton(const char* label, bool active)
+ bool RadioButton(const char*label, int* v, int v_button)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### ProgressBar()
+
+ void ProgressBar(float fraction, const ImVec2& size_arg = ImVec2(-FLT_MIN, 0), const char* overlay = NULL)
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### Bullet()
+
+ void Bullet()
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### Image()
+
+ void Image(ImTextureID user_texture_id, const ImVec2& image_size, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0))
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### ImageButton()
+
+ bool ImageButton(const char* str_id, ImTextureID user_texture_id, const ImVec2& image_size, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& bg_col = ImVec4(0, 0, 0, 0), const ImVec4& tint_col = ImVec4(1, 1, 1, 1))
+
+- 功能：
+- 参数：
+- 返回值：
+
+---
+
+### BeginCombo()
 
 boolean BeginCombo(string label,string preview_value,[ImGuiComboFlags](#imguicomboflags) flags = 0)
 
@@ -215,1007 +1893,9 @@ boolean BeginCombo(string label,string preview_value,[ImGuiComboFlags](#imguicom
 
 ---
 
-BeginDisabled()
+### EndCombo()
 
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginDragDropSource()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginDragDropTarget()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginGroup()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginItemTooltip()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginListBox()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginMainMenuBar()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginMenu()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginMenuBar()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginPopup()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginPopupContextItem()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginPopupContextVoid()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginPopupContextWindow()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginPopupModal()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginTabBar()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginTabItem()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginTable()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BeginTooltip()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-Bullet()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BulletText()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-BulletTextV()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-Button()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-CalcItemWidth()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-CalcTextSize()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-CaptureKeyboardFromApp()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-CaptureMouseFromApp()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-Checkbox()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-CheckboxFlags()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-CloseCurrentPopup()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-CollapsingHeader()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-ColorButton()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-ColorConvertFloat4ToU32()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-ColorConvertHSVtoRGB()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-ColorConvertRGBtoHSV()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-ColorConvertU32ToFloat4()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-ColorEdit3()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-ColorEdit4()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-ColorPicker3()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-ColorPicker4()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-Columns()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-Combo()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-CreateContext()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DebugCheckVersionAndDataLayout()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DebugFlashStyleColor()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DebugTextEncoding()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DestroyContext()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DragFloat()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DragFloat2()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DragFloat3()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DragFloat4()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DragFloatRange2()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DragInt()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DragInt2()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DragInt3()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DragInt4()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DragIntRange2()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DragScalar()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-DragScalarN()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-Dummy()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-End()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndChild()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndChildFrame()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndCombo()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndDisabled()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndDragDropSource()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndDragDropTarget()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndFrame()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndGroup()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndListBox()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndMainMenuBar()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndMenu()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndMenuBar()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndPopup()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndTabBar()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndTabItem()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndTable()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-EndTooltip()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetAllocatorFunctions()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetBackgroundDrawList()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetClipboardText()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetColorU32()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetColumnIndex()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetColumnOffset()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetColumnsCount()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetColumnWidth()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetContentRegionAvail()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetContentRegionMax()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetCurrentContext()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetCursorPos()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetCursorPosX()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetCursorPosY()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetCursorScreenPos()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetCursorStartPos()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetDragDropPayload()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetDrawData()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetDrawListSharedData()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetFont()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetFontSize()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetFontTexUvWhitePixel()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetForegroundDrawList()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetFrameCount()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetFrameHeight()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetFrameHeightWithSpacing()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetID()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetIO()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetItemID()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetItemRectMax()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetItemRectMin()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetItemRectSize()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetKeyIndex()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetKeyName()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetKeyPressedAmount()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetMainViewport()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetMouseClickedCount()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetMouseCursor()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetMouseDragDelta()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetMousePos()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetMousePosOnOpeningCurrentPopup()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetScrollMaxX()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetScrollMaxY()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetScrollX()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetScrollY()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetStateStorage()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetStyle()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetStyleColorName()
-
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetStyleColorVec4()
+ void EndCombo()
 
 - 功能：
 - 参数：
@@ -1223,31 +1903,21 @@ GetStyleColorVec4()
 
 ---
 
-GetTextLineHeight()
+### Combo()
 
-- 功能：
-- 参数：
-- 返回值：
-
----
-
-GetTextLineHeightWithSpacing()
+ bool Combo(const char*label, int* current_item, const char*const items[], int items_count, int popup_max_height_in_items = -1)
+ bool Combo(const char*label, int\* current_item, const char\* items_separated_by_zeros, int popup_max_height_in_items = -1)
+ bool Combo(const char*label, int* current_item, const char*(*getter)(void* user_data, int idx), void* user_data, int items_count, int popup_max_height_in_items = -1)
 
 - 功能：
 - 参数：
 - 返回值：
 
 ---
-
-GetTime()
-
-- 功能：
-- 参数：
-- 返回值：
 
----
+### DragFloat()
 
-GetTreeNodeToLabelSpacing()
+ bool DragFloat(const char*label, float* v, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char* format = "%.3f", ImGuiSliderFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1255,15 +1925,19 @@ GetTreeNodeToLabelSpacing()
 
 ---
 
-GetVersion()
+### DragFloat2()
 
+ bool DragFloat2(const char*label, float v[2], float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char* format = "%.3f", ImGuiSliderFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### DragFloat3()
 
-GetWindowContentRegionMax()
+ bool DragFloat3(const char*label, float v[3], float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char* format = "%.3f", ImGuiSliderFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1271,15 +1945,19 @@ GetWindowContentRegionMax()
 
 ---
 
-GetWindowContentRegionMin()
+### DragFloat4()
 
+ bool DragFloat4(const char*label, float v[4], float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char* format = "%.3f", ImGuiSliderFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### DragFloatRange2()
 
-GetWindowDrawList()
+ bool DragFloatRange2(const char*label, float* v_current_min, float*v_current_max, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char* format = "%.3f", const char* format_max = NULL, ImGuiSliderFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1287,15 +1965,19 @@ GetWindowDrawList()
 
 ---
 
-GetWindowHeight()
+### DragInt()
 
+ bool DragInt(const char*label, int* v, float v_speed = 1.0f, int v_min = 0, int v_max = 0, const char* format = "%d", ImGuiSliderFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### DragInt2()
 
-GetWindowPos()
+ bool DragInt2(const char*label, int v[2], float v_speed = 1.0f, int v_min = 0, int v_max = 0, const char* format = "%d", ImGuiSliderFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1303,15 +1985,19 @@ GetWindowPos()
 
 ---
 
-GetWindowSize()
+### DragInt3()
 
+ bool DragInt3(const char*label, int v[3], float v_speed = 1.0f, int v_min = 0, int v_max = 0, const char* format = "%d", ImGuiSliderFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### DragInt4()
 
-GetWindowWidth()
+ bool DragInt4(const char*label, int v[4], float v_speed = 1.0f, int v_min = 0, int v_max = 0, const char* format = "%d", ImGuiSliderFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1319,15 +2005,19 @@ GetWindowWidth()
 
 ---
 
-Image()
+### DragIntRange2()
 
+ bool DragIntRange2(const char*label, int* v_current_min, int*v_current_max, float v_speed = 1.0f, int v_min = 0, int v_max = 0, const char* format = "%d", const char* format_max = NULL, ImGuiSliderFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### DragScalar()
 
-ImageButton()
+ bool DragScalar(const char*label, ImGuiDataType data_type, void* p_data, float v_speed = 1.0f, const void*p_min = NULL, const void* p_max = NULL, const char* format = NULL, ImGuiSliderFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1335,15 +2025,19 @@ ImageButton()
 
 ---
 
-Indent()
+### DragScalarN()
 
+ bool DragScalarN(const char*label, ImGuiDataType data_type, void* p_data, int components, float v_speed = 1.0f, const void*p_min = NULL, const void* p_max = NULL, const char* format = NULL, ImGuiSliderFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SliderFloat()
 
-InputDouble()
+ bool SliderFloat(const char*label, float* v, float v_min, float v_max, const char* format = "%.3f", ImGuiSliderFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1351,15 +2045,19 @@ InputDouble()
 
 ---
 
-InputFloat()
+### SliderFloat2()
 
+ bool SliderFloat2(const char*label, float v[2], float v_min, float v_max, const char* format = "%.3f", ImGuiSliderFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SliderFloat3()
 
-InputFloat2()
+ bool SliderFloat3(const char*label, float v[3], float v_min, float v_max, const char* format = "%.3f", ImGuiSliderFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1367,15 +2065,19 @@ InputFloat2()
 
 ---
 
-InputFloat3()
+### SliderFloat4()
 
+ bool SliderFloat4(const char*label, float v[4], float v_min, float v_max, const char* format = "%.3f", ImGuiSliderFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SliderAngle()
 
-InputFloat4()
+ bool SliderAngle(const char*label, float* v_rad, float v_degrees_min = -360.0f, float v_degrees_max = +360.0f, const char* format = "%.0f deg", ImGuiSliderFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1383,15 +2085,19 @@ InputFloat4()
 
 ---
 
-InputInt()
+### SliderInt()
 
+ bool SliderInt(const char*label, int* v, int v_min, int v_max, const char* format = "%d", ImGuiSliderFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SliderInt2()
 
-InputInt2()
+ bool SliderInt2(const char*label, int v[2], int v_min, int v_max, const char* format = "%d", ImGuiSliderFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1399,15 +2105,19 @@ InputInt2()
 
 ---
 
-InputInt3()
+### SliderInt3()
 
+ bool SliderInt3(const char*label, int v[3], int v_min, int v_max, const char* format = "%d", ImGuiSliderFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SliderInt4()
 
-InputInt4()
+ bool SliderInt4(const char*label, int v[4], int v_min, int v_max, const char* format = "%d", ImGuiSliderFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1415,15 +2125,19 @@ InputInt4()
 
 ---
 
-InputScalar()
+### SliderScalar()
 
+ bool SliderScalar(const char*label, ImGuiDataType data_type, void* p_data, const void*p_min, const void* p_max, const char* format = NULL, ImGuiSliderFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SliderScalarN()
 
-InputScalarN()
+ bool SliderScalarN(const char*label, ImGuiDataType data_type, void* p_data, int components, const void*p_min, const void* p_max, const char* format = NULL, ImGuiSliderFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1431,15 +2145,19 @@ InputScalarN()
 
 ---
 
-InputText()
+### VSliderFloat()
 
+ bool VSliderFloat(const char*label, const ImVec2& size, float* v, float v_min, float v_max, const char* format = "%.3f", ImGuiSliderFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### VSliderInt()
 
-InputTextMultiline()
+ bool VSliderInt(const char*label, const ImVec2& size, int* v, int v_min, int v_max, const char* format = "%d", ImGuiSliderFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1447,15 +2165,19 @@ InputTextMultiline()
 
 ---
 
-InputTextWithHint()
+### VSliderScalar()
 
+ bool VSliderScalar(const char*label, const ImVec2& size, ImGuiDataType data_type, void* p_data, const void*p_min, const void* p_max, const char* format = NULL, ImGuiSliderFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### InputText()
 
-InvisibleButton()
+ bool InputText(const char*label, char* buf, size_t buf_size, ImGuiInputTextFlags flags = 0, ImGuiInputTextCallback callback = NULL, void* user_data = NULL)
 
 - 功能：
 - 参数：
@@ -1463,15 +2185,19 @@ InvisibleButton()
 
 ---
 
-IsAnyItemActive()
+### InputTextMultiline()
 
+ bool InputTextMultiline(const char*label, char* buf, size_t buf_size, const ImVec2& size = ImVec2(0, 0), ImGuiInputTextFlags flags = 0, ImGuiInputTextCallback callback = NULL, void* user_data = NULL)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### InputTextWithHint()
 
-IsAnyItemFocused()
+ bool InputTextWithHint(const char*label, const char* hint, char*buf, size_t buf_size, ImGuiInputTextFlags flags = 0, ImGuiInputTextCallback callback = NULL, void* user_data = NULL)
 
 - 功能：
 - 参数：
@@ -1479,15 +2205,19 @@ IsAnyItemFocused()
 
 ---
 
-IsAnyItemHovered()
+### InputFloat()
 
+ bool InputFloat(const char*label, float* v, float step = 0.0f, float step_fast = 0.0f, const char* format = "%.3f", ImGuiInputTextFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### InputFloat2()
 
-IsAnyMouseDown()
+ bool InputFloat2(const char*label, float v[2], const char* format = "%.3f", ImGuiInputTextFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1495,15 +2225,19 @@ IsAnyMouseDown()
 
 ---
 
-IsItemActivated()
+### InputFloat3()
 
+ bool InputFloat3(const char*label, float v[3], const char* format = "%.3f", ImGuiInputTextFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### InputFloat4()
 
-IsItemActive()
+ bool InputFloat4(const char*label, float v[4], const char* format = "%.3f", ImGuiInputTextFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1511,15 +2245,19 @@ IsItemActive()
 
 ---
 
-IsItemClicked()
+### InputInt()
 
+ bool InputInt(const char*label, int* v, int step = 1, int step_fast = 100, ImGuiInputTextFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### InputInt2()
 
-IsItemDeactivated()
+ bool InputInt2(const char* label, int v[2], ImGuiInputTextFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1527,15 +2265,19 @@ IsItemDeactivated()
 
 ---
 
-IsItemDeactivatedAfterEdit()
+### InputInt3()
 
+ bool InputInt3(const char* label, int v[3], ImGuiInputTextFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### InputInt4()
 
-IsItemEdited()
+ bool InputInt4(const char* label, int v[4], ImGuiInputTextFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1543,15 +2285,19 @@ IsItemEdited()
 
 ---
 
-IsItemFocused()
+### InputDouble()
 
+ bool InputDouble(const char*label, double* v, double step = 0.0, double step_fast = 0.0, const char* format = "%.6f", ImGuiInputTextFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### InputScalar()
 
-IsItemHovered()
+ bool InputScalar(const char*label, ImGuiDataType data_type, void* p_data, const void*p_step = NULL, const void* p_step_fast = NULL, const char* format = NULL, ImGuiInputTextFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1559,15 +2305,19 @@ IsItemHovered()
 
 ---
 
-IsItemToggledOpen()
+### InputScalarN()
 
+ bool InputScalarN(const char*label, ImGuiDataType data_type, void* p_data, int components, const void*p_step = NULL, const void* p_step_fast = NULL, const char* format = NULL, ImGuiInputTextFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### ColorEdit3()
 
-IsItemVisible()
+ bool ColorEdit3(const char* label, float col[3], ImGuiColorEditFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1575,15 +2325,19 @@ IsItemVisible()
 
 ---
 
-IsKeyChordPressed()
+### ColorEdit4()
 
+ bool ColorEdit4(const char* label, float col[4], ImGuiColorEditFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### ColorPicker3()
 
-IsKeyDown()
+ bool ColorPicker3(const char* label, float col[3], ImGuiColorEditFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1591,15 +2345,19 @@ IsKeyDown()
 
 ---
 
-IsKeyPressed()
+### ColorPicker4()
 
+ bool ColorPicker4(const char*label, float col[4], ImGuiColorEditFlags flags = 0, const float* ref_col = NULL)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### ColorButton()
 
-IsKeyReleased()
+ bool ColorButton(const char* desc_id, const ImVec4& col, ImGuiColorEditFlags flags = 0, const ImVec2& size = ImVec2(0, 0))
 
 - 功能：
 - 参数：
@@ -1607,39 +2365,35 @@ IsKeyReleased()
 
 ---
 
-IsMouseClicked()
+### SetColorEditOptions()
 
+ void SetColorEditOptions(ImGuiColorEditFlags flags)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
 
-IsMouseDoubleClicked()
+### TreeNode()
 
-- 功能：
-- 参数：
-- 返回值：
+ bool TreeNode(const char* label)
 
----
+ bool TreeNode(const char*str_id, const char* fmt, ...) IM_FMTARGS(2)
 
-IsMouseDown()
+ bool TreeNode(const void*ptr_id, const char* fmt, ...) IM_FMTARGS(2)
 
 - 功能：
 - 参数：
 - 返回值：
 
 ---
-
-IsMouseDragging()
 
-- 功能：
-- 参数：
-- 返回值：
+### TreeNodeV()
 
----
+ bool TreeNodeV(const char*str_id, const char* fmt, va_list args) IM_FMTLIST(2)
 
-IsMouseHoveringRect()
+ bool TreeNodeV(const void*ptr_id, const char* fmt, va_list args) IM_FMTLIST(2)
 
 - 功能：
 - 参数：
@@ -1647,15 +2401,13 @@ IsMouseHoveringRect()
 
 ---
 
-IsMousePosValid()
+### TreeNodeEx()
 
-- 功能：
-- 参数：
-- 返回值：
+ bool TreeNodeEx(const char* label, ImGuiTreeNodeFlags flags = 0)
 
----
+ bool TreeNodeEx(const char*str_id, ImGuiTreeNodeFlags flags, const char* fmt, ...) IM_FMTARGS(3)
 
-IsMouseReleased()
+ bool TreeNodeEx(const void*ptr_id, ImGuiTreeNodeFlags flags, const char* fmt, ...) IM_FMTARGS(3)
 
 - 功能：
 - 参数：
@@ -1663,15 +2415,21 @@ IsMouseReleased()
 
 ---
 
-IsPopupOpen()
+### TreeNodeExV()
 
+ bool TreeNodeExV(const char*str_id, ImGuiTreeNodeFlags flags, const char* fmt, va_list args) IM_FMTLIST(3)
+ bool TreeNodeExV(const void*ptr_id, ImGuiTreeNodeFlags flags, const char* fmt, va_list args) IM_FMTLIST(3)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### TreePush()
 
-IsRectVisible()
+ void TreePush(const char*str_id)
+ void TreePush(const void* ptr_id)
 
 - 功能：
 - 参数：
@@ -1679,15 +2437,19 @@ IsRectVisible()
 
 ---
 
-IsWindowAppearing()
+### TreePop()
 
+ void TreePop()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### GetTreeNodeToLabelSpacing()
 
-IsWindowCollapsed()
+ float GetTreeNodeToLabelSpacing()
 
 - 功能：
 - 参数：
@@ -1695,23 +2457,21 @@ IsWindowCollapsed()
 
 ---
 
-IsWindowFocused()
-
-- 功能：
-- 参数：
-- 返回值：
+### CollapsingHeader()
 
----
+ bool CollapsingHeader(const char* label, ImGuiTreeNodeFlags flags = 0)
 
-IsWindowHovered()
+ bool CollapsingHeader(const char*label, bool* p_visible, ImGuiTreeNodeFlags flags = 0)
 
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SetNextItemOpen()
 
-LabelText()
+ void SetNextItemOpen(bool is_open, ImGuiCond cond = 0)
 
 - 功能：
 - 参数：
@@ -1719,15 +2479,20 @@ LabelText()
 
 ---
 
-LabelTextV()
+### Selectable()
 
+ bool Selectable(const char* label, bool selected = false, ImGuiSelectableFlags flags = 0, const ImVec2& size = ImVec2(0, 0))
+ bool Selectable(const char*label, bool* p_selected, ImGuiSelectableFlags flags = 0, const ImVec2& size = ImVec2(0, 0))
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### BeginListBox()
 
-ListBox()
+ bool BeginListBox(const char* label, const ImVec2& size = ImVec2(0, 0))
 
 - 功能：
 - 参数：
@@ -1735,23 +2500,21 @@ ListBox()
 
 ---
 
-LoadIniSettingsFromDisk()
+### EndListBox()
 
+ void EndListBox()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
-
-LoadIniSettingsFromMemory()
 
-- 功能：
-- 参数：
-- 返回值：
+### ListBox()
 
----
+ bool ListBox(const char*label, int* current_item, const char* const items[], int items_count, int height_in_items = -1)
 
-LogButtons()
+ bool ListBox(const char*label, int* current_item, const char*(*getter)(void* user_data, int idx), void* user_data, int items_count, int height_in_items = -1)
 
 - 功能：
 - 参数：
@@ -1759,31 +2522,23 @@ LogButtons()
 
 ---
 
-LogFinish()
+### PlotLines()
 
-- 功能：
-- 参数：
-- 返回值：
-
----
+ void PlotLines(const char*label, const float* values, int values_count, int values_offset = 0, const char* overlay_text = NULL, float scale_min = FLT_MAX, float scale_max = FLT_MAX, ImVec2 graph_size = ImVec2(0, 0), int stride = sizeof(float))
 
-LogText()
+ void PlotLines(const char*label, float(*values_getter)(void* data, int idx), void* data, int values_count, int values_offset = 0, const char* overlay_text = NULL, float scale_min = FLT_MAX, float scale_max = FLT_MAX, ImVec2 graph_size = ImVec2(0, 0))
 
 - 功能：
 - 参数：
 - 返回值：
 
 ---
-
-LogTextV()
 
-- 功能：
-- 参数：
-- 返回值：
+### PlotHistogram()
 
----
+ void PlotHistogram(const char*label, const float* values, int values_count, int values_offset = 0, const char* overlay_text = NULL, float scale_min = FLT_MAX, float scale_max = FLT_MAX, ImVec2 graph_size = ImVec2(0, 0), int stride = sizeof(float))
 
-LogToClipboard()
+ void PlotHistogram(const char*label, float (*values_getter)(void* data, int idx), void* data, int values_count, int values_offset = 0, const char* overlay_text = NULL, float scale_min = FLT_MAX, float scale_max = FLT_MAX, ImVec2 graph_size = ImVec2(0, 0))
 
 - 功能：
 - 参数：
@@ -1791,15 +2546,22 @@ LogToClipboard()
 
 ---
 
-LogToFile()
+### Value()
 
+ void Value(const char* prefix, bool b)
+ void Value(const char*prefix, int v)
+ void Value(const char* prefix, unsigned int v)
+ void Value(const char*prefix, float v, const char* float_format = NULL)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### BeginMenuBar()
 
-LogToTTY()
+ bool BeginMenuBar()
 
 - 功能：
 - 参数：
@@ -1807,15 +2569,19 @@ LogToTTY()
 
 ---
 
-MemAlloc()
+### EndMenuBar()
 
+ void EndMenuBar()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### BeginMainMenuBar()
 
-MemFree()
+ bool BeginMainMenuBar()
 
 - 功能：
 - 参数：
@@ -1823,15 +2589,19 @@ MemFree()
 
 ---
 
-MenuItem()
+### EndMainMenuBar()
 
+ void EndMainMenuBar()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### BeginMenu()
 
-NewFrame()
+ bool BeginMenu(const char* label, bool enabled = true)
 
 - 功能：
 - 参数：
@@ -1839,23 +2609,21 @@ NewFrame()
 
 ---
 
-NewLine()
+### EndMenu()
 
+ void EndMenu()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
-
-NextColumn()
 
-- 功能：
-- 参数：
-- 返回值：
+### MenuItem()
 
----
+ bool MenuItem(const char*label, const char* shortcut = NULL, bool selected = false, bool enabled = true)
 
-OpenPopup()
+ bool MenuItem(const char*label, const char* shortcut, bool* p_selected, bool enabled = true)
 
 - 功能：
 - 参数：
@@ -1863,15 +2631,19 @@ OpenPopup()
 
 ---
 
-OpenPopupOnItemClick()
+### BeginTooltip()
 
+ bool BeginTooltip()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### EndTooltip()
 
-PlotHistogram()
+ void EndTooltip()
 
 - 功能：
 - 参数：
@@ -1879,15 +2651,19 @@ PlotHistogram()
 
 ---
 
-PlotLines()
+### SetTooltip()
 
+ void SetTooltip(const char* fmt, ...) IM_FMTARGS(1)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SetTooltipV()
 
-PopAllowKeyboardFocus()
+ void SetTooltipV(const char* fmt, va_list args) IM_FMTLIST(1)
 
 - 功能：
 - 参数：
@@ -1895,15 +2671,19 @@ PopAllowKeyboardFocus()
 
 ---
 
-PopButtonRepeat()
+### BeginItemTooltip()
 
+ bool BeginItemTooltip()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SetItemTooltip()
 
-PopClipRect()
+ void SetItemTooltip(const char* fmt, ...) IM_FMTARGS(1)
 
 - 功能：
 - 参数：
@@ -1911,15 +2691,19 @@ PopClipRect()
 
 ---
 
-PopFont()
+### SetItemTooltipV()
 
+ void SetItemTooltipV(const char* fmt, va_list args) IM_FMTLIST(1)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### BeginPopup()
 
-PopID()
+ bool BeginPopup(const char* str_id, ImGuiWindowFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -1927,15 +2711,19 @@ PopID()
 
 ---
 
-PopItemWidth()
+### BeginPopupModal()
 
+ bool BeginPopupModal(const char*name, bool* p_open = NULL, ImGuiWindowFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### EndPopup()
 
-PopStyleColor()
+ void EndPopup()
 
 - 功能：
 - 参数：
@@ -1943,23 +2731,21 @@ PopStyleColor()
 
 ---
 
-PopStyleVar()
+### OpenPopup()
 
-- 功能：
-- 参数：
-- 返回值：
-
----
+ void OpenPopup(const char* str_id, ImGuiPopupFlags popup_flags = 0)
 
-PopTabStop()
+ void OpenPopup(ImGuiID id, ImGuiPopupFlags popup_flags = 0)
 
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### OpenPopupOnItemClick()
 
-PopTextWrapPos()
+ void OpenPopupOnItemClick(const char* str_id = NULL, ImGuiPopupFlags popup_flags = 1)
 
 - 功能：
 - 参数：
@@ -1967,15 +2753,19 @@ PopTextWrapPos()
 
 ---
 
-ProgressBar()
+### CloseCurrentPopup()
 
+ void CloseCurrentPopup()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### BeginPopupContextItem()
 
-PushAllowKeyboardFocus()
+ bool BeginPopupContextItem(const char* str_id = NULL, ImGuiPopupFlags popup_flags = 1)
 
 - 功能：
 - 参数：
@@ -1983,15 +2773,19 @@ PushAllowKeyboardFocus()
 
 ---
 
-PushButtonRepeat()
+### BeginPopupContextWindow()
 
+ bool BeginPopupContextWindow(const char* str_id = NULL, ImGuiPopupFlags popup_flags = 1)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### BeginPopupContextVoid()
 
-PushClipRect()
+ bool BeginPopupContextVoid(const char* str_id = NULL, ImGuiPopupFlags popup_flags = 1)
 
 - 功能：
 - 参数：
@@ -1999,15 +2793,19 @@ PushClipRect()
 
 ---
 
-PushFont()
+### IsPopupOpen()
 
+ bool IsPopupOpen(const char* str_id, ImGuiPopupFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### BeginTable()
 
-PushID()
+ bool BeginTable(const char* str_id, int column, ImGuiTableFlags flags = 0, const ImVec2& outer_size = ImVec2(0.0f, 0.0f), float inner_width = 0.0f)
 
 - 功能：
 - 参数：
@@ -2015,15 +2813,19 @@ PushID()
 
 ---
 
-PushItemWidth()
+### EndTable()
 
+ void EndTable()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### TableNextRow()
 
-PushStyleColor()
+ void TableNextRow(ImGuiTableRowFlags row_flags = 0, float min_row_height = 0.0f)
 
 - 功能：
 - 参数：
@@ -2031,15 +2833,19 @@ PushStyleColor()
 
 ---
 
-PushStyleVar()
+### TableNextColumn()
 
+ bool TableNextColumn()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### TableSetColumnIndex()
 
-PushTabStop()
+ bool TableSetColumnIndex(int column_n)
 
 - 功能：
 - 参数：
@@ -2047,15 +2853,19 @@ PushTabStop()
 
 ---
 
-PushTextWrapPos()
+### TableSetupColumn()
 
+ void TableSetupColumn(const char* label, ImGuiTableColumnFlags flags = 0, float init_width_or_weight = 0.0f, ImGuiID user_id = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### TableSetupScrollFreeze()
 
-RadioButton()
+ void TableSetupScrollFreeze(int cols, int rows)
 
 - 功能：
 - 参数：
@@ -2063,15 +2873,19 @@ RadioButton()
 
 ---
 
-Render()
+### TableHeader()
 
+ void TableHeader(const char* label)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### TableHeadersRow()
 
-ResetMouseDragDelta()
+ void TableHeadersRow()
 
 - 功能：
 - 参数：
@@ -2079,15 +2893,19 @@ ResetMouseDragDelta()
 
 ---
 
-SameLine()
+### TableAngledHeadersRow()
 
+ void TableAngledHeadersRow()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### TableGetSortSpecs()
 
-SaveIniSettingsToDisk()
+ ImGuiTableSortSpecs* TableGetSortSpecs()
 
 - 功能：
 - 参数：
@@ -2095,15 +2913,19 @@ SaveIniSettingsToDisk()
 
 ---
 
-SaveIniSettingsToMemory()
+### TableGetColumnCount()
 
+ int TableGetColumnCount()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### TableGetColumnIndex()
 
-Selectable()
+ int TableGetColumnIndex()
 
 - 功能：
 - 参数：
@@ -2111,15 +2933,19 @@ Selectable()
 
 ---
 
-Separator()
+### TableGetRowIndex()
 
+ int TableGetRowIndex()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### TableGetColumnName()
 
-SeparatorText()
+ const char* TableGetColumnName(int column_n = -1)
 
 - 功能：
 - 参数：
@@ -2127,15 +2953,19 @@ SeparatorText()
 
 ---
 
-SetAllocatorFunctions()
+### TableGetColumnFlags()
 
+ ImGuiTableColumnFlags TableGetColumnFlags(int column_n = -1)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### TableSetColumnEnabled()
 
-SetClipboardText()
+ void TableSetColumnEnabled(int column_n, bool v)
 
 - 功能：
 - 参数：
@@ -2143,15 +2973,19 @@ SetClipboardText()
 
 ---
 
-SetColorEditOptions()
+### TableSetBgColor()
 
+ void TableSetBgColor(ImGuiTableBgTarget target, ImU32 color, int column_n = -1)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### Columns()
 
-SetColumnOffset()
+ void Columns(int count = 1, const char* id = NULL, bool border = true)
 
 - 功能：
 - 参数：
@@ -2159,15 +2993,19 @@ SetColumnOffset()
 
 ---
 
-SetColumnWidth()
+### NextColumn()
 
+ void NextColumn()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### GetColumnIndex()
 
-SetCurrentContext()
+ int GetColumnIndex()
 
 - 功能：
 - 参数：
@@ -2175,15 +3013,19 @@ SetCurrentContext()
 
 ---
 
-SetCursorPos()
+### GetColumnWidth()
 
+ float GetColumnWidth(int column_index = -1)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SetColumnWidth()
 
-SetCursorPosX()
+ void SetColumnWidth(int column_index, float width)
 
 - 功能：
 - 参数：
@@ -2191,15 +3033,19 @@ SetCursorPosX()
 
 ---
 
-SetCursorPosY()
+### GetColumnOffset()
 
+ float GetColumnOffset(int column_index = -1)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SetColumnOffset()
 
-SetCursorScreenPos()
+ void SetColumnOffset(int column_index, float offset_x)
 
 - 功能：
 - 参数：
@@ -2207,15 +3053,19 @@ SetCursorScreenPos()
 
 ---
 
-SetDragDropPayload()
+### GetColumnsCount()
 
+ int GetColumnsCount()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### BeginTabBar()
 
-SetItemAllowOverlap()
+ bool BeginTabBar(const char* str_id, ImGuiTabBarFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -2223,15 +3073,19 @@ SetItemAllowOverlap()
 
 ---
 
-SetItemDefaultFocus()
+### EndTabBar()
 
+ void EndTabBar()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### BeginTabItem()
 
-SetItemTooltip()
+ bool BeginTabItem(const char*label, bool* p_open = NULL, ImGuiTabItemFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -2239,15 +3093,19 @@ SetItemTooltip()
 
 ---
 
-SetItemTooltipV()
+### EndTabItem()
 
+ void EndTabItem()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### TabItemButton()
 
-SetKeyboardFocusHere()
+ bool TabItemButton(const char* label, ImGuiTabItemFlags flags = 0)
 
 - 功能：
 - 参数：
@@ -2255,15 +3113,19 @@ SetKeyboardFocusHere()
 
 ---
 
-SetMouseCursor()
+### SetTabItemClosed()
 
+ void SetTabItemClosed(const char* tab_or_docked_window_label)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### LogToTTY()
 
-SetNextFrameWantCaptureKeyboard()
+ void LogToTTY(int auto_open_depth = -1)
 
 - 功能：
 - 参数：
@@ -2271,15 +3133,19 @@ SetNextFrameWantCaptureKeyboard()
 
 ---
 
-SetNextFrameWantCaptureMouse()
+### LogToFile()
 
+ void LogToFile(int auto_open_depth = -1, const char* filename = NULL)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### LogToClipboard()
 
-SetNextItemAllowOverlap()
+ void LogToClipboard(int auto_open_depth = -1)
 
 - 功能：
 - 参数：
@@ -2287,15 +3153,19 @@ SetNextItemAllowOverlap()
 
 ---
 
-SetNextItemOpen()
+### LogFinish()
 
+ void LogFinish()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### LogButtons()
 
-SetNextItemWidth()
+ void LogButtons()
 
 - 功能：
 - 参数：
@@ -2303,15 +3173,19 @@ SetNextItemWidth()
 
 ---
 
-SetNextWindowBgAlpha()
+### LogText()
 
+ void LogText(const char* fmt, ...) IM_FMTARGS(1)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### LogTextV()
 
-SetNextWindowCollapsed()
+ void LogTextV(const char* fmt, va_list args) IM_FMTLIST(1)
 
 - 功能：
 - 参数：
@@ -2319,15 +3193,19 @@ SetNextWindowCollapsed()
 
 ---
 
-SetNextWindowContentSize()
+### BeginDragDropSource()
 
+ bool BeginDragDropSource(ImGuiDragDropFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SetDragDropPayload()
 
-SetNextWindowFocus()
+ bool SetDragDropPayload(const char*type, const void* data, size_t sz, ImGuiCond cond = 0)
 
 - 功能：
 - 参数：
@@ -2335,15 +3213,19 @@ SetNextWindowFocus()
 
 ---
 
-SetNextWindowPos()
+### EndDragDropSource()
 
+ void EndDragDropSource()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### BeginDragDropTarget()
 
-SetNextWindowScroll()
+ bool BeginDragDropTarget()
 
 - 功能：
 - 参数：
@@ -2351,15 +3233,19 @@ SetNextWindowScroll()
 
 ---
 
-SetNextWindowSize()
+### AcceptDragDropPayload()
 
+ const ImGuiPayload*AcceptDragDropPayload(const char* type, ImGuiDragDropFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### EndDragDropTarget()
 
-SetNextWindowSizeConstraints()
+ void EndDragDropTarget()
 
 - 功能：
 - 参数：
@@ -2367,15 +3253,19 @@ SetNextWindowSizeConstraints()
 
 ---
 
-SetScrollFromPosX()
+### GetDragDropPayload()
 
+ const ImGuiPayload* GetDragDropPayload()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### BeginDisabled()
 
-SetScrollFromPosY()
+ void BeginDisabled(bool disabled = true)
 
 - 功能：
 - 参数：
@@ -2383,15 +3273,19 @@ SetScrollFromPosY()
 
 ---
 
-SetScrollHereX()
+### EndDisabled()
 
+ void EndDisabled()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### PushClipRect()
 
-SetScrollHereY()
+ void PushClipRect(const ImVec2& clip_rect_min, const ImVec2& clip_rect_max, bool intersect_with_current_clip_rect)
 
 - 功能：
 - 参数：
@@ -2399,15 +3293,19 @@ SetScrollHereY()
 
 ---
 
-SetScrollX()
+### PopClipRect()
 
+ void PopClipRect()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SetItemDefaultFocus()
 
-SetScrollY()
+ void SetItemDefaultFocus()
 
 - 功能：
 - 参数：
@@ -2415,15 +3313,19 @@ SetScrollY()
 
 ---
 
-SetStateStorage()
+### SetKeyboardFocusHere()
 
+ void SetKeyboardFocusHere(int offset = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SetNextItemAllowOverlap()
 
-SetTabItemClosed()
+ void SetNextItemAllowOverlap()
 
 - 功能：
 - 参数：
@@ -2431,15 +3333,19 @@ SetTabItemClosed()
 
 ---
 
-SetTooltip()
+### IsItemHovered()
 
+ bool IsItemHovered(ImGuiHoveredFlags flags = 0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### IsItemActive()
 
-SetTooltipV()
+ bool IsItemActive()
 
 - 功能：
 - 参数：
@@ -2447,15 +3353,19 @@ SetTooltipV()
 
 ---
 
-SetWindowCollapsed()
+### IsItemFocused()
 
+ bool IsItemFocused()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### IsItemClicked()
 
-SetWindowFocus()
+ bool IsItemClicked(ImGuiMouseButton mouse_button = 0)
 
 - 功能：
 - 参数：
@@ -2463,15 +3373,19 @@ SetWindowFocus()
 
 ---
 
-SetWindowFontScale()
+### IsItemVisible()
 
+ bool IsItemVisible()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### IsItemEdited()
 
-SetWindowPos()
+ bool IsItemEdited()
 
 - 功能：
 - 参数：
@@ -2479,15 +3393,19 @@ SetWindowPos()
 
 ---
 
-SetWindowSize()
+### IsItemActivated()
 
+ bool IsItemActivated()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### IsItemDeactivated()
 
-ShowAboutWindow()
+ bool IsItemDeactivated()
 
 - 功能：
 - 参数：
@@ -2495,15 +3413,19 @@ ShowAboutWindow()
 
 ---
 
-ShowDebugLogWindow()
+### IsItemDeactivatedAfterEdit()
 
+ bool IsItemDeactivatedAfterEdit()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### IsItemToggledOpen()
 
-ShowDemoWindow()
+ bool IsItemToggledOpen()
 
 - 功能：
 - 参数：
@@ -2511,15 +3433,19 @@ ShowDemoWindow()
 
 ---
 
-ShowFontSelector()
+### IsAnyItemHovered()
 
+ bool IsAnyItemHovered()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### IsAnyItemActive()
 
-ShowIDStackToolWindow()
+ bool IsAnyItemActive()
 
 - 功能：
 - 参数：
@@ -2527,15 +3453,19 @@ ShowIDStackToolWindow()
 
 ---
 
-ShowMetricsWindow()
+### IsAnyItemFocused()
 
+ bool IsAnyItemFocused()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### GetItemID()
 
-ShowStackToolWindow()
+ ImGuiID GetItemID()
 
 - 功能：
 - 参数：
@@ -2543,15 +3473,19 @@ ShowStackToolWindow()
 
 ---
 
-ShowStyleEditor()
+### GetItemRectMin()
 
+ ImVec2 GetItemRectMin()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### GetItemRectMax()
 
-ShowStyleSelector()
+ ImVec2 GetItemRectMax()
 
 - 功能：
 - 参数：
@@ -2559,15 +3493,19 @@ ShowStyleSelector()
 
 ---
 
-ShowUserGuide()
+### GetItemRectSize()
 
+ ImVec2 GetItemRectSize()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### GetMainViewport()
 
-SliderAngle()
+ ImGuiViewport* GetMainViewport()
 
 - 功能：
 - 参数：
@@ -2575,15 +3513,19 @@ SliderAngle()
 
 ---
 
-SliderFloat()
+### GetBackgroundDrawList()
 
+ ImDrawList* GetBackgroundDrawList()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### GetForegroundDrawList()
 
-SliderFloat2()
+ ImDrawList* GetForegroundDrawList()
 
 - 功能：
 - 参数：
@@ -2591,23 +3533,21 @@ SliderFloat2()
 
 ---
 
-SliderFloat3()
-
-- 功能：
-- 参数：
-- 返回值：
+### IsRectVisible()
 
----
+ bool IsRectVisible(const ImVec2& size)
 
-SliderFloat4()
+ bool IsRectVisible(const ImVec2& rect_min, const ImVec2& rect_max)
 
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### GetTime()
 
-SliderInt()
+ double GetTime()
 
 - 功能：
 - 参数：
@@ -2615,15 +3555,19 @@ SliderInt()
 
 ---
 
-SliderInt2()
+### GetFrameCount()
 
+ int GetFrameCount()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### GetDrawListSharedData()
 
-SliderInt3()
+ ImDrawListSharedData* GetDrawListSharedData()
 
 - 功能：
 - 参数：
@@ -2631,15 +3575,19 @@ SliderInt3()
 
 ---
 
-SliderInt4()
+### GetStyleColorName()
 
+ const char* GetStyleColorName(ImGuiCol idx)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SetStateStorage()
 
-SliderScalar()
+ void SetStateStorage(ImGuiStorage* storage)
 
 - 功能：
 - 参数：
@@ -2647,15 +3595,19 @@ SliderScalar()
 
 ---
 
-SliderScalarN()
+### GetStateStorage()
 
+ ImGuiStorage* GetStateStorage()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### CalcTextSize()
 
-SmallButton()
+ ImVec2 CalcTextSize(const char*text, const char* text_end = NULL, bool hide_text_after_double_hash = false, float wrap_width = -1.0f)
 
 - 功能：
 - 参数：
@@ -2663,15 +3615,19 @@ SmallButton()
 
 ---
 
-Spacing()
+### ColorConvertU32ToFloat4()
 
+ ImVec4 ColorConvertU32ToFloat4(ImU32 in)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### ColorConvertFloat4ToU32()
 
-StyleColorsClassic()
+ ImU32 ColorConvertFloat4ToU32(const ImVec4& in)
 
 - 功能：
 - 参数：
@@ -2679,15 +3635,19 @@ StyleColorsClassic()
 
 ---
 
-StyleColorsDark()
+### ColorConvertRGBtoHSV()
 
+ void ColorConvertRGBtoHSV(float r, float g, float b, float& out_h, float& out_s, float& out_v)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### ColorConvertHSVtoRGB()
 
-StyleColorsLight()
+ void ColorConvertHSVtoRGB(float h, float s, float v, float& out_r, float& out_g, float& out_b)
 
 - 功能：
 - 参数：
@@ -2695,15 +3655,19 @@ StyleColorsLight()
 
 ---
 
-TabItemButton()
+### IsKeyDown()
 
+ bool IsKeyDown(ImGuiKey key)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### IsKeyPressed()
 
-TableAngledHeadersRow()
+ bool IsKeyPressed(ImGuiKey key, bool repeat = true)
 
 - 功能：
 - 参数：
@@ -2711,15 +3675,19 @@ TableAngledHeadersRow()
 
 ---
 
-TableGetColumnCount()
+### IsKeyReleased()
 
+ bool IsKeyReleased(ImGuiKey key)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### IsKeyChordPressed()
 
-TableGetColumnFlags()
+ bool IsKeyChordPressed(ImGuiKeyChord key_chord)
 
 - 功能：
 - 参数：
@@ -2727,15 +3695,19 @@ TableGetColumnFlags()
 
 ---
 
-TableGetColumnIndex()
+### GetKeyPressedAmount()
 
+ int GetKeyPressedAmount(ImGuiKey key, float repeat_delay, float rate)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### GetKeyName()
 
-TableGetColumnName()
+ const char* GetKeyName(ImGuiKey key)
 
 - 功能：
 - 参数：
@@ -2743,15 +3715,19 @@ TableGetColumnName()
 
 ---
 
-TableGetRowIndex()
+### SetNextFrameWantCaptureKeyboard()
 
+ void SetNextFrameWantCaptureKeyboard(bool want_capture_keyboard)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### IsMouseDown()
 
-TableGetSortSpecs()
+ bool IsMouseDown(ImGuiMouseButton button)
 
 - 功能：
 - 参数：
@@ -2759,15 +3735,19 @@ TableGetSortSpecs()
 
 ---
 
-TableHeader()
+### IsMouseClicked()
 
+ bool IsMouseClicked(ImGuiMouseButton button, bool repeat = false)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### IsMouseReleased()
 
-TableHeadersRow()
+ bool IsMouseReleased(ImGuiMouseButton button)
 
 - 功能：
 - 参数：
@@ -2775,15 +3755,19 @@ TableHeadersRow()
 
 ---
 
-TableNextColumn()
+### IsMouseDoubleClicked()
 
+ bool IsMouseDoubleClicked(ImGuiMouseButton button)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### GetMouseClickedCount()
 
-TableNextRow()
+ int GetMouseClickedCount(ImGuiMouseButton button)
 
 - 功能：
 - 参数：
@@ -2791,15 +3775,19 @@ TableNextRow()
 
 ---
 
-TableSetBgColor()
+### IsMouseHoveringRect()
 
+ bool IsMouseHoveringRect(const ImVec2& r_min, const ImVec2& r_max, bool clip = true)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### IsMousePosValid()
 
-TableSetColumnEnabled()
+ bool IsMousePosValid(const ImVec2* mouse_pos = NULL)
 
 - 功能：
 - 参数：
@@ -2807,15 +3795,19 @@ TableSetColumnEnabled()
 
 ---
 
-TableSetColumnIndex()
+### IsAnyMouseDown()
 
+ bool IsAnyMouseDown()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### GetMousePos()
 
-TableSetupColumn()
+ ImVec2 GetMousePos()
 
 - 功能：
 - 参数：
@@ -2823,15 +3815,19 @@ TableSetupColumn()
 
 ---
 
-TableSetupScrollFreeze()
+### GetMousePosOnOpeningCurrentPopup()
 
+ ImVec2 GetMousePosOnOpeningCurrentPopup()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### IsMouseDragging()
 
-Text()
+ bool IsMouseDragging(ImGuiMouseButton button, float lock_threshold = -1.0f)
 
 - 功能：
 - 参数：
@@ -2839,15 +3835,19 @@ Text()
 
 ---
 
-TextColored()
+### GetMouseDragDelta()
 
+ ImVec2 GetMouseDragDelta(ImGuiMouseButton button = 0, float lock_threshold = -1.0f)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### ResetMouseDragDelta()
 
-TextColoredV()
+ void ResetMouseDragDelta(ImGuiMouseButton button = 0)
 
 - 功能：
 - 参数：
@@ -2855,15 +3855,19 @@ TextColoredV()
 
 ---
 
-TextDisabled()
+### ImGuiMouseCursor()
 
+ ImGuiMouseCursor GetMouseCursor()
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SetMouseCursor()
 
-TextDisabledV()
+ void SetMouseCursor(ImGuiMouseCursor cursor_type)
 
 - 功能：
 - 参数：
@@ -2871,15 +3875,19 @@ TextDisabledV()
 
 ---
 
-TextUnformatted()
+### SetNextFrameWantCaptureMouse()
 
+ void SetNextFrameWantCaptureMouse(bool want_capture_mouse)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### GetClipboardText()
 
-TextV()
+ const char* GetClipboardText()
 
 - 功能：
 - 参数：
@@ -2887,15 +3895,19 @@ TextV()
 
 ---
 
-TextWrapped()
+### SetClipboardText()
 
+ void SetClipboardText(const char* text)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### LoadIniSettingsFromDisk()
 
-TextWrappedV()
+ void LoadIniSettingsFromDisk(const char* ini_filename)
 
 - 功能：
 - 参数：
@@ -2903,15 +3915,19 @@ TextWrappedV()
 
 ---
 
-TreeNode()
+### LoadIniSettingsFromMemory()
 
+ void LoadIniSettingsFromMemory(const char* ini_data, size_t ini_size=0)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SaveIniSettingsToDisk()
 
-TreeNodeEx()
+ void SaveIniSettingsToDisk(const char* ini_filename)
 
 - 功能：
 - 参数：
@@ -2919,15 +3935,19 @@ TreeNodeEx()
 
 ---
 
-TreeNodeExV()
+### SaveIniSettingsToMemory()
 
+ const char*SaveIniSettingsToMemory(size_t* out_ini_size = NULL)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### DebugTextEncoding()
 
-TreeNodeV()
+ void DebugTextEncoding(const char* text)
 
 - 功能：
 - 参数：
@@ -2935,15 +3955,19 @@ TreeNodeV()
 
 ---
 
-TreePop()
+### DebugFlashStyleColor()
 
+ void DebugFlashStyleColor(ImGuiCol idx)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### DebugStartItemPicker()
 
-TreePush()
+ void DebugStartItemPicker()
 
 - 功能：
 - 参数：
@@ -2951,15 +3975,19 @@ TreePush()
 
 ---
 
-Unindent()
+### DebugCheckVersionAndDataLayout()
 
+ bool DebugCheckVersionAndDataLayout(const char* version_str, size_t sz_io, size_t sz_style, size_t sz_vec2, size_t sz_vec4, size_t sz_drawvert, size_t sz_drawidx)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### SetAllocatorFunctions()
 
-Value()
+ void SetAllocatorFunctions(ImGuiMemAllocFunc alloc_func, ImGuiMemFreeFunc free_func, void* user_data = NULL)
 
 - 功能：
 - 参数：
@@ -2967,23 +3995,29 @@ Value()
 
 ---
 
-VSliderFloat()
+### GetAllocatorFunctions()
 
+ void GetAllocatorFunctions(ImGuiMemAllocFunc*p_alloc_func, ImGuiMemFreeFunc* p_free_func, void** p_user_data)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
 
-VSliderInt()
+### MemAlloc()
 
+ void* MemAlloc(size_t size)
+
 - 功能：
 - 参数：
 - 返回值：
 
 ---
+
+### MemFree()
 
-VSliderScalar()
+ void MemFree(void* ptr)
 
 - 功能：
 - 参数：
