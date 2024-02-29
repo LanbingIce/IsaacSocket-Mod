@@ -12,6 +12,7 @@
       - [Memory](#memory)
       - [WebSocketClient](#websocketclient)
       - [HttpClient](#httpclient)
+      - [ImGui](#imgui)
     - [其他](#其他)
       - [衍生对象](#衍生对象)
       - [自定义回调](#自定义回调)
@@ -97,6 +98,10 @@ WebSocket模块，文档：[WebSocketClient](WebSocketClient.md)
 #### HttpClient
 
 Http模块，文档：[HttpClient](HttpClient.md)
+
+#### ImGui
+
+Http模块，文档：[ImGui](ImGui.md)
 
 ### 其他
 
