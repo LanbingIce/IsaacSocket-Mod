@@ -286,14 +286,14 @@ local function StateUpdate(heartbeat)
                 ext_send = sendTable.Serialize()
             end
         else
-            connectionState = ConnectionState.DISCONNECTED
-            _ISAAC_SOCKET.Disconnect()
             cw("Timeout")
-            IsaacSocket = nil
-            -- 触发自定义回调：断开连接
+            -- 触发自定义回调：断开连接之前
             Isaac.RunCallback("ISMC_PRE_CLOSE")
             -- 触发所有模块的断开连接事件
             require("isaac_socket.modules.common").Disconnected()
+            _ISAAC_SOCKET.Disconnect()
+            connectionState = ConnectionState.DISCONNECTED
+            IsaacSocket = nil
         end
     elseif connectionState == ConnectionState.CONNECTING then
         -- 未连接状态下，接收和发送变量的值都为约定好的特殊值，如果它们的值变化，说明它们的地址已被外部程序找到
@@ -311,17 +311,16 @@ local function StateUpdate(heartbeat)
 
                 ext_receive = string.rep("\0", dataSpaceSize)
                 ext_send = sendTable.Serialize()
-                connectionState = ConnectionState.CONNECTED
-                -- 5秒钟的连接成功提示
-                hintTextTimer = 5 * 30
                 -- 使 IsaacSocket 可见
                 IsaacSocket = _ISAAC_SOCKET.IsaacSocket
+                connectionState = ConnectionState.CONNECTED
                 -- 触发所有模块的已连接事件
                 require("isaac_socket.modules.common").Connected()
-
-                cw("Connected[" .. dataSpaceSize .. "]")
                 -- 触发自定义回调：已连接
                 Isaac.RunCallback("ISMC_POST_OPEN")
+                -- 5秒钟的连接成功提示
+                hintTextTimer = 5 * 30
+                cw("Connected[" .. dataSpaceSize .. "]")
             end
         else
             connectionState = ConnectionState.DISCONNECTED
@@ -428,12 +427,12 @@ local function OnUnload(_, mod)
     end
 
     if connectionState == ConnectionState.CONNECTED then
-        connectionState = ConnectionState.DISCONNECTED
-        _ISAAC_SOCKET.Disconnect()
-        IsaacSocket = nil
         -- 触发自定义回调：断开连接
         Isaac.RunCallback("ISMC_PRE_CLOSE")
         require("isaac_socket.modules.common").Disconnected()
+        _ISAAC_SOCKET.Disconnect()
+        connectionState = ConnectionState.DISCONNECTED
+        IsaacSocket = nil
     end
 
     connectionState = ConnectionState.UNLOADING
