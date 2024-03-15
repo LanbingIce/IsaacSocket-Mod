@@ -287,13 +287,10 @@ local function StateUpdate(heartbeat)
             end
         else
             cw("Timeout")
-            -- 触发自定义回调：断开连接之前
-            Isaac.RunCallback("ISMC_PRE_CLOSE")
             -- 触发所有模块的断开连接事件
             require("isaac_socket.modules.common").Disconnected()
             _ISAAC_SOCKET.Disconnect()
             connectionState = ConnectionState.DISCONNECTED
-            IsaacSocket = nil
         end
     elseif connectionState == ConnectionState.CONNECTING then
         -- 未连接状态下，接收和发送变量的值都为约定好的特殊值，如果它们的值变化，说明它们的地址已被外部程序找到
@@ -303,7 +300,7 @@ local function StateUpdate(heartbeat)
         if ext_send - SEND_HIGH == SEND_LOW and ext_receive - RECEIVE_HIGH == RECEIVE_LOW then
             return
         elseif ext_send == 1 and ext_receive >= 64 and ext_receive <= 4 * 1024 * 1024 then
-            if _ISAAC_SOCKET.IsaacSocket.IsaacAPI then
+            if dllInitialized then
                 -- 加载mod时读取配置可能会失败，因此这里再读取一次
                 LoadConfig()
                 dataSpaceSize = ext_receive
@@ -311,13 +308,12 @@ local function StateUpdate(heartbeat)
 
                 ext_receive = string.rep("\0", dataSpaceSize)
                 ext_send = sendTable.Serialize()
-                -- 使 IsaacSocket 可见
-                IsaacSocket = _ISAAC_SOCKET.IsaacSocket
+
                 connectionState = ConnectionState.CONNECTED
                 -- 触发所有模块的已连接事件
                 require("isaac_socket.modules.common").Connected()
-                -- 触发自定义回调：已连接
-                Isaac.RunCallback("ISMC_POST_OPEN")
+
+                _ISAAC_SOCKET.Connect()
                 -- 5秒钟的连接成功提示
                 hintTextTimer = 5 * 30
                 cw("Connected[" .. dataSpaceSize .. "]")
@@ -427,12 +423,9 @@ local function OnUnload(_, mod)
     end
 
     if connectionState == ConnectionState.CONNECTED then
-        -- 触发自定义回调：断开连接
-        Isaac.RunCallback("ISMC_PRE_CLOSE")
         require("isaac_socket.modules.common").Disconnected()
         _ISAAC_SOCKET.Disconnect()
         connectionState = ConnectionState.DISCONNECTED
-        IsaacSocket = nil
     end
 
     connectionState = ConnectionState.UNLOADING
